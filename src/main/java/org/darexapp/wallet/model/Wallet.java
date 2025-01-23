@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.darexapp.user.model.User;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.UUID;
 
 @Entity
@@ -11,7 +14,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
 public class Wallet {
 
@@ -19,18 +21,23 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    private User owner;
 
     @Column(nullable = false)
-    private double balance;
+    private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private WalletStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private Currency currency;
+
+    @Column(nullable = false)
+    private LocalDateTime creationDate;
+
+    @Column(nullable = false)
+    private LocalDateTime modificationDate;
 
 }

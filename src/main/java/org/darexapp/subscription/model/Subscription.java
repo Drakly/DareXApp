@@ -10,15 +10,17 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Subscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @ManyToOne
+    private User owner;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -32,13 +34,14 @@ public class Subscription {
     @Column(nullable = false)
     private SubscriptionPeriod period;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private boolean renewal;
 
     @Column(nullable = false)
     private LocalDateTime startDate;
 
     @Column(nullable = false)
     private LocalDateTime endDate;
+
+    @Column(nullable = false)
+    private LocalDateTime completeOn;
 }

@@ -19,7 +19,7 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Pattern(regexp = "\\d{6}", message = "Password must be exactly 6 digits")
+    @Pattern(regexp = "\\d{8}", message = "Password must be at least 8 digits")
     private String password;
 
     private Country country;
