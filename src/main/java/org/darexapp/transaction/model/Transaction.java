@@ -35,7 +35,7 @@ public class Transaction {
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private LocalDateTime createdOn;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private Currency currency;

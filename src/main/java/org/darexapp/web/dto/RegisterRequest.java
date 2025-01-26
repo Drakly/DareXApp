@@ -1,26 +1,31 @@
 package org.darexapp.web.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.darexapp.user.model.Country;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterRequest {
-
     @NotBlank(message = "Username is required")
     @Size(min = 6)
     private String username;
+
 
     @Email(message = "Invalid email address")
     @NotBlank(message = "Email is required")
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Pattern(regexp = "\\d{8}", message = "Password must be at least 8 digits")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
+            message = "Password must be at least 8 characters long and contain at least one digit, one uppercase letter, one lowercase letter, and one special character")
     private String password;
 
+    @NotNull
     private Country country;
 }

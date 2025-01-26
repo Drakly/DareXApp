@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | DareX Wallet</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+<!--    <link rel="stylesheet" type="text/css" href="/css/register.css">-->
+</head>
+<body>
+<main>
+    <section class="section full-height">
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="/images/darex-wallet-logo.png" alt="DareX Wallet Logo">
+            </a>
+        </div>
+
+        <form class="form register-form" th:action="@{/register}" th:method="post" th:object="${registerDTO}">
+            <!-- Form Header -->
+            <h2>Sign Up</h2>
+            <p>Welcome to DareX Wallet! Please create your account.</p>
+
+            <!-- Username Field -->
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" th:field="*{username}" required>
+            <p class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+
+            <label for="username">Email</label>
+            <input type="text" id="email" name="email" placeholder="Enter your email" th:field="*{email}" required>
+            <p class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+            <!-- Password Field -->
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" th:field="*{password}" required>
+            <p class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+
+            <!-- Country Field -->
+            <label for="country">Country</label>
+            <select name="country" id="country" th:field="*{country}">
+                <option value="">Select your country</option>
+                <option th:each="country : ${T(org.darexapp.user.model.Country).values()}" th:value="${country}" th:text="${#strings.capitalize(#strings.toLowerCase(country))}"></option>
+            </select>
+            <p class="error-message" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></p>
+
+            <!-- Submit Button -->
+            <button type="submit">Register</button>
+
+            <!-- Login Redirect -->
+            <p class="form-footer">Already have an account? <a href="/login">Log in</a>!</p>
+        </form>
+    </section>
+</main>
+
+<!-- Footer Fragment -->
+<th:block th:insert="fragments/footer :: footer"></th:block>
+</body>
+</html>

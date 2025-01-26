@@ -9,31 +9,41 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "cards")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @ManyToOne
+    private User owner;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CardType cardType;
+
+    @Column(nullable = false)
     private String cardNumber;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CardType type;
+    private String cardHolderName;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime expiryDate;
+
+    private String cvv;
+
+    @Column(nullable = false)
+    private LocalDateTime createdOn;
+
+    @Column(nullable = false)
+    private LocalDateTime updatedOn;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "wallet_id", nullable = false)
     private Wallet wallet;
 }

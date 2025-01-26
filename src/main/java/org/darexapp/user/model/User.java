@@ -1,19 +1,18 @@
 package org.darexapp.user.model;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.darexapp.card.model.Card;
 import org.darexapp.subscription.model.Subscription;
 import org.darexapp.wallet.model.Wallet;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -54,16 +53,19 @@ public class User {
 
     private boolean active;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Country country;
 
-    @OneToMany( fetch = FetchType.EAGER, mappedBy = "user" )
+    @Builder.Default
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Wallet> wallets = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @Builder.Default
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subscription> subscriptions = new ArrayList<>();
 
-    @OneToMany( fetch = FetchType.EAGER, mappedBy = "user")
+    @Builder.Default
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Card> cards = new ArrayList<>();
 }

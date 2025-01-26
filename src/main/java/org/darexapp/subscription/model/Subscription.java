@@ -4,17 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.darexapp.user.model.User;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "subscriptions")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Subscription {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -22,19 +23,20 @@ public class Subscription {
     @ManyToOne
     private User owner;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SubscriptionType type;
-
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private SubscriptionStatus status;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private SubscriptionPeriod period;
 
-    private boolean renewal;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SubscriptionStatus status;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SubscriptionType type;
+
+    @Column(nullable = false)
+    private BigDecimal price;
 
     @Column(nullable = false)
     private LocalDateTime startDate;
@@ -42,6 +44,11 @@ public class Subscription {
     @Column(nullable = false)
     private LocalDateTime endDate;
 
+    private boolean active;
+
     @Column(nullable = false)
-    private LocalDateTime completeOn;
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime completedAt;
 }

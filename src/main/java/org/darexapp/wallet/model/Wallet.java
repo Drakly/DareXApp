@@ -6,17 +6,16 @@ import org.darexapp.user.model.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Currency;
 import java.util.UUID;
 
 @Entity
+@Table(name = "wallets")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Wallet {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -25,19 +24,17 @@ public class Wallet {
     private User owner;
 
     @Column(nullable = false)
-    private BigDecimal balance;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private WalletStatus status;
 
     @Column(nullable = false)
-    private Currency currency;
+    private BigDecimal balance;
 
     @Column(nullable = false)
-    private LocalDateTime creationDate;
+    private String currency;
 
     @Column(nullable = false)
-    private LocalDateTime modificationDate;
+    private LocalDateTime createdAt;
 
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 }
