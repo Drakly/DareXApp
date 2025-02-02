@@ -1,0 +1,113 @@
+/* main.css - Уникален стил за My Wallet App */
+
+/* Дефиниране на CSS променливи за лесна промяна на темата */
+:root {
+    --primary-color: #2c3e50;    /* Тъмносин/антрацит */
+    --secondary-color: #ecf0f1;  /* Светлосив */
+    --accent-color: #3498db;     /* Яркосин */
+    --background-color: #f9f9f9; /* Много светъл фон */
+    --font-stack: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Ресетване на маргините и падащите стойности */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Основни настройки за body */
+body {
+    font-family: var(--font-stack);
+    background-color: var(--background-color);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Стил за Header */
+header {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* Стил за навигация */
+nav {
+    margin-top: 10px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--accent-color);
+}
+
+/* Основно съдържание (Main) */
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+main section {
+    margin-bottom: 20px;
+}
+
+main h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+/* Стил за Footer */
+footer {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    text-align: center;
+    padding: 15px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Отзивчив (Responsive) дизайн за по-малки екрани */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    nav ul li a {
+        font-size: 1rem;
+    }
+
+    main {
+        margin: 10px;
+        padding: 15px;
+    }
+}

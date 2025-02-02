@@ -1,0 +1,138 @@
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #000000, #5a189a);
+    color: #fff;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+}
+
+/* За секциите, които трябва да запълнят целия екран */
+.section.full-height {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 10px;
+}
+
+/* Стилове за формата */
+.form {
+    background: rgba(255, 255, 255, 0.95);
+    max-width: 400px;
+    width: 100%;
+    margin: auto;
+    padding: 40px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+/* Заглавия в формите */
+.form h2,
+.form h3 {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Параграфите в началото на формите */
+.form p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Етикети */
+.form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #555;
+}
+
+/* Полета за въвеждане (input, select) */
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form input[type="text"]:focus,
+.form input[type="email"]:focus,
+.form input[type="password"]:focus,
+.form select:focus {
+    border-color: #5a189a;
+}
+
+/* Бутонът за изпращане */
+.form button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #000000, #5a189a);
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.form button:hover {
+    transform: translateY(-3px);
+}
+
+/* Съобщения за грешки */
+.form .error-message,
+.form .alert-warning {
+    color: #ff3333;
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+/* Футер текстове за насочване към регистрация или логин */
+.form .form-footer,
+.form .form-already {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 20px;
+    color: #333;
+}
+
+.form .form-footer a,
+.form .form-already a {
+    color: #5a189a;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.form .form-footer a:hover,
+.form .form-already a:hover {
+    color: #ff3333;
+}
+
+/* Responsive настройки за малки екрани */
+@media (max-width: 480px) {
+    .form {
+        padding: 30px 20px;
+    }
+}

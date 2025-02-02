@@ -1,5 +1,6 @@
 package org.darexapp.web.controller;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
+
 import java.util.UUID;
 
 @Controller
@@ -40,12 +41,15 @@ public class IndexController {
 
     @PostMapping("/login")
     public String handleLogin(@ModelAttribute("loginRequest") @Valid LoginRequest loginRequest,
-                              BindingResult bindingResult) {
+                              BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
             return "login";
         }
 
-        // Логика за проверка на потребител
+
+        User loggedUser = userService.login(loginRequest);
+        session.setAttribute("loggedUser", loggedUser);
+
         return "redirect:/home";
     }
 
@@ -57,7 +61,7 @@ public class IndexController {
     }
 
     @PostMapping("/register")
-    public ModelAndView handleRegister(@Valid RegisterRequest registerDTO, BindingResult bindingResult) {
+    public ModelAndView handleRegister(@Valid RegisterRequest registerDTO, BindingResult bindingResult, HttpSession session) {
         if (bindingResult.hasErrors()) {
             ModelAndView mav = new ModelAndView("register");
             mav.addObject("registerDTO", registerDTO);
@@ -69,12 +73,21 @@ public class IndexController {
     }
 
     @GetMapping("/home")
-    public ModelAndView showHomePage() {
-        User user = userService.findById(UUID.fromString("60069504-cd0a-45f0-b6fb-3d43d2d93b8c"));
+    public ModelAndView showHomePage(HttpSession session) {
+
+        UUID userId = (UUID) session.getAttribute("userID");
+        User user = userService.findById(userId);
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("home");
         mav.addObject("user", user);
         return mav;
+    }
+
+    @GetMapping("/logout")
+    public String getLogoutPage(HttpSession session) {
+
+        session.invalidate();
+        return "redirect:/";
     }
 }

@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Welcome to DareX Wallet</title>
+    <meta charset="UTF-8">
+    <title>DareX Wallet</title>
+    <!-- Включване на обновения CSS файл -->
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
 </head>
 <body>
-<h1>Welcome to DareX Wallet</h1>
-<a href="/login">Login</a> | <a href="/register">Register</a>
+<header>
+    <h1>DareX Wallet</h1>
+    <p class="tagline">EMPOWERING YOUR FUTURE WITH CUTTING-EDGE FINANCE</p>
+</header>
+
+<nav>
+    <ul>
+        <li><a th:href="@{/login}">LOGIN</a></li>
+        <li><a th:href="@{/register}">REGISTER</a></li>
+    </ul>
+</nav>
+
+<main>
+    <!-- Допълнително съдържание може да бъде добавено тук -->
+</main>
+
+<footer>
+    <p>&copy; 2025 DareX Wallet. All Rights Reserved.</p>
+</footer>
 </body>
 </html>

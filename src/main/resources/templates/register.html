@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,20 +12,15 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <!-- Styles -->
-    <link rel="stylesheet" type="text/css" href="/css/common.css">
-<!--    <link rel="stylesheet" type="text/css" href="/css/register.css">-->
+
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+
 </head>
 <body>
 <main>
     <section class="section full-height">
-        <div class="container">
-            <a href="/" class="logo">
-                <img src="/images/darex-wallet-logo.png" alt="DareX Wallet Logo">
-            </a>
-        </div>
 
-        <form class="form register-form" th:action="@{/register}" th:method="post" th:object="${registerDTO}">
+        <form class="form register-form" th:action="@{/register}" th:method="POST" th:object="${registerDTO}">
             <!-- Form Header -->
             <h2>Sign Up</h2>
             <p>Welcome to DareX Wallet! Please create your account.</p>
@@ -61,7 +56,8 @@
     </section>
 </main>
 
-<!-- Footer Fragment -->
-<th:block th:insert="fragments/footer :: footer"></th:block>
+<footer>
+    <p>&copy; 2025 DareX Wallet. All Rights Reserved.</p>
+</footer>
 </body>
 </html>
