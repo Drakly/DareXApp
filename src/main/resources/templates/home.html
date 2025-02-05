@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | DareX Wallet</title>
     <!-- Включване на CSS файла за dashboard страницата -->
-    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
 </head>
 <body>
 <!-- Header с лого и информация за потребителя -->
 <header class="dashboard-header">
     <div class="header-container">
-        <div class="logo">
-            <img src="/images/darex-logo.png" alt="DareX Wallet Logo">
-        </div>
         <div class="user-info">
-            <span th:text="${user.username}">JOHN DOE</span>
-            <img src="/images/user-placeholder.png" alt="User Avatar">
+            <span th:text="${user.username}"></span>
         </div>
     </div>
 </header>
@@ -36,7 +32,7 @@
     <!-- Секция за показване на баланс -->
     <section class="balance-section">
         <h2>Wallet Balance</h2>
-        <div class="balance" th:text="${user.wallet.balance}">$5,000</div>
+        <div class="balance" th:text="${user.wallet.balance}"></div>
     </section>
 
     <!-- Секция с бързи действия (например Send, Request, Top Up) -->

@@ -34,26 +34,24 @@ public class IndexController {
 
     @GetMapping("/login")
     public ModelAndView showLoginPage() {
-        ModelAndView mav = new ModelAndView("login");
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("login");
         mav.addObject("loginRequest", new LoginRequest());
+
         return mav;
     }
 
     @PostMapping("/login")
-    public ModelAndView handleLogin(@ModelAttribute("loginRequest") @Valid LoginRequest loginRequest,
-                                    BindingResult bindingResult, HttpSession session) {
-        ModelAndView mav = new ModelAndView("login");
+    public String handleLogin(@Valid LoginRequest loginRequest, BindingResult bindingResult, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
-            mav.addObject("loginRequest", loginRequest);
-            return mav;
+            return "login";
         }
 
         User loggedUser = userService.login(loginRequest);
         session.setAttribute("loggedUser", loggedUser);
-        mav.setViewName("redirect:/home");
 
-        return mav;
+        return "redirect:/home";
     }
 
     @GetMapping("/register")
@@ -83,10 +81,13 @@ public class IndexController {
 
     @GetMapping("/home")
     public ModelAndView showHomePage(HttpSession session) {
-        User user = (User) session.getAttribute("loggedUser");
-        
-        ModelAndView mav = new ModelAndView("home");
+        UUID userId = (UUID) session.getAttribute("user_id");
+        User user = userService.findById(userId);
+
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("home");
         mav.addObject("user", user);
+
         return mav;
     }
 

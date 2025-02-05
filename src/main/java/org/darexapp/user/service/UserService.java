@@ -48,9 +48,17 @@ public class UserService {
     }
 
     public User login(LoginRequest loginRequest) {
-        return userRepository.findByUsername(loginRequest.getUsername())
-                .filter(user -> passwordEncoder.matches(loginRequest.getPassword(), user.getPassword()))
-                .orElseThrow(() -> new DomainException("Invalid username or password"));
+        Optional<User> optionUser = userRepository.findByUsername(loginRequest.getUsername());
+        if (optionUser.isEmpty()) {
+            throw new DomainException("Username or password are incorrect.");
+        }
+
+        User user = optionUser.get();
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new DomainException("Username or password are incorrect.");
+        }
+
+        return user;
     }
 
 
