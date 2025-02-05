@@ -7,9 +7,7 @@
   <title>Login | DareX Wallet</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-
+  
   <!-- Icons -->
   <link rel="stylesheet" th:href="@{/css/form.css}" />
 
@@ -24,12 +22,17 @@
     <form class="form" th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
       <h3>Login Here</h3>
 
+      <!-- Error Message -->
+      <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+      </div>
+
       <label for="username">Username</label>
-      <input type="text" id="username" placeholder="Username" th:field="*{username}" required>
+      <input type="text" id="username" name="username" placeholder="Username" th:field="*{username}" autocomplete="username" required>
       <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
       <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Password" th:field="*{password}" required>
+      <input type="password" id="password" name="password" placeholder="Password" th:field="*{password}" autocomplete="current-password" required>
       <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
       <button type="submit">Log In</button>

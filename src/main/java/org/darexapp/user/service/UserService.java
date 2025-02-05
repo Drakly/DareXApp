@@ -50,7 +50,7 @@ public class UserService {
     public User login(LoginRequest loginRequest) {
         return userRepository.findByUsername(loginRequest.getUsername())
                 .filter(user -> passwordEncoder.matches(loginRequest.getPassword(), user.getPassword()))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+                .orElseThrow(() -> new DomainException("Invalid username or password"));
     }
 
 

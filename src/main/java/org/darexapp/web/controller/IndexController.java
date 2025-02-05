@@ -41,19 +41,18 @@ public class IndexController {
 
     @PostMapping("/login")
     public ModelAndView handleLogin(@ModelAttribute("loginRequest") @Valid LoginRequest loginRequest,
-                            BindingResult bindingResult, HttpSession session) {
-        ModelAndView mav = new ModelAndView();
-        
+                                    BindingResult bindingResult, HttpSession session) {
+        ModelAndView mav = new ModelAndView("login");
+
         if (bindingResult.hasErrors()) {
-            mav.setViewName("login");
+            mav.addObject("loginRequest", loginRequest);
             return mav;
         }
 
-
         User loggedUser = userService.login(loginRequest);
         session.setAttribute("loggedUser", loggedUser);
-
         mav.setViewName("redirect:/home");
+
         return mav;
     }
 
