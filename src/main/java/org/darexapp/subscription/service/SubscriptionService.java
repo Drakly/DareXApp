@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Service
 @Slf4j
@@ -35,6 +36,10 @@ public class SubscriptionService {
 
         return Subscription.builder()
                 .owner(user)
+                .active(true)
+                .createdAt(LocalDateTime.now())
+                .startDate(LocalDateTime.now())
+                .endDate(LocalDateTime.now().plusMonths(1))
                 .status(SubscriptionStatus.ACTIVE)
                 .period(SubscriptionPeriod.MONTHLY)
                 .type(SubscriptionType.BASIC)
@@ -43,5 +48,8 @@ public class SubscriptionService {
                 .createdAt(now)
                 .completedAt(now.plusMonths(1))
                 .build();
+                
+//         This line should be removed - the subscription is already being saved in createDefaultSubscription()
+        // And this is inside the initializeSubscription() method which should just return the built subscription
     }
 }

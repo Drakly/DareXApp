@@ -24,10 +24,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
 
-    @Column(nullable = false)
+    @Column
     private String lastName;
 
     private String profilePicture;
@@ -58,14 +58,14 @@ public class User {
     private Country country;
 
     @Builder.Default
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner")
     private List<Wallet> wallets = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner")
     private List<Subscription> subscriptions = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner")
     private List<Card> cards = new ArrayList<>();
 }

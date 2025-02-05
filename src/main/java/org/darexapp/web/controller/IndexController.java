@@ -40,17 +40,21 @@ public class IndexController {
     }
 
     @PostMapping("/login")
-    public String handleLogin(@ModelAttribute("loginRequest") @Valid LoginRequest loginRequest,
-                              BindingResult bindingResult, HttpSession session) {
+    public ModelAndView handleLogin(@ModelAttribute("loginRequest") @Valid LoginRequest loginRequest,
+                            BindingResult bindingResult, HttpSession session) {
+        ModelAndView mav = new ModelAndView();
+        
         if (bindingResult.hasErrors()) {
-            return "login";
+            mav.setViewName("login");
+            return mav;
         }
 
 
         User loggedUser = userService.login(loginRequest);
         session.setAttribute("loggedUser", loggedUser);
 
-        return "redirect:/home";
+        mav.setViewName("redirect:/home");
+        return mav;
     }
 
     @GetMapping("/register")
@@ -61,25 +65,28 @@ public class IndexController {
     }
 
     @PostMapping("/register")
-    public ModelAndView handleRegister(@Valid RegisterRequest registerDTO, BindingResult bindingResult, HttpSession session) {
+    public ModelAndView handleRegister(@ModelAttribute("registerDTO") @Valid RegisterRequest registerDTO, 
+                                     BindingResult bindingResult) {
+        ModelAndView mav = new ModelAndView();
+        
         if (bindingResult.hasErrors()) {
-            ModelAndView mav = new ModelAndView("register");
+            mav.setViewName("register");
             mav.addObject("registerDTO", registerDTO);
             return mav;
         }
 
         userService.register(registerDTO);
-        return new ModelAndView("redirect:/home");
+        mav.setViewName("redirect:/login");
+        mav.addObject("registrationSuccess", true);
+        
+        return mav;
     }
 
     @GetMapping("/home")
     public ModelAndView showHomePage(HttpSession session) {
-
-        UUID userId = (UUID) session.getAttribute("userID");
-        User user = userService.findById(userId);
-
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("home");
+        User user = (User) session.getAttribute("loggedUser");
+        
+        ModelAndView mav = new ModelAndView("home");
         mav.addObject("user", user);
         return mav;
     }

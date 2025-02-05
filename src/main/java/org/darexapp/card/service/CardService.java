@@ -50,8 +50,9 @@ public class CardService {
         return savedCard;
     }
 
-    public Card createDefaultVirtualCard(User user) {
-        return createCard(user, null, CardType.VIRTUAL, user.getUsername());
+    public void createDefaultVirtualCard(User user) {
+        Wallet wallet = walletService.createNewWallet(user);
+        createCard(user, wallet.getId(), CardType.VIRTUAL, user.getUsername());
     }
 
     public Card createPhysicalCard(User user, String cardHolderName) {

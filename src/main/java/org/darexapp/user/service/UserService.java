@@ -48,13 +48,9 @@ public class UserService {
     }
 
     public User login(LoginRequest loginRequest) {
-        Optional<User> optionalUser = userRepository.findByUsername(loginRequest.getUsername());
-
-        if (optionalUser.isEmpty() || !passwordEncoder.matches(loginRequest.getPassword(), optionalUser.get().getPassword())) {
-            throw new IllegalArgumentException("Invalid email or password.");
-        }
-
-        return optionalUser.get();
+        return userRepository.findByUsername(loginRequest.getUsername())
+                .filter(user -> passwordEncoder.matches(loginRequest.getPassword(), user.getPassword()))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
     }
 
 
@@ -64,16 +60,17 @@ public class UserService {
             throw new IllegalArgumentException("Email [%s] is already registered.".formatted(registerRequest.getEmail()));
         }
 
-        // Създаване на потребител
+        // Create and save user first
         User user = initializeUser(registerRequest);
         user = userRepository.save(user);
 
-        // Създаване на портфейл
+        // Create wallet and save it
         walletService.createNewWallet(user);
-
-        // Създаване на виртуална карта
+        
+        // Create virtual card with the saved wallet
         cardService.createDefaultVirtualCard(user);
 
+        // Create subscription
         subscriptionService.createDefaultSubscription(user);
 
         log.info("User registered: username [{}], email [{}], id [{}]", user.getUsername(), user.getEmail(), user.getId());
