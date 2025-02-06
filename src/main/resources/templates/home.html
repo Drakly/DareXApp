@@ -32,7 +32,11 @@
     <!-- Секция за показване на баланс -->
     <section class="balance-section">
         <h2>Wallet Balance</h2>
-        <div class="balance" th:text="${user.wallet.balance}"></div>
+        <ul>
+            <li th:each="wallet : ${user.getWallets()}">
+                Wallet Balance: <span th:text="${wallet.getBalance()}"></span>
+            </li>
+        </ul>
     </section>
 
     <!-- Секция с бързи действия (например Send, Request, Top Up) -->
@@ -48,34 +52,34 @@
             <a class="btn" href="/request-money">Go</a>
         </div>
         <div class="action">
-            <h3>Top Up</h3>
+            <h3>Add money</h3>
             <p>Add funds to your wallet.</p>
             <a class="btn" href="/top-up">Go</a>
         </div>
     </section>
 
     <!-- Секция с последни транзакции -->
-    <section class="transactions">
-        <h2>Recent Transactions</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Amount</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Пример за итерация през списъка с транзакции -->
-            <tr th:each="transaction : ${user.transactions}">
-                <td th:text="${transaction.date}">2025-02-02</td>
-                <td th:text="${transaction.description}">Payment Received</td>
-                <td th:text="${transaction.amount}">$100</td>
-            </tr>
-            </tbody>
-        </table>
-    </section>
-</main>
+<!--    <section class="transactions">-->
+<!--        <h2>Recent Transactions</h2>-->
+<!--        <table>-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>Date</th>-->
+<!--                <th>Description</th>-->
+<!--                <th>Amount</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            &lt;!&ndash; Пример за итерация през списъка с транзакции &ndash;&gt;-->
+<!--            <tr th:each="transaction : ${user.}">-->
+<!--                <td th:text="${transaction.date}">2025-02-02</td>-->
+<!--                <td th:text="${transaction.description}">Payment Received</td>-->
+<!--                <td th:text="${transaction.amount}">$100</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </section>-->
+<!--</main>-->
 
 <!-- Footer -->
 <footer class="dashboard-footer">

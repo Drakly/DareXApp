@@ -3,42 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Login | DareX Wallet</title>
 
-  <!-- Fonts -->
-  
-  <!-- Icons -->
+  <!-- CSS -->
   <link rel="stylesheet" th:href="@{/css/form.css}" />
-
-  <title>Login</title>
 </head>
 <body>
 
 <main>
   <section class="section full-height">
 
-
-    <form class="form" th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
+    <!-- Форма за логин, която работи със Spring Security -->
+    <form class="form" th:action="@{/process-login}" method="post" th:object="${loginRequest}">
       <h3>Login Here</h3>
 
+      <!-- Показване на грешка при неуспешно логване -->
+      <div th:if="${param.error}" class="alert-warning">
+        <p>Invalid username or password. Please try again.</p>
+      </div>
 
       <label for="username">Username</label>
-      <input type="text" id="username"  placeholder="Username" th:field="*{username}"  required>
+      <input type="text" id="username" name="username" placeholder="Username" th:field="*{username}" required>
       <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
       <label for="password">Password</label>
-      <input type="password" placeholder="Password" id="password" th:field="*{password}" required>
+      <input type="password" id="password" name="password" placeholder="Password" th:field="*{password}" required>
       <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
       <button type="submit">Log In</button>
-      <p class="form-already">Don't have an account? <a href="/register">Register now</a>!</p>
+      <p class="form-already">Don't have an account? <a th:href="@{/register}">Register now</a>!</p>
     </form>
 
   </section>
 </main>
-<<footer>
+
+<footer>
   <p>&copy; 2025 DareX Wallet. All Rights Reserved.</p>
 </footer>
+
 </body>
 </html>
