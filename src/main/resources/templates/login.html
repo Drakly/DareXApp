@@ -24,11 +24,11 @@
 
 
       <label for="username">Username</label>
-      <input type="text" id="username" name="username" placeholder="Username" th:field="*{username}" autocomplete="username" required>
+      <input type="text" id="username"  placeholder="Username" th:field="*{username}"  required>
       <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Password" th:field="*{password}" autocomplete="current-password" required>
+      <input type="password" placeholder="Password" id="password" th:field="*{password}" required>
       <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
       <button type="submit">Log In</button>
