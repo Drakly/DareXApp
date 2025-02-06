@@ -39,7 +39,7 @@ public class CardService {
                 .cardNumber(generateUniqueCardNumber())
                 .cardHolderName(cardHolderName)
                 .expiryDate(generateExpiryDate())
-                .cvv(cardType == CardType.PHYSICAL ? generateCVV() : null)
+                .cvv(cardType == CardType.VIRTUAL ? generateCVV() : null)
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
                 .build();
@@ -55,9 +55,9 @@ public class CardService {
         createCard(user, wallet.getId(), CardType.VIRTUAL, user.getUsername());
     }
 
-    public Card createPhysicalCard(User user, String cardHolderName) {
-        return createCard(user, null, CardType.PHYSICAL, cardHolderName);
-    }
+//    public Card createPhysicalCard(User user, String cardHolderName) {
+//        return createCard(user, null, CardType.PHYSICAL, cardHolderName);
+//    }
 
 
     private String generateUniqueCardNumber() {

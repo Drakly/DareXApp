@@ -34,26 +34,26 @@ public class IndexController {
 
     @GetMapping("/login")
     public ModelAndView showLoginPage() {
-        ModelAndView mav = new ModelAndView("login");
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("login");
         mav.addObject("loginRequest", new LoginRequest());
         return mav;
     }
 
     @PostMapping("/login")
-    public ModelAndView handleLogin(@ModelAttribute("loginRequest") @Valid LoginRequest loginRequest,
+    public String handleLogin(@ModelAttribute("loginRequest") @Valid LoginRequest loginRequest,
                                     BindingResult bindingResult, HttpSession session) {
-        ModelAndView mav = new ModelAndView("login");
+        ModelAndView mav = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
             mav.addObject("loginRequest", loginRequest);
-            return mav;
         }
 
-        User loggedUser = userService.login(loginRequest);
-        session.setAttribute("loggedUser", loggedUser);
-        mav.setViewName("redirect:/home");
+        User loggedUser = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        session.setAttribute("loggedUser", loggedUser.getId());
 
-        return mav;
+
+        return "redirect:/home";
     }
 
     @GetMapping("/register")
@@ -69,16 +69,14 @@ public class IndexController {
         ModelAndView mav = new ModelAndView();
         
         if (bindingResult.hasErrors()) {
-            mav.setViewName("register");
-            mav.addObject("registerDTO", registerDTO);
-            return mav;
+            return new ModelAndView("register");
         }
 
         userService.register(registerDTO);
-        mav.setViewName("redirect:/login");
         mav.addObject("registrationSuccess", true);
+
         
-        return mav;
+        return new ModelAndView("redirect:/login");
     }
 
     @GetMapping("/home")

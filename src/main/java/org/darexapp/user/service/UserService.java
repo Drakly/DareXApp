@@ -47,12 +47,12 @@ public class UserService {
         this.cardService = cardService;
     }
 
-    public User login(LoginRequest loginRequest) {
-        return userRepository.findByUsername(loginRequest.getUsername())
-                .filter(user -> passwordEncoder.matches(loginRequest.getPassword(), user.getPassword()))
-                .orElseThrow(() -> new DomainException("Invalid username or password"));
+    @Transactional
+    public User login(String username, String password) {
+        return userRepository.findByUsername(username)
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+                .orElseThrow(() -> new DomainException("Invalid username or password."));
     }
-
 
     @Transactional
     public User register(RegisterRequest registerRequest) {
@@ -60,17 +60,13 @@ public class UserService {
             throw new IllegalArgumentException("Email [%s] is already registered.".formatted(registerRequest.getEmail()));
         }
 
-        // Create and save user first
+
         User user = initializeUser(registerRequest);
         user = userRepository.save(user);
 
-        // Create wallet and save it
-        walletService.createNewWallet(user);
-        
-        // Create virtual card with the saved wallet
         cardService.createDefaultVirtualCard(user);
 
-        // Create subscription
+
         subscriptionService.createDefaultSubscription(user);
 
         log.info("User registered: username [{}], email [{}], id [{}]", user.getUsername(), user.getEmail(), user.getId());
@@ -88,6 +84,8 @@ public class UserService {
                 .updatedOn(LocalDateTime.now())
                 .build();
     }
+
+
 
 
 

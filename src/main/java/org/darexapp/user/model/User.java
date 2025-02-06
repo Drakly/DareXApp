@@ -24,10 +24,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column
     private String firstName;
 
-    @Column
     private String lastName;
 
     private String profilePicture;
@@ -57,15 +55,17 @@ public class User {
     @Column(nullable = false)
     private Country country;
 
+    
     @Builder.Default
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
+    @OrderBy("createdAt DESC")
     private List<Wallet> wallets = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
     private List<Subscription> subscriptions = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
     private List<Card> cards = new ArrayList<>();
 }
