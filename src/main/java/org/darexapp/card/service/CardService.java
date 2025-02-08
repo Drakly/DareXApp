@@ -71,7 +71,7 @@ public class CardService {
     }
 
     private LocalDateTime generateExpiryDate() {
-        // Задава дата на изтичане 3 години напред от текущата дата
+        // дата на изтичане 3 години напред от текущата дата
         return LocalDateTime.now().plusYears(3);
     }
 }

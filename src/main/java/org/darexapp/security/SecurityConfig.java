@@ -41,16 +41,9 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/process-login")
                         .successHandler((request, response, authentication) -> {
-                            // Извличаме username на логнатия потребител
                             String username = authentication.getName();
-
-                            // Намери потребителя в базата
                             User user = userService.findByUsername(username);
-
-                            // Запази user_id в сесията
                             request.getSession().setAttribute("user_id", user.getId());
-
-                            // Пренасочи към началната страница
                             response.sendRedirect("/home");
                         })
                         .failureUrl("/login?error")

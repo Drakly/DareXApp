@@ -67,10 +67,8 @@ public class UserService implements UserDetailsService {
             throw new IllegalArgumentException("Email [%s] is already registered.".formatted(registerRequest.getEmail()));
         }
 
-
         User user = initializeUser(registerRequest);
         user = userRepository.save(user);
-
 
         Wallet defaultWallet = walletService.createNewWallet(user);
         user.setWallets(List.of(defaultWallet));
@@ -124,10 +122,9 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Username cannot be null or empty");
         }
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+         userRepository.findByUsername(username);
 
-        return new CustomUserDetails(user);
+        return new CustomUserDetails(userRepository.findByUsername(username).get());
     }
 
 }
