@@ -41,16 +41,6 @@ public class IndexController {
         return mav;
     }
 
-//    @PostMapping("/process-login")
-//    public String processLogin(HttpSession session, Authentication authentication) {
-//        User user = (User) authentication.getPrincipal(); // Взимаме текущия потребител
-//
-//        session.setAttribute("user_id", user.getId()); // Запазваме ID-то в сесията
-//
-//        return "redirect:/home";
-//    }
-
-
 
     @GetMapping("/register")
     public ModelAndView showRegisterPage() {

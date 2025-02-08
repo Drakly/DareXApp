@@ -1,12 +1,16 @@
 package org.darexapp.user.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.darexapp.card.model.Card;
+import org.darexapp.card.model.CardType;
 import org.darexapp.card.service.CardService;
 import org.darexapp.exception.DomainException;
+import org.darexapp.subscription.model.Subscription;
 import org.darexapp.subscription.service.SubscriptionService;
 import org.darexapp.user.model.User;
 import org.darexapp.user.model.UserRole;
 import org.darexapp.user.repository.UserRepository;
+import org.darexapp.wallet.model.Wallet;
 import org.darexapp.wallet.service.WalletService;
 import org.darexapp.web.dto.LoginRequest;
 import org.darexapp.web.dto.RegisterRequest;
@@ -67,12 +71,14 @@ public class UserService implements UserDetailsService {
         User user = initializeUser(registerRequest);
         user = userRepository.save(user);
 
-        walletService.createNewWallet(user);
 
-        cardService.createDefaultVirtualCard(user);
+        Wallet defaultWallet = walletService.createNewWallet(user);
+        user.setWallets(List.of(defaultWallet));
 
+        cardService.createCard(user, defaultWallet.getId(), CardType.VIRTUAL, user.getUsername());
 
-        subscriptionService.createDefaultSubscription(user);
+        Subscription defaultSubscription = subscriptionService.createDefaultSubscription(user);
+        user.setSubscriptions(List.of(defaultSubscription));
 
         log.info("User registered: username [{}], email [{}], id [{}]", user.getUsername(), user.getEmail(), user.getId());
         return user;

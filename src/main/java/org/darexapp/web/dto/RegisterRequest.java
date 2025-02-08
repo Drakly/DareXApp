@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 import org.darexapp.user.model.Country;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class RegisterRequest {
     @NotBlank(message = "Username is required")
     @Size(min = 6)

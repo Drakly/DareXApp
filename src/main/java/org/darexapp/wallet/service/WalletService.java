@@ -26,8 +26,11 @@ public class WalletService {
     }
 
     public Wallet createNewWallet(User user) {
+
         Wallet wallet = walletRepository.save(initializeWallet(user));
+
         log.info("New wallet created with ID [{}] and initial balance [{}].", wallet.getId(), wallet.getBalance());
+
         return wallet;
     }
 
