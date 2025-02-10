@@ -2,6 +2,7 @@ package org.darexapp.transaction.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.darexapp.exception.DomainException;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.transaction.model.TransactionStatus;
 import org.darexapp.transaction.model.TransactionType;
@@ -64,4 +65,8 @@ public class TransactionService {
         return transactionRepository.findAllByOwnerIdOrderByCreatedAtDesc(ownerId);
     }
 
+
+    public Transaction getTransactionById(UUID id) {
+        return transactionRepository.findById(id).orElseThrow(() -> new DomainException("Transaction not found".formatted(id)));
+    }
 }

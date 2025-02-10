@@ -8,6 +8,14 @@
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
+<header class="dashboard-header">
+    <div class="header-container">
+        <div class="user-info">
+            <span th:text="${user.username}"></span>
+        </div>
+    </div>
+</header>
+
 <nav class="dashboard-nav">
     <ul>
         <li><a th:href="@{'/users/' + ${user.id} + '/profile'}"  class="active">Profile</a></li>
@@ -17,13 +25,7 @@
         <li><a href="/settings">Settings</a></li>
     </ul>
 </nav>
-<header class="dashboard-header">
-    <div class="header-container">
-        <div class="user-info">
-            <span th:text="'Hello, ' + ${user.username}"></span>
-        </div>
-    </div>
-</header>
+
 
 <main class="profile-container">
     <h2>Edit Profile</h2>

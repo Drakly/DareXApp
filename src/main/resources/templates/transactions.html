@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Transactions</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/transactions.css}" />
+</head>
+<body>
+<h1>Transactions</h1>
+<!-- Формуляр за търсене по ID (по избор) -->
+<div>
+  <form th:action="@{/transactions}" method="get">
+    <input type="hidden" name="ownerId" th:value="${ownerId}" />
+    <label for="transactionId">Search Transaction by ID:</label>
+    <input type="text" id="transactionId" name="transactionId" placeholder="Enter transaction ID" />
+    <button type="submit">Search</button>
+  </form>
+</div>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Sender</th>
+    <th>Receiver</th>
+    <th>Amount</th>
+    <th>Status</th>
+    <th>Date</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="transaction : ${transactions}">
+    <td th:text="${transaction.id}"></td>
+    <td th:text="${transaction.sender}"></td>
+    <td th:text="${transaction.receiver}"></td>
+    <td th:text="${transaction.amount}"></td>
+    <td th:text="${transaction.status}"></td>
+    <td th:text="${transaction.createdAt}"></td>
+    <td>
+      <a th:href="@{'/transactions/' + ${transaction.id}}">View</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

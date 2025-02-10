@@ -12,7 +12,7 @@
 <header class="dashboard-header">
     <div class="header-container">
         <div class="user-info">
-            <span th:text="${user.username}"></span>
+            <span>DareX Wallet</span>
         </div>
     </div>
 </header>
@@ -20,19 +20,62 @@
 <!-- Навигация -->
 <nav class="dashboard-nav">
     <ul>
-        <li><a th:href="@{'/users/' + ${user.id} + '/profile'}" >Profile</a></li>
-        <li><a href="/home" class="active">Home</a></li>
+        <li><a th:href="@{/home}" class="active">Home</a></li>
         <li><a href="/transactions">Transactions</a></li>
         <li><a href="/cards">Cards</a></li>
         <li><a href="/settings">Settings</a></li>
+
+        <a th:href="@{/logout}" class="logout-btn">Logout</a>
     </ul>
 </nav>
+
+<div class="single-section-box home-profile-information">
+    <div class="profile-header">
+        <img th:src="${#strings.isEmpty(user.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : user.profilePicture}" alt="Profile Picture" class="profile-avatar">
+        <h2 class="profile-name" th:text="${user.username}"></h2>
+        <div class="profile-status-role-container">
+            <p th:if="${user.isActive()}" class="active-profile">ACTIVE</p>
+            <p th:if="${!user.isActive()}" class="inactive-profile">INACTIVE</p>
+        </div>
+        <div class="details-section">
+        </div>
+    </div>
+    <div class="profile-info">
+        <div class="details-section-container">
+            <strong>First Name: </strong>
+            <p th:text="${#strings.isEmpty(user.firstName) ? 'Edit your profile and add your name' : user.firstName}"></p>
+        </div>
+        <div class="details-section-container">
+            <strong>Username: </strong>
+            <p th:text="${user.username}"></p>
+        </div>
+        <div class="details-section-container">
+            <strong>Email: </strong>
+            <p th:text="${user.email}"> </p>
+        </div>
+        <div class="details-section-container">
+            <strong>Joined: </strong>
+            <p th:text="${#temporals.format(user.createdOn, 'dd MMM YYYY HH:mm')}"></p>
+        </div>
+        <div class="details-section-container">
+            <strong>Country: </strong>
+            <p th:text="${#strings.capitalize(#strings.toLowerCase(user.country))}"></p>
+        </div>
+    </div>
+    <a th:href="@{'/users/' + ${user.id} + '/profile'}" class="profile-actions-button">
+        <p>Edit Profile</p>
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
+        </svg>
+    </a>
+</div>
+
 
 <!-- Main съдържание на Dashboard-а -->
 <main class="dashboard-main">
     <!-- Секция за показване на баланс -->
     <section class="balance-section">
-        <h2>Wallet Balance</h2>
+        <h2>Standard Wallet</h2>
         <ul>
             <li th:each="wallet : ${user.getWallets()}">
                 Wallet Balance: <span th:text="${wallet.getBalance()}"></span>
@@ -45,7 +88,7 @@
         <div class="action">
             <h3>Send Money</h3>
             <p>Transfer funds instantly.</p>
-            <a class="btn" href="/send-money">Go</a>
+            <a class="btn" th:href="@{'/transfers'}">Go</a>
         </div>
         <div class="action">
             <h3>Add money</h3>

@@ -71,7 +71,7 @@ public class UserService implements UserDetailsService {
         User user = initializeUser(registerRequest);
         user = userRepository.save(user);
 
-        Wallet defaultWallet = walletService.createNewWallet(user);
+        Wallet defaultWallet = walletService.createWalletForUser(user);
         user.setWallets(List.of(defaultWallet));
 
         cardService.createCard(user, defaultWallet.getId(), CardType.VIRTUAL, user.getUsername());

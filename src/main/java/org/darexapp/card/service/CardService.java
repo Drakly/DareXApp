@@ -5,8 +5,10 @@ import org.darexapp.card.model.Card;
 import org.darexapp.card.model.CardType;
 import org.darexapp.card.repository.CardRepository;
 import org.darexapp.user.model.User;
+import org.darexapp.user.service.UserService;
 import org.darexapp.wallet.model.Wallet;
 import org.darexapp.wallet.model.WalletStatus;
+import org.darexapp.wallet.repository.WalletRepository;
 import org.darexapp.wallet.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,17 +22,19 @@ public class CardService {
 
     private final CardRepository cardRepository;
     private final WalletService walletService;
+    private final WalletRepository walletRepository;
 
     @Autowired
-    public CardService(CardRepository cardRepository, WalletService walletService) {
+    public CardService(CardRepository cardRepository, WalletService walletService, WalletRepository walletRepository) {
         this.cardRepository = cardRepository;
         this.walletService = walletService;
+        this.walletRepository = walletRepository;
     }
 
 
     public Card createCard(User user, UUID walletId, CardType cardType, String cardHolderName) {
 
-        Wallet wallet = walletService.getWalletById(walletId);
+        Wallet wallet = walletService.fetchWalletById(walletId);
 
         Card card = Card.builder()
                 .owner(user)
@@ -51,7 +55,7 @@ public class CardService {
     }
 
     public void createDefaultVirtualCard(User user, UUID walletId) {
-        Wallet walletById = walletService.getWalletById(walletId);
+        Wallet walletById = walletService.fetchWalletById(walletId);
         createCard(user, walletById.getId(), CardType.VIRTUAL, user.getUsername());
     }
 
