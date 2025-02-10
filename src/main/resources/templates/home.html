@@ -20,8 +20,8 @@
 <!-- Навигация -->
 <nav class="dashboard-nav">
     <ul>
-        <li><a href="/{id}/profile" >Profile</a></li>
-        <li><a href="/dashboard" class="active">Home</a></li>
+        <li><a th:href="@{'/users/' + ${user.id} + '/profile'}" >Profile</a></li>
+        <li><a href="/home" class="active">Home</a></li>
         <li><a href="/transactions">Transactions</a></li>
         <li><a href="/cards">Cards</a></li>
         <li><a href="/settings">Settings</a></li>
@@ -46,11 +46,6 @@
             <h3>Send Money</h3>
             <p>Transfer funds instantly.</p>
             <a class="btn" href="/send-money">Go</a>
-        </div>
-        <div class="action">
-            <h3>Request Money</h3>
-            <p>Request funds from contacts.</p>
-            <a class="btn" href="/request-money">Go</a>
         </div>
         <div class="action">
             <h3>Add money</h3>

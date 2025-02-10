@@ -12,6 +12,7 @@ import org.darexapp.user.model.UserRole;
 import org.darexapp.user.repository.UserRepository;
 import org.darexapp.wallet.model.Wallet;
 import org.darexapp.wallet.service.WalletService;
+import org.darexapp.web.dto.EditUserRequest;
 import org.darexapp.web.dto.LoginRequest;
 import org.darexapp.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,18 @@ public class UserService implements UserDetailsService {
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
                 .build();
+    }
+
+    public void updateUser(UUID id, EditUserRequest userDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new DomainException("User not found"));
+
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setProfilePicture(userDto.getProfilePicture());
+
+        userRepository.save(user);
+
     }
 
 

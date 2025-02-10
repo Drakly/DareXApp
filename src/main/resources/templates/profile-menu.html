@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<nav class="dashboard-nav">
+    <ul>
+        <li><a th:href="@{'/users/' + ${user.id} + '/profile'}"  class="active">Profile</a></li>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/transactions">Transactions</a></li>
+        <li><a href="/cards">Cards</a></li>
+        <li><a href="/settings">Settings</a></li>
+    </ul>
+</nav>
+<header class="dashboard-header">
+    <div class="header-container">
+        <div class="user-info">
+            <span th:text="'Hello, ' + ${user.username}"></span>
+        </div>
+    </div>
+</header>
+
+<main class="profile-container">
+    <h2>Edit Profile</h2>
+
+    <form class="form" th:action="@{'/users/' + ${user.id} + '/profile'}" th:method="PUT" th:object="${userEditRequest}">
+
+        <img th:src="${#strings.isEmpty(user.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : user.profilePicture}" alt="Profile Picture" class="user-info-img">
+
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" placeholder="First Name" th:field="*{firstName}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" placeholder="Last Name" th:field="*{lastName}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+
+        <label for="email">Email</label>
+        <input type="text" id="email" placeholder="Email Address" th:field="*{email}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+        <label for="profilePicture">Profile Picture URL</label>
+        <input type="text" id="profilePicture" placeholder="Image Link" th:field="*{profilePicture}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}"></p>
+
+        <button class="btn">
+            <p>Save</p>
+        </button>
+    </form>
+
+</main>
+</body>
+</html>
