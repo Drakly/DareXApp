@@ -9,7 +9,7 @@
 <div class="transfer-container">
   <h2>Transfer Funds</h2>
 
-  <form th:action="@{/transfers/new}" method="post" class="transfer-form" th:object="${transferRequest}">
+  <form th:action="@{/transfers}" th:method="post" class="transfer-form" th:object="${transferRequest}">
 
     <!-- Избор на портфейл -->
     <label for="walletId">Select Wallet</label>

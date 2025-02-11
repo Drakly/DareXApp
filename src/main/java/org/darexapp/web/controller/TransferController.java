@@ -40,7 +40,7 @@ public class TransferController {
         UUID userId = (UUID) session.getAttribute("user_id");
         User currentUser = userService.findById(userId);
 
-        ModelAndView mav = new ModelAndView("transfers"); // transfer.html
+        ModelAndView mav = new ModelAndView("create-transfer"); // transfer.html
         mav.addObject("user", currentUser);
         // Създаваме празен TransferRequest чрез builder-а
         mav.addObject("transferRequest", TransferRequest.builder().build());
@@ -52,7 +52,7 @@ public class TransferController {
      * Ако има валидационни грешки, връща отново формуляра.
      * При успешен трансфер – извиква walletService.transferFunds(...) и пренасочва към страницата с транзакция.
      */
-    @PostMapping("/new")
+    @PostMapping()
     public ModelAndView initiateTransfer(@Valid @ModelAttribute("transferRequest") TransferRequest transferRequest,
                                          BindingResult bindingResult, HttpSession session) {
         UUID userId = (UUID) session.getAttribute("user_id");
