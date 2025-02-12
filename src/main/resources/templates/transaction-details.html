@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Transaction Details</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/transactions.css}" />
+    <link rel="stylesheet" type="text/css" href="/css/transaction.css" />
 </head>
 <body>
 <h1>Transaction Details</h1>
+<div class="transaction-details">
 <div>
     <p><strong>ID:</strong> <span th:text="${transaction.id}"></span></p>
     <p><strong>Sender:</strong> <span th:text="${transaction.sender}"></span></p>

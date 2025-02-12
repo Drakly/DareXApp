@@ -1,78 +1,82 @@
-/* transfers.css */
-body {
-    font-family: Arial, sans-serif;
-    background: #f9f9f9;
-    color: #333;
-    margin: 20px;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #5a189a;      /* Основен цвят (акцент) */
+    --secondary-color: #3c0a74;    /* Прихотен цвят при hover */
+    --bg-color: #f0f2f5;           /* Фонов цвят на страницата */
+    --card-bg: #ffffff;            /* Фонов цвят на картите/формите */
+    --text-color: #333333;         /* Основен цвят на текста */
 }
 
-h1 {
+body {
+    font-family: 'Roboto', sans-serif;
+    background: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+.transfer-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.transfer-container h2 {
     text-align: center;
     margin-bottom: 20px;
+    color: var(--primary-color);
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background: #5a189a;
-    color: #fff;
-}
-
-a {
-    color: #5a189a;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-form {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-form div {
-    margin-bottom: 15px;
-}
-
-label {
+/* Формата */
+.transfer-form label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
-input[type="text"],
-input[type="number"],
-textarea {
+.transfer-form input[type="text"],
+.transfer-form input[type="number"],
+.transfer-form select {
     width: 100%;
-    padding: 8px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 6px;
+    transition: border-color 0.3s;
+    font-size: 14px;
 }
 
-button {
-    padding: 10px 15px;
-    background: #5a189a;
+.transfer-form input:focus,
+.transfer-form select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Бутонът за изпращане */
+.transfer-form button {
+    width: 100%;
+    background: var(--primary-color);
     color: #fff;
     border: none;
-    border-radius: 4px;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-button:hover {
-    background: #3c0a74;
+.transfer-form button:hover {
+    background: var(--secondary-color);
+}
+
+.transfer-form button svg {
+    margin-left: 8px;
+    stroke: currentColor;
 }

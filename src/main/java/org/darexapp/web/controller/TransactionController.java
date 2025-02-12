@@ -1,5 +1,6 @@
 package org.darexapp.web.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.transaction.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,13 @@ public class TransactionController {
 
     // Показва всички транзакции за даден owner
     @GetMapping
-    public ModelAndView listTransactions(UUID ownerId) {
-        List<Transaction> transactions = transactionService.getAllTransactionsByOwnerId(ownerId);
+    public ModelAndView listTransactions(HttpSession session) {
+        UUID userId = (UUID) session.getAttribute("user_id");
+        List<Transaction> transactions = transactionService.getAllTransactionsByOwnerId(userId);
+
+
         ModelAndView mav = new ModelAndView("transactions"); // Thymeleaf шаблон: transactions.html
         mav.addObject("transactions", transactions);
-        mav.addObject("ownerId", ownerId);
         return mav;
     }
 

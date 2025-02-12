@@ -1,67 +1,172 @@
-/* transactions.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #5a189a;      /* Основен акцентен цвят */
+    --secondary-color: #3c0a74;    /* Тъмна версия за hover ефект */
+    --bg-color: #f0f2f5;           /* Фонов цвят на страницата */
+    --card-bg: #ffffff;            /* Фонов цвят на картите и формите */
+    --text-color: #333;            /* Основен цвят на текста */
+    --border-color: #ddd;          /* Цвят на границите */
+}
+
+/* Основни стилове */
 body {
-    font-family: Arial, sans-serif;
-    background: #f9f9f9;
-    color: #333;
-    margin: 20px;
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
 }
 
-h1 {
-    text-align: center;
+/* Хедър */
+.dashboard-header {
+    background: var(--primary-color);
+    padding: 10px 20px;
+    color: #fff;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-info {
+    font-size: 16px;
+}
+
+/* Навигация */
+.dashboard-nav {
+    background: #fff;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 20px;
+    display: flex;
+}
+
+.dashboard-nav li {
+    margin-right: 20px;
+}
+
+.dashboard-nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.dashboard-nav a.active,
+.dashboard-nav a:hover {
+    color: var(--primary-color);
+}
+
+/* Основно съдържание */
+.content {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.content h1 {
+    color: var(--primary-color);
     margin-bottom: 20px;
+    text-align: center;
 }
 
-table {
+/* Формуляр за търсене */
+.transaction-search {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.transaction-search form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.transaction-search .form-group {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.transaction-search label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.transaction-search input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.transaction-search button {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.transaction-search button:hover {
+    background: var(--secondary-color);
+}
+
+/* Таблица с транзакции */
+.transaction-table-container {
+    overflow-x: auto;
+}
+
+.transaction-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 12px;
+.transaction-table th,
+.transaction-table td {
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
     text-align: left;
 }
 
-th {
-    background: #5a189a;
+.transaction-table th {
+    background: var(--primary-color);
     color: #fff;
 }
 
-a {
-    color: #5a189a;
+.transaction-table tbody tr:hover {
+    background: #f5f5f5;
+}
+
+/* Бутон за преглед */
+.view-button {
+    display: inline-block;
+    background: var(--primary-color);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
     text-decoration: none;
+    transition: background 0.3s;
 }
 
-a:hover {
-    text-decoration: underline;
-}
-
-form {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-input[type="text"],
-input[type="number"] {
-    padding: 8px;
-    margin: 0 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-button {
-    padding: 8px 12px;
-    background: #5a189a;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #3c0a74;
+.view-button:hover {
+    background: var(--secondary-color);
 }
