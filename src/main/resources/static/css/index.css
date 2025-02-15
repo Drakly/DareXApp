@@ -13,24 +13,25 @@ body {
 
 /* Header стилове */
 header {
-    padding: 80px 20px;
+    padding: 60px 20px;
 }
 
 header h1 {
-    font-size: 10rem;
-    margin-bottom: 20px;
+    font-size: 8rem;
+    margin-bottom: 5px;
+    margin-top: 2px;
     letter-spacing: 5px;
 }
 
 header p {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
     letter-spacing: 5px;
 }
 
-
 nav {
-    margin: 20px 0;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 
 nav ul {
@@ -42,7 +43,7 @@ nav ul {
 
 nav li {
     display: inline-block;
-    margin: 0 10px;
+    margin: 0 8px;
 }
 
 nav a {
@@ -50,8 +51,8 @@ nav a {
     background: rgba(255, 255, 255, 0.1);  /* Лек прозрачен фон */
     color: #fff;
     text-decoration: none;
-    font-size: 1.2rem;
-    padding: 12px 30px;
+    font-size: 1.1rem;
+    padding: 10px 25px;
     border: 2px solid transparent;
     border-radius: 30px;
     transition: background 0.3s ease, border 0.3s ease, transform 0.3s ease;
@@ -78,4 +79,61 @@ footer {
 
 footer p {
     font-size: 0.9rem;
+}
+
+/* Card Styles */
+.cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    gap: 15px;
+    perspective: 1000px;
+}
+
+.card {
+    width: 280px;
+    height: 170px;
+    background: linear-gradient(135deg, #7209b7, #560bad);
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0px 10px 20px rgba(255, 0, 255, 0.3);
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Card Elements */
+.bank-name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.chip {
+    width: 40px;
+    height: 30px;
+    background: gold;
+    border-radius: 5px;
+    margin: 10px 0;
+    display: inline-block;
+}
+
+.card-number, .card-holder, .exp-date {
+    font-size: 1em;
+}
+
+/* Card Hover Animation */
+.card:hover {
+    transform: rotateY(10deg) scale(1.05);
+}
+
+.card1 {
+    transform: rotateY(-10deg);
+}
+
+.card2 {
+    transform: rotateY(10deg);
 }
