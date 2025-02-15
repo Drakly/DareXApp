@@ -1,59 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
-:root {
-    --primary-color: #5a189a;
-    --secondary-color: #3c0a74;
-    --bg-color: #f0f2f5;
-    --card-bg: #ffffff;
-    --text-color: #333333;
+/* Основни стилове за контейнера */
+.home-section {
+    margin: 20px;
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
-    background: var(--bg-color);
+/* Стилове за payment box */
+.payment-box {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Хедърът на трансакцията */
+.payment-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    gap: 20px;
+}
+
+.payment-header .icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Текст в хедъра */
+.payment-header h2 {
+    font-size: 18px;
     margin: 0;
-    padding: 0;
-    color: var(--text-color);
-}
-
-/* Заглавието */
-h1 {
-    text-align: center;
-    margin-top: 50px;
-    color: var(--primary-color);
-}
-
-/* Контейнер за детайлите на транзакцията */
-.transaction-details {
-    max-width: 600px;
-    margin: 30px auto 50px;
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.transaction-details p {
-    margin-bottom: 15px;
-    line-height: 1.6;
-}
-
-.transaction-details strong {
-    color: var(--primary-color);
-}
-
-/* Бутон/Линк за връщане */
-.transaction-details a {
-    display: inline-block;
-    margin-top: 20px;
-    background: var(--primary-color);
     color: #fff;
-    padding: 10px 20px;
-    border-radius: 6px;
-    transition: background 0.3s;
-    text-decoration: none;
 }
 
-.transaction-details a:hover {
-    background: var(--secondary-color);
+.payment-header p {
+    font-size: 14px;
+    margin: 5px 0 0 0;
+    color: #fff;
+}
+
+/* Детайлите на трансакцията */
+.payment-details {
+    padding: 15px 20px;
+    background-color: #fff;
+}
+
+.payment-details .details {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.payment-details .details .item {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.payment-details .details .value {
+    color: #333;
+}
+
+/* Успешни трансакции (зелено) */
+.payment-box.success {
+    border: 2px solid #28a745;
+    background-color: #d4edda;
+}
+
+.payment-box.success .payment-header {
+    background-color: #28a745;
+}
+
+.payment-box.success .payment-header .icon {
+    background-color: #218838;
+}
+
+/* Неуспешни трансакции (червено) */
+.payment-box.failure {
+    border: 2px solid #dc3545;
+    background-color: #f8d7da;
+}
+
+.payment-box.failure .payment-header {
+    background-color: #dc3545;
+}
+
+.payment-box.failure .payment-header .icon {
+    background-color: #c82333;
 }

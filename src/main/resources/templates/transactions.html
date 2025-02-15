@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Transactions</title>
-  <link rel="stylesheet" type="text/css" href="/css/transactions.css" />
   <link rel="stylesheet" type="text/css" href="/css/home.css" />
+  <link rel="stylesheet" type="text/css" href="/css/transactions.css" />
 </head>
 <body>
 <!-- Хедър -->
 <header class="dashboard-header">
   <div class="header-container">
-    <div class="user-info">
-      <span>DareX Wallet</span>
-    </div>
+        <div class="user-info">
+            <span>DareX Wallet</span>
+        </div>
   </div>
 </header>
 
@@ -34,7 +34,7 @@
     <table class="transaction-table">
       <thead>
       <tr>
-        <th>ID</th>
+        <th>Id</th>
         <th>Status</th>
         <th>Amount</th>
         <th>Balance</th>
@@ -42,18 +42,36 @@
         <th>Date</th>
       </tr>
       </thead>
+
       <tbody>
       <tr th:each="transaction : ${transactions}">
-        <td th:text="${transaction.id}"></td>
+        <!-- Transaction ID -->
+        <td th:text="${transaction.id}">1</td>
+
+        <!-- Status: показва FAILED или SUCCEEDED -->
         <td>
-          <p th:if="${transaction.status.name() == 'FAILED'}" class="status terminated">FAILED</p>
-          <p th:if="${transaction.status.name() == 'SUCCEEDED'}" class="status active">SUCCEEDED</p>
+          <span th:text="${transaction.status}">Status</span>
         </td>
-        <td th:if="${transaction.status.name() == 'FAILED'}" th:text="${transaction.type.name() == 'DEPOSIT' ? '+' + transaction.amount + ' EUR' : '-' + transaction.amount + ' EUR'}" class="crosslined"></td>
-        <td th:if="${transaction.status.name() == 'SUCCEEDED'}" th:text="${transaction.type.name() == 'DEPOSIT' ? '+' + transaction.amount + ' EUR' : '-' + transaction.amount  + ' EUR'}"></td>
-        <td th:text="${transaction.balanceLeft + ' EUR'}"></td>
-        <td style="text-align: left" th:text="${transaction.status.name() == 'FAILED' ? transaction.failureReason : transaction.description}"></td>
-        <td th:text="${#temporals.format(transaction.createdAt, 'dd MMM YYYY HH:mm')}"></td>
+
+        <!-- Amount: показва сумата с + или - знак. Ако трансакцията е FAILED се добавя клас за презакриване -->
+        <td th:text="${transaction.type.name() == 'DEPOSIT' ? '+' + transaction.amount + ' EUR' : '-' + transaction.amount + ' EUR'}"
+            th:classappend="${transaction.status.name() == 'FAILED'} ? ' crosslined' : ''">
+          +0 EUR
+        </td>
+
+        <!-- Balance -->
+        <td th:text="${transaction.balanceLeft + ' EUR'}">0 EUR</td>
+
+        <!-- Note: ако трансакцията е FAILED, се показва failureReason, иначе description -->
+        <td style="text-align: left"
+            th:text="${transaction.status.name() == 'FAILED' ? transaction.failureReason : transaction.description}">
+          Note
+        </td>
+
+        <!-- Date: форматирано с Thymeleaf Temporal -->
+        <td th:text="${#temporals.format(transaction.createdAt, 'dd MMM yyyy HH:mm')}">
+          01 Jan 2025 10:00
+        </td>
       </tr>
       </tbody>
     </table>

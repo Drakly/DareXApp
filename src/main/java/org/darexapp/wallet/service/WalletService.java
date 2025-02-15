@@ -106,6 +106,7 @@ public class WalletService {
                 .filter(w -> w.getStatus() == WalletStatus.ACTIVE)
                 .findFirst();
 
+
         String transferDesc = String.format("Transfer from %s to %s of %.2f",
                 sender.getUsername(), transferRequest.getToUsername(), transferRequest.getAmount());
 

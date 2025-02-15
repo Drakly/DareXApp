@@ -18,8 +18,8 @@
       <h3>Login Here</h3>
 
       <!-- Показване на грешка при неуспешно логване -->
-      <div th:if="${param.error}" class="alert-warning">
-        <p>Invalid username or password. Please try again.</p>
+      <div th:if="${param.error}" class="alert-warning" >
+        <p class="error-message">Invalid username or password </p>
       </div>
 
       <label for="username">Username</label>

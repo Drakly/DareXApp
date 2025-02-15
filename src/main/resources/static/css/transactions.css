@@ -18,54 +18,6 @@ body {
     color: var(--text-color);
 }
 
-/* Хедър */
-.dashboard-header {
-    background: var(--primary-color);
-    padding: 10px 20px;
-    color: #fff;
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.user-info {
-    font-size: 16px;
-}
-
-/* Навигация */
-.dashboard-nav {
-    background: #fff;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.dashboard-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0 20px;
-    display: flex;
-}
-
-.dashboard-nav li {
-    margin-right: 20px;
-}
-
-.dashboard-nav a {
-    text-decoration: none;
-    color: var(--text-color);
-    padding: 10px;
-    transition: color 0.3s;
-}
-
-.dashboard-nav a.active,
-.dashboard-nav a:hover {
-    color: var(--primary-color);
-}
-
 /* Основно съдържание */
 .content {
     max-width: 1200px;

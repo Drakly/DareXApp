@@ -2,6 +2,8 @@ package org.darexapp.web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.darexapp.transaction.model.Transaction;
+import org.darexapp.transaction.service.TransactionService;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
 import org.darexapp.web.dto.LoginRequest;
@@ -16,16 +18,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
 public class IndexController {
 
     private final UserService userService;
+    private final TransactionService transactionService;
 
     @Autowired
-    public IndexController(UserService userService) {
+    public IndexController(UserService userService, TransactionService transactionService) {
         this.userService = userService;
+        this.transactionService = transactionService;
     }
 
     @GetMapping("/")
@@ -73,6 +78,7 @@ public class IndexController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("home");
         mav.addObject("user", user);
+
         return mav;
     }
 
