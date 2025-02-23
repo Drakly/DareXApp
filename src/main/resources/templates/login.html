@@ -14,7 +14,7 @@
   <section class="section full-height">
 
     <!-- Форма за логин, която работи със Spring Security -->
-    <form class="form" th:action="@{/process-login}" method="post" th:object="${loginRequest}">
+    <form class="form" th:action="@{/login}" th:method="post" th:object="${loginRequest}">
       <h3>Login Here</h3>
 
       <!-- Показване на грешка при неуспешно логване -->

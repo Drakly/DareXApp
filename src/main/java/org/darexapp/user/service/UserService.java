@@ -1,10 +1,10 @@
 package org.darexapp.user.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.darexapp.card.model.Card;
 import org.darexapp.card.model.CardType;
 import org.darexapp.card.service.CardService;
 import org.darexapp.exception.DomainException;
+import org.darexapp.security.CustomUserDetails;
 import org.darexapp.subscription.model.Subscription;
 import org.darexapp.subscription.service.SubscriptionService;
 import org.darexapp.user.model.User;
@@ -13,7 +13,6 @@ import org.darexapp.user.repository.UserRepository;
 import org.darexapp.wallet.model.Wallet;
 import org.darexapp.wallet.service.WalletService;
 import org.darexapp.web.dto.EditUserRequest;
-import org.darexapp.web.dto.LoginRequest;
 import org.darexapp.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-
-import static org.darexapp.user.model.UserRole.USER;
 
 @Slf4j
 @Service
@@ -109,19 +105,12 @@ public class UserService implements UserDetailsService {
 
 
 
-
-
     public User findById(UUID id) {
         if (id == null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
-    }
-
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
 
@@ -131,13 +120,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (username == null || username.isEmpty()) {
-            throw new UsernameNotFoundException("Username cannot be null or empty");
-        }
 
-         userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
-        return new CustomUserDetails(userRepository.findByUsername(username).get());
+        return new CustomUserDetails(user.getId(), username, user.getPassword(), user.getRole(), user.isActive());
     }
 
 }

@@ -2,6 +2,7 @@ package org.darexapp.web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.darexapp.security.CustomUserDetails;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.transaction.service.TransactionService;
 import org.darexapp.user.model.User;
@@ -10,11 +11,13 @@ import org.darexapp.web.dto.LoginRequest;
 import org.darexapp.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -39,10 +42,15 @@ public class IndexController {
     }
 
     @GetMapping("/login")
-    public ModelAndView showLoginPage() {
+    public ModelAndView showLoginPage(@RequestParam(value = "error", required = false) String error) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
         mav.addObject("loginRequest", new LoginRequest());
+
+        if (error != null) {
+            mav.addObject("errorMessage", "Invalid username or password.");
+        }
+
         return mav;
     }
 
@@ -50,43 +58,31 @@ public class IndexController {
     @GetMapping("/register")
     public ModelAndView showRegisterPage() {
         ModelAndView mav = new ModelAndView("register");
-        mav.addObject("registerDTO", new RegisterRequest());
+        mav.addObject("registerRequest", new RegisterRequest());
         return mav;
     }
 
     @PostMapping("/register")
-    public ModelAndView handleRegister(@Valid RegisterRequest registerDTO, BindingResult bindingResult) {
+    public ModelAndView handleRegister(@Valid RegisterRequest registerRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("register");
         }
 
-        userService.register(registerDTO);
+        userService.register(registerRequest);
 
         return new ModelAndView("redirect:/login");
     }
 
     @GetMapping("/home")
-    public ModelAndView showHomePage(HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
+    public ModelAndView showHomePage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        User user = userService.findById(customUserDetails.getUserId());
 
-        if (userId == null) {
-            return new ModelAndView("redirect:/login"); // Ако няма потребител, върни го към логина
-        }
-
-        User user = userService.findById(userId);
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("home");
         mav.addObject("user", user);
 
         return mav;
-    }
-
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
     }
 
 }

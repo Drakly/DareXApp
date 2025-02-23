@@ -1,9 +1,13 @@
 package org.darexapp.web.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.darexapp.security.CustomUserDetails;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.transaction.service.TransactionService;
+import org.darexapp.user.model.User;
+import org.darexapp.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,20 +23,22 @@ import java.util.UUID;
 public class TransactionController {
 
     private final TransactionService transactionService;
+    private final UserService userService;
 
     @Autowired
-    public TransactionController(TransactionService transactionService){
+    public TransactionController(TransactionService transactionService, UserService userService){
         this.transactionService = transactionService;
+        this.userService = userService;
     }
 
     // Показва всички транзакции за даден owner
     @GetMapping
-    public ModelAndView listTransactions(HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
-        List<Transaction> transactions = transactionService.getAllTransactionsByOwnerId(userId);
+    public ModelAndView listTransactions(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        User user = userService.findById(customUserDetails.getUserId());
+        List<Transaction> transactions = transactionService.getAllTransactionsByOwnerId(user.getId());
 
 
-        ModelAndView mav = new ModelAndView("transactions"); // Thymeleaf шаблон: transactions.html
+        ModelAndView mav = new ModelAndView("transactions");
         mav.addObject("transactions", transactions);
         return mav;
     }
