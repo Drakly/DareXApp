@@ -1,90 +1,209 @@
-/* Основни стилове за контейнера */
+/* Глобален рестарт */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Фон и глобални стилове – фирмено лилаво с допълнителни радиални ефекти */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #000000, #5a189a);
+    color: #fff;
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+}
+
+/* Заглавие */
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+/* Центриране на съдържанието */
 .home-section {
-    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Стилове за payment box */
-.payment-box {
-    border-radius: 8px;
+/* Контейнер за резултат от плащането */
+.single-section-box.payment-result-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
     overflow: hidden;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
-/* Хедърът на трансакцията */
+/* Фонови ефекти за допълнителна дълбочина */
+.single-section-box.payment-result-container::before,
+.single-section-box.payment-result-container::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: -1;
+}
+
+.single-section-box.payment-result-container::before {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(142, 68, 173, 0.4), rgba(142, 68, 173, 0));
+    top: -150px;
+    right: -150px;
+}
+
+.single-section-box.payment-result-container::after {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(103, 58, 183, 0.4), rgba(103, 58, 183, 0));
+    bottom: -200px;
+    left: -200px;
+}
+
+/* Payment box – ефект на glassmorphism */
+.payment-box {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 60px;
+}
+
+.payment-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Хедър на трансакцията */
 .payment-header {
     display: flex;
     align-items: center;
-    padding: 15px 20px;
+    padding: 30px;
     gap: 20px;
 }
 
+
 .payment-header .icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
 }
 
-/* Текст в хедъра */
+/* Осигуряване, че SVG се мащабира според контейнера */
+.payment-header .icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* По-голям и четлив текст за заглавието */
 .payment-header h2 {
-    font-size: 18px;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.3;
     margin: 0;
-    color: #fff;
 }
 
+/* По-голям и четлив текст за описанието */
 .payment-header p {
-    font-size: 14px;
-    margin: 5px 0 0 0;
-    color: #fff;
+    font-size: 18px;
+    margin-top: 8px;
+    opacity: 0.9;
 }
 
-/* Детайлите на трансакцията */
+/* За да е визуалната йерархия по-добра, може да добавите допълнително разстояние между иконата и текста */
+.payment-header .header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+
+
+/* Детайли на трансакцията */
 .payment-details {
-    padding: 15px 20px;
-    background-color: #fff;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .payment-details .details {
     display: flex;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.payment-details .details .item {
-    font-weight: bold;
-    margin-right: 10px;
+.payment-details .details:last-child {
+    border-bottom: none;
 }
 
-.payment-details .details .value {
-    color: #333;
+.payment-details .item {
+    font-weight: 500;
+    font-size: 16px;
 }
 
-/* Успешни трансакции (зелено) */
+.payment-details .value {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+/* Стилове за успешни трансакции */
 .payment-box.success {
     border: 2px solid #28a745;
-    background-color: #d4edda;
 }
 
 .payment-box.success .payment-header {
-    background-color: #28a745;
+    background: linear-gradient(135deg, #28a745, #218838);
 }
 
 .payment-box.success .payment-header .icon {
-    background-color: #218838;
+    background: rgba(255, 255, 255, 0.2);
 }
 
-/* Неуспешни трансакции (червено) */
+/* Стилове за неуспешни трансакции */
 .payment-box.failure {
     border: 2px solid #dc3545;
-    background-color: #f8d7da;
 }
 
 .payment-box.failure .payment-header {
-    background-color: #dc3545;
+    background: linear-gradient(135deg, #dc3545, #c82333);
 }
 
 .payment-box.failure .payment-header .icon {
-    background-color: #c82333;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive настройки за малки екрани */
+@media (max-width: 480px) {
+    .payment-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    .payment-header .icon {
+        margin-bottom: 10px;
+    }
+    .payment-details .details {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+    }
+    .payment-details .item,
+    .payment-details .value {
+        margin: 4px 0;
+        font-size: 14px;
+    }
 }
