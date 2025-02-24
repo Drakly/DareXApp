@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Transactions</title>
-  <link rel="stylesheet" type="text/css" href="/css/home.css" />
-  <link rel="stylesheet" type="text/css" href="/css/transactions.css" />
+  <link rel="stylesheet" type="text/css" href="/css/home.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/transactions.css"/>
 </head>
 <body>
 <!-- Хедър -->
@@ -21,8 +21,12 @@
   <ul>
     <li><a href="/home">Home</a></li>
     <li><a href="/transactions" class="active">Transactions</a></li>
+    <li><a href="/wallets">Wallets</a></li>
+    <li><a href="/subscription">Subscriptions</a></li>
     <li><a href="/cards">Cards</a></li>
     <li><a href="/settings">Settings</a></li>
+
+    <a th:href="@{/logout}" class="logout-btn">Logout</a>
   </ul>
 </nav>
 

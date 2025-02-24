@@ -33,10 +33,6 @@ public class TransferController {
         this.walletService = walletService;
     }
 
-    /**
-     * GET endpoint за показване на страницата за трансфер.
-     * Използва сесията за извличане на текущия потребител.
-     */
     @GetMapping
     public ModelAndView showTransferPage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findById(customUserDetails.getUserId());
@@ -49,11 +45,6 @@ public class TransferController {
         return mav;
     }
 
-    /**
-     * POST endpoint за обработка на трансфер формуляра.
-     * Ако има валидационни грешки, връща отново формуляра.
-     * При успешен трансфер – извиква walletService.transferFunds(...) и пренасочва към страницата с транзакция.
-     */
     @PostMapping
     public ModelAndView initiateTransfer(@Valid @ModelAttribute("transferRequest") TransferRequest transferRequest,
                                          BindingResult bindingResult, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -68,10 +59,10 @@ public class TransferController {
             return mav;
         }
 
-        // Извикване на walletService за извършване на трансфера
+
         Transaction transaction = walletService.transferFunds(user, transferRequest);
 
-        // Пренасочване към страницата с детайлите на новосъздадената транзакция
+
         return new ModelAndView("redirect:/transactions/" + transaction.getId());
     }
 

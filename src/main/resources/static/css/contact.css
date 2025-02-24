@@ -26,6 +26,15 @@ body {
     color: #fff;
     margin-bottom: 20px;
 }
+.description a {
+    max-width: 20px;
+    text-align: center;
+    background: linear-gradient(135deg, #000000, #5a189a);
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+
 
 .description p {
     font-size: 16px;

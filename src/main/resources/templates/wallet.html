@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Wallet</title>
+    <link rel="stylesheet" href="/css/wallet.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/transactions.css" />
+</head>
+<body>
+
+<header class="dashboard-header">
+    <div class="header-container">
+        <div class="user-info">
+            <span>DareX Wallet</span>
+        </div>
+    </div>
+</header>
+
+<!-- Навигация -->
+<nav class="dashboard-nav">
+    <ul>
+        <li><a href="/home" >Home</a></li>
+        <li><a href="/transactions">Transactions</a></li>
+        <li><a href="/wallet" class="active">Wallets</a></li>
+        <li><a href="/subscription">Subscriptions</a></li>
+        <li><a href="/cards">Cards</a></li>
+        <li><a href="/settings">Settings</a></li>
+
+        <a th:href="@{/logout}" class="logout-btn">Logout</a>
+    </ul>
+</nav>
+<div class="wallet-page">
+
+    <!-- Лява основна секция -->
+    <main class="main-content">
+        <!-- Заглавие и "Calendar" бутон -->
+        <div class="page-header">
+            <div>
+                <h1 >STANDARD WALLET</h1>
+                <small>Change standard wallet</small>
+            </div>
+            <button class="calendar-btn">
+                Calendar
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M19 4h-1V2h-2v2H8V2H6v2H5a3 3 0 0 0-3 3v12a3
+                     3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm1
+                     15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V10h16Z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Филтри (бутони) -->
+        <div class="filters-row">
+            <button>Group By</button>
+            <button>Realisation</button>
+            <button>Dates</button>
+            <button>Types</button>
+            <button>Sample</button>
+            <button>Extended</button>
+        </div>
+
+        <!-- Секция с транзакции -->
+        <div class="single-section-box home-standard-wallet bigger-wallet-card">
+            <!-- Горна лента с етикет за портфейла и статус -->
+            <div class="default-label-box">
+                <p th:text="${user.wallets[0].status}"
+                   th:classappend="${user.wallets[0].status.name() == 'ACTIVE' ? 'active-wallet-status' : 'inactive-wallet-status'}">
+                </p>
+            </div>
+            <!-- Секция с баланса и текст „Available Balance“ -->
+            <div class="wallet-balance">
+                <p class="balance" th:text="${user.wallets[0].balance + ' EUR'}"></p>
+                <p class="available-balance-text">Available Balance</p>
+            </div>
+
+
+        </div>
+    </main>
+
+    <!-- Дясна странична лента -->
+    <aside class="sidebar">
+        <div class="wallets-section">
+            <h3>Wallets</h3>
+            <ul>
+                <li>
+                    <span>Home Wallet</span>
+                    <span>$575,000</span>
+                </li>
+                <li>
+                    <span>Investment</span>
+                    <span>$75,000</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="categories-section">
+            <h3>Categories</h3>
+            <ul>
+                <li>Bills</li>
+                <li>Education</li>
+                <li>Utility</li>
+                <li>Shopping</li>
+            </ul>
+        </div>
+    </aside>
+</div>
+</body>
+</html>

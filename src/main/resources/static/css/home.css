@@ -180,26 +180,106 @@ body {
     padding: 20px;
 }
 
-/* Wallet Container – Баланс секция */
-.balance-section {
+/* Wallet Container */
+.single-section-box.home-standard-wallet.bigger-wallet-card {
     background: #fff;
-    padding: 30px;  /* Увеличен вътрешен отстъп */
-    margin-bottom: 20px;
-    border-radius: 12px;  /* По-голяма закръгленост */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);  /* По-дълбока сянка */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 1500px;            /* По-широк контейнер */
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     text-align: center;
-    border-left: 5px solid #5a189a;  /* Акцентен ляв бордер */
 }
 
-.balance-section h2 {
-    margin-bottom: 10px;
+
+.default-label-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.default-label-box p {
+    background: #fff;
+    border-radius: 6px;
     color: #5a189a;
+    border: 1px solid #5a189a;
+    padding: 6px 12px;
+    font-size: 14px;
 }
 
-.balance {
-    font-size: 2rem;
-    font-weight: bold;
+/* Аctive  */
+.default-label-box p.active-wallet-status {
+    background-color: #e0f7e9;
+    color: #2e7d32;
+    border: 1px solid rgba(84, 227, 54, 0.6);
+    box-shadow: 0 4px 8px rgba(0, 153, 51, 0.15);
+    font-weight: 600;
 }
+
+/* InActive */
+.default-label-box p.inactive-wallet-status {
+    background-color: #fbe9e7;
+    color: #c62828;
+    border: 1px solid rgba(255, 103, 103, 0.6);
+    box-shadow: 0 4px 8px rgba(255, 103, 103, 0.2);
+    font-weight: 600;
+}
+
+
+.wallet-balance {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.wallet-balance .balance {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #5a189a;
+    margin: 0;
+}
+
+.available-balance-text {
+    font-size: 1rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Бутонът за отваряне на портфейлите – по подобие на quick actions бутоните */
+.profile-actions-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #000000, #5a189a);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 auto;
+}
+
+.profile-actions-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profile-actions-button p {
+    margin: 0;
+}
+
+
 
 /* Бързи действия */
 .quick-actions {

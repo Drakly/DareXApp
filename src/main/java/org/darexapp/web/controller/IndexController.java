@@ -28,12 +28,10 @@ import java.util.UUID;
 public class IndexController {
 
     private final UserService userService;
-    private final TransactionService transactionService;
 
     @Autowired
     public IndexController(UserService userService, TransactionService transactionService) {
         this.userService = userService;
-        this.transactionService = transactionService;
     }
 
     @GetMapping("/")
@@ -76,7 +74,6 @@ public class IndexController {
     @GetMapping("/home")
     public ModelAndView showHomePage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findById(customUserDetails.getUserId());
-
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("home");
