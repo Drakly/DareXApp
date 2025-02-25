@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+  <div class="transactions-section subscription-section">
+    <h2>Active Subscription</h2>
+    <div th:if="${subscription != null}">
+      <p><strong>Type:</strong> <span th:text="${subscription.type}">Subscription Type</span></p>
+      <p><strong>Period:</strong> <span th:text="${subscription.period}">Subscription Period</span></p>
+      <p><strong>Price:</strong> <span th:text="${subscription.price}">0 EUR</span></p>
+      <p><strong>Valid Until:</strong>
+        <span th:text="${#temporals.format(subscription.completedAt, 'dd/MM/yyyy')}">Expiration Date</span>
+      </p>
+      <button class="upgrade-btn" th:href="@{/subscriptions}">Upgrade Subscription</button>
+    </div>
+    <div th:if="${subscription == null}">
+      <p>No active subscription found.</p>
+      <button class="create-subscription-btn">Subscribe Now</button>
+    </div>
+  </div>
+</head>
+<body>
+
+</body>
+</html>

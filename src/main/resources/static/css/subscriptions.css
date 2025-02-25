@@ -1,0 +1,43 @@
+/* Upgrade Subscription Button */
+.upgrade-btn {
+    background-color: #3C1564; /* Dark purple */
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.upgrade-btn:hover {
+    background-color: #4a1d82; /* Lighter purple */
+    transform: translateY(-2px);
+}
+
+.upgrade-btn:active {
+    transform: translateY(0);
+}
+
+/* Create Subscription Button */
+.create-subscription-btn {
+    background-color: #1e90ff; /* Dodger Blue */
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-subscription-btn:hover {
+    background-color: #3aa0ff; /* Lighter blue */
+    transform: translateY(-2px);
+}
+
+.create-subscription-btn:active {
+    transform: translateY(0);
+}
