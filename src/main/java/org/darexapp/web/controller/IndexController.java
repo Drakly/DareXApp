@@ -7,6 +7,9 @@ import org.darexapp.transaction.model.Transaction;
 import org.darexapp.transaction.service.TransactionService;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
+import org.darexapp.wallet.model.Wallet;
+import org.darexapp.wallet.repository.WalletRepository;
+import org.darexapp.wallet.service.WalletService;
 import org.darexapp.web.dto.LoginRequest;
 import org.darexapp.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +33,7 @@ public class IndexController {
     private final UserService userService;
 
     @Autowired
-    public IndexController(UserService userService, TransactionService transactionService) {
+    public IndexController(UserService userService, WalletService walletService) {
         this.userService = userService;
     }
 
@@ -78,6 +81,7 @@ public class IndexController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("home");
         mav.addObject("user", user);
+
 
         return mav;
     }

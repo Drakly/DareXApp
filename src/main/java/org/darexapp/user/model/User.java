@@ -58,11 +58,12 @@ public class User {
     
     @Builder.Default
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
-    @OrderBy("createdAt DESC")
+    @OrderBy("createdAt ASC")
     private List<Wallet> wallets = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
+    @OrderBy("createdAt DESC")
     private List<Subscription> subscriptions = new ArrayList<>();
 
     @Builder.Default

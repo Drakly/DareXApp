@@ -6,10 +6,12 @@ import org.darexapp.exception.DomainException;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.transaction.model.TransactionStatus;
 import org.darexapp.transaction.model.TransactionType;
+import org.darexapp.transaction.repository.TransactionRepository;
 import org.darexapp.transaction.service.TransactionService;
 import org.darexapp.user.model.User;
 import org.darexapp.wallet.model.Wallet;
 import org.darexapp.wallet.model.WalletStatus;
+import org.darexapp.wallet.model.WalletType;
 import org.darexapp.wallet.repository.WalletRepository;
 import org.darexapp.web.dto.TransferRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Currency;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -31,15 +31,17 @@ public class WalletService {
 
     private final WalletRepository walletRepository;
     private final TransactionService transactionService;
-    private final ApplicationEventPublisher eventPublisher;
+    private final TransactionRepository transactionRepository;
+//    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     public WalletService(WalletRepository walletRepository,
                          TransactionService transactionService,
-                         ApplicationEventPublisher eventPublisher) {
+                         ApplicationEventPublisher eventPublisher, TransactionRepository transactionRepository) {
         this.walletRepository = walletRepository;
         this.transactionService = transactionService;
-        this.eventPublisher = eventPublisher;
+//        this.eventPublisher = eventPublisher;
+        this.transactionRepository = transactionRepository;
     }
 
     /**
@@ -53,10 +55,67 @@ public class WalletService {
         return savedWallet;
     }
 
-    /**
-     * Зарежда портфейла с дадена сума.
-     * Ако портфейлът е неактивен – връща неуспешна транзакция.
-     */
+    @Transactional
+    public Transaction processSubscriptionCharge(User user, UUID walletId, BigDecimal amount, String description) {
+        Wallet wallet = fetchWalletById(walletId);
+        String errorMsg = null;
+        boolean chargeFailed = false;
+
+        // Verify wallet status and funds
+        if (wallet.getStatus() == WalletStatus.INACTIVE) {
+            errorMsg = "Wallet is inactive";
+            chargeFailed = true;
+        }
+        if (wallet.getBalance().compareTo(amount) < 0) {
+            errorMsg = "Insufficient funds";
+            chargeFailed = true;
+        }
+
+        // If failure, record a failed transaction
+        if (chargeFailed) {
+            return transactionService.createTransaction(
+                    user,
+                    wallet.getId().toString(),
+                    WALLET_PROVIDER_NAME,
+                    amount,
+                    wallet.getBalance(),
+                    Currency.getInstance(wallet.getCurrency()),
+                    TransactionType.WITHDRAWAL,
+                    TransactionStatus.FAILED,
+                    description,
+                    errorMsg
+            );
+        }
+
+        // Deduct the amount and update the wallet
+        wallet.setBalance(wallet.getBalance().subtract(amount));
+        wallet.setUpdatedAt(LocalDateTime.now());
+        walletRepository.save(wallet);
+
+        // Build and optionally publish a payment notification event
+//        PaymentNotificationEvent event = PaymentNotificationEvent.builder()
+//                .userId(user.getId())
+//                .paymentTime(LocalDateTime.now())
+//                .email(user.getEmail())
+//                .amount(amount)
+//                .build();
+        // eventPublisher.publishEvent(event);
+
+        return transactionService.createTransaction(
+                user,
+                wallet.getId().toString(),
+                WALLET_PROVIDER_NAME,
+                amount,
+                wallet.getBalance(),
+                Currency.getInstance(wallet.getCurrency()),
+                TransactionType.WITHDRAWAL,
+                TransactionStatus.SUCCESSFUL,
+                description,
+                null
+        );
+    }
+
+
     @Transactional
     public Transaction addFunds(UUID walletId, BigDecimal amount) {
         Wallet wallet = fetchWalletById(walletId);
@@ -95,15 +154,14 @@ public class WalletService {
         );
     }
 
-    /**
-     * Извършва трансфер на средства от портфейла на изпращача към портфейла на получателя.
-     * Ако получателят не е намерен или е неактивен, трансферът се маркира като неуспешен.
-     */
+
+    @Transactional
     public Transaction transferFunds(User sender, TransferRequest transferRequest) {
         Wallet senderWallet = fetchWalletById(transferRequest.getWalletId());
         Optional<Wallet> receiverWalletOpt = walletRepository.findAllByOwnerUsername(transferRequest.getToUsername())
                 .stream()
                 .filter(w -> w.getStatus() == WalletStatus.ACTIVE)
+                .filter(wallet -> wallet.getType() == WalletType.STANDARD)
                 .findFirst();
 
 
@@ -211,22 +269,85 @@ public class WalletService {
         );
     }
 
-    /**
-     * Помощен метод за извличане на портфейл по ID.
-     * Ако портфейлът не съществува, хвърля DomainException.
-     */
+    @Transactional
+    public void createInvestmentWallet(User user) {
+        List<Wallet> allWallets = walletRepository.findAllByOwnerUsername(user.getUsername());
+
+         boolean isUserHaveInvestmentWallet = allWallets.size() == 2;
+
+         if (isUserHaveInvestmentWallet) {
+             throw new DomainException("Investment wallet already exists");
+         }
+
+        Wallet investmentWallet = Wallet.builder()
+                .owner(user)
+                .balance(new BigDecimal("0"))
+                .type(WalletType.INVESTMENT)
+                .status(WalletStatus.ACTIVE)
+                .currency(String.valueOf(Currency.getInstance("EUR")))
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        walletRepository.save(investmentWallet);
+    }
+    @Transactional
+    public void transferToInvestment(User user, UUID standardWalletId, UUID investmentWalletId, BigDecimal amount) {
+        Wallet standardWallet = fetchWalletById(standardWalletId);
+        Wallet investmentWallet = fetchWalletById(investmentWalletId);
+
+        // Validate that both wallets belong to the user
+        if (!standardWallet.getOwner().getId().equals(user.getId()) ||
+                !investmentWallet.getOwner().getId().equals(user.getId())) {
+            throw new DomainException("Wallets do not belong to the user");
+        }
+
+        if (standardWallet.getType() != WalletType.STANDARD) {
+            throw new DomainException("Source wallet must be a standard wallet");
+        }
+        if (investmentWallet.getType() != WalletType.INVESTMENT) {
+            throw new DomainException("Target wallet must be an investment wallet");
+        }
+
+        // Ensure sufficient funds in the standard wallet
+        if (standardWallet.getBalance().compareTo(amount) < 0) {
+            throw new DomainException("Insufficient funds in the standard wallet");
+        }
+
+        // Deduct funds from the standard wallet
+        standardWallet.setBalance(standardWallet.getBalance().subtract(amount));
+        standardWallet.setUpdatedAt(LocalDateTime.now());
+        walletRepository.save(standardWallet);
+
+        // Add funds to the investment wallet
+        investmentWallet.setBalance(investmentWallet.getBalance().add(amount));
+        investmentWallet.setUpdatedAt(LocalDateTime.now());
+        walletRepository.save(investmentWallet);
+
+        // Record the transfer as a transaction
+        Transaction transferTX = Transaction.builder()
+                .owner(user)
+                .amount(amount)
+                .description("Transfer from Standard to Investment Wallet")
+                .createdAt(LocalDateTime.now())
+                .build();
+
+    }
+
     public Wallet fetchWalletById(UUID walletId) {
         return walletRepository.findById(walletId)
                 .orElseThrow(() -> new DomainException(String.format("Wallet with id [%s] does not exist.", walletId)));
     }
 
-    /**
-     * Инициализира нов портфейл с начална сума, валута и активен статус.
-     */
+    public List<Wallet> getSortedWalletsByOwnerId(UUID ownerId) {
+        return walletRepository.findAllByOwnerIdOrderByBalanceDesc(ownerId);
+    }
+
     private Wallet buildInitialWallet(User user) {
         return Wallet.builder()
                 .owner(user)
                 .status(WalletStatus.ACTIVE)
+                .type(WalletType.STANDARD)
                 .balance(new BigDecimal("20.00"))
                 .currency(String.valueOf(Currency.getInstance("EUR")))
                 .createdAt(LocalDateTime.now())

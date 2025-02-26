@@ -23,7 +23,7 @@
     <ul>
         <li><a href="/home" class="active">Home</a></li>
         <li><a href="/transactions">Transactions</a></li>
-        <li><a href="/wallet">Wallets</a></li>
+        <li><a href="/wallets">Wallets</a></li>
         <li><a href="/subscription">Subscriptions</a></li>
         <li><a href="/cards">Cards</a></li>
         <li><a href="/settings">Settings</a></li>
@@ -80,20 +80,19 @@
     <div class="single-section-box home-standard-wallet bigger-wallet-card">
         <!-- Горна лента с етикет за портфейла и статус -->
         <div class="default-label-box">
-            <p>STANDARD WALLET</p>
+        <p th:if="${user.wallets[0].type}">STANDARD WALLET</p>
             <p th:text="${user.wallets[0].status}"
                th:classappend="${user.wallets[0].status.name() == 'ACTIVE' ? 'active-wallet-status' : 'inactive-wallet-status'}">
             </p>
         </div>
 
-        <!-- Секция с баланса и текст „Available Balance“ -->
         <div class="wallet-balance">
-            <p class="balance" th:text="${user.wallets[0].balance + ' EUR'}">22.00 EUR</p>
+            <p th:text="${user.wallets[0].balance + ' EUR'}" class="balance"></p>
             <p class="available-balance-text">Available Balance</p>
         </div>
 
         <!-- Бутон за отваряне на портфейлите -->
-        <a class="profile-actions-button" th:href="@{/wallet}">
+        <a class="profile-actions-button" th:href="@{/wallets}">
             <p>Open Wallets</p>
             <svg class="w-6 h-6 text-gray-800 dark:text-white"
                  aria-hidden="true" xmlns="http://www.w3.org/2000/svg"

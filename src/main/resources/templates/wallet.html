@@ -22,7 +22,7 @@
     <ul>
         <li><a href="/home" >Home</a></li>
         <li><a href="/transactions">Transactions</a></li>
-        <li><a href="/wallet" class="active">Wallets</a></li>
+        <li><a href="/wallets" class="active">Wallets</a></li>
         <li><a href="/subscription">Subscriptions</a></li>
         <li><a href="/cards">Cards</a></li>
         <li><a href="/settings">Settings</a></li>
@@ -30,80 +30,58 @@
         <a th:href="@{/logout}" class="logout-btn">Logout</a>
     </ul>
 </nav>
-<div class="wallet-page">
 
-    <!-- Лява основна секция -->
-    <main class="main-content">
-        <!-- Заглавие и "Calendar" бутон -->
-        <div class="page-header">
-            <div>
-                <h1 >STANDARD WALLET</h1>
-                <small>Change standard wallet</small>
+
+    <div class="wallet-page">
+
+    <!-- Left Main Section -->
+        <main class="main-content">
+            <!-- Recent Transactions Section -->
+            <div class="transactions-section">
+                <h2>Recent Transactions</h2>
+                <ul>
+                    <li class="transaction-item" th:each="transaction : ${recentTransactions}">
+                        <div class="transaction-details">
+                            <h3 th:text="${transaction.description}">Transaction description</h3>
+                            <p th:text="${#temporals.format(transaction.createdAt, 'dd/MM/yyyy')}">Date</p>
+                        </div>
+                        <span class="transaction-amount"
+                              th:classappend="${transaction.amount < 0 ? 'negative-amount' : ''}"
+                              th:text="${transaction.amount + ' EUR'}">0 EUR</span>
+                    </li>
+                </ul>
             </div>
-            <button class="calendar-btn">
-                Calendar
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M19 4h-1V2h-2v2H8V2H6v2H5a3 3 0 0 0-3 3v12a3
-                     3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm1
-                     15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V10h16Z"></path>
-                </svg>
-            </button>
-        </div>
+        </main>
 
-        <!-- Филтри (бутони) -->
-        <div class="filters-row">
-            <button>Group By</button>
-            <button>Realisation</button>
-            <button>Dates</button>
-            <button>Types</button>
-            <button>Sample</button>
-            <button>Extended</button>
-        </div>
-
-        <!-- Секция с транзакции -->
-        <div class="single-section-box home-standard-wallet bigger-wallet-card">
-            <!-- Горна лента с етикет за портфейла и статус -->
-            <div class="default-label-box">
-                <p th:text="${user.wallets[0].status}"
-                   th:classappend="${user.wallets[0].status.name() == 'ACTIVE' ? 'active-wallet-status' : 'inactive-wallet-status'}">
-                </p>
-            </div>
-            <!-- Секция с баланса и текст „Available Balance“ -->
-            <div class="wallet-balance">
-                <p class="balance" th:text="${user.wallets[0].balance + ' EUR'}"></p>
-                <p class="available-balance-text">Available Balance</p>
-            </div>
-
-
-        </div>
-    </main>
-
-    <!-- Дясна странична лента -->
-    <aside class="sidebar">
-        <div class="wallets-section">
-            <h3>Wallets</h3>
-            <ul>
-                <li>
-                    <span>Home Wallet</span>
-                    <span>$575,000</span>
-                </li>
-                <li>
-                    <span>Investment</span>
-                    <span>$75,000</span>
-                </li>
-            </ul>
-        </div>
-
-        <div class="categories-section">
-            <h3>Categories</h3>
-            <ul>
-                <li>Bills</li>
-                <li>Education</li>
-                <li>Utility</li>
-                <li>Shopping</li>
-            </ul>
-        </div>
-    </aside>
-</div>
+    <!-- Right Sidebar -->
+        <aside class="sidebar">
+            <div class="wallets-section">
+                <h3>Wallets</h3>
+                    <div class="single-section-box home-standard-wallet bigger-wallet-card" th:each="wallet : ${sortedWallets}" >
+                    <!-- Wallet status indicator -->
+                        <div class="default-label-box">
+                            <span>STANDARD WALLET</span>
+                            <p th:if="${wallet.status.name() == 'ACTIVE'}" class="active-wallet-status">ACTIVE</p>
+                            <p th:if="${wallet.status.name() == 'INACTIVE'}" class="inactive-wallet-status">INACTIVE</p>
+                        </div>
+                        <div class="wallet-balance">
+                            <p class="balance" th:text="${wallet.balance + ' EUR'}">20.00 EUR</p>
+                            <p class="available-balance-text">Available Balance</p>
+                        </div>
+                        <div class="single-section-box home-standard-wallet bigger-wallet-card">
+                            <!-- Wallet status indicator -->
+                            <div class="default-label-box">
+                                    <form th:action="@{/wallets/create-investment}" th:method="post" th:if="${user.wallets.size() < 2}">
+                                        <button  class="create-investment-btn" type="submit">Create Investment Wallet</button>
+                                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </aside>
+    </div>
+<footer class="dashboard-footer">
+    <p>&copy; 2025 DareX Wallet. All Rights Reserved.</p>
+</footer>
 </body>
 </html>

@@ -37,4 +37,8 @@ public class Wallet {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private WalletType type;
 }
