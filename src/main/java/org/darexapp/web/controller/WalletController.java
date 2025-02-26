@@ -15,14 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
@@ -53,34 +53,9 @@ public class WalletController {
         List<Transaction> recentTransactions = transactions.stream().limit(5).collect(Collectors.toList());
         modelAndView.addObject("recentTransactions", recentTransactions);
 
-//        List<Wallet> userWallets = walletRepository.findAllByOwnerId(user.getId());
-//        modelAndView.addObject("wallets", userWallets);
-
         List<Wallet> sortedWallets = walletService.getSortedWalletsByOwnerId(user.getId());
         modelAndView.addObject("sortedWallets", sortedWallets);
         return modelAndView;
-    }
-
-    @PostMapping("/investment")
-    public String processInvestmentTransfer(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails,
-            @Valid @ModelAttribute("investmentWalletRequest") InvestmentWalletRequest investmentWalletRequest,
-            BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return "create-investment-wallet";
-        }
-
-        User user = userService.findById(customUserDetails.getUserId());
-
-        walletService.transferToInvestment(
-                user,
-                investmentWalletRequest.getStandardWalletId(),
-                investmentWalletRequest.getInvestmentWalletId(),
-                investmentWalletRequest.getAmount()
-        );
-
-        return "redirect:/wallets";
     }
 
     @PostMapping("/wallets/create-investment")
@@ -90,4 +65,21 @@ public class WalletController {
 
         return "redirect:/wallets";
     }
+
+    @PutMapping("/wallets/{id}/balance/top-up")
+    public String topUpWallet(@PathVariable UUID id) {
+
+        Transaction transaction = walletService.addFunds(id, BigDecimal.valueOf(20));
+
+        return "redirect:/transactions/" + transaction.getId();
+    }
+
+    @PutMapping("/wallets/{id}/status")
+    public String switchWalletStatus(@PathVariable UUID id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        walletService.switchStatus(id, customUserDetails.getUserId());
+
+        return "redirect:/wallets";
+    }
+
 }

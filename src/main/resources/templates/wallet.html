@@ -23,7 +23,7 @@
         <li><a href="/home" >Home</a></li>
         <li><a href="/transactions">Transactions</a></li>
         <li><a href="/wallets" class="active">Wallets</a></li>
-        <li><a href="/subscription">Subscriptions</a></li>
+        <li><a href="/subscriptions">Subscriptions</a></li>
         <li><a href="/cards">Cards</a></li>
         <li><a href="/settings">Settings</a></li>
 
@@ -36,25 +36,46 @@
 <div class="flex-container">
     <div class="wallet-container">
         <div class="wallets-section">
-            <h3>Wallets</h3>
-            <div class="single-section-box home-standard-wallet bigger-wallet-card" th:each="wallet : ${sortedWallets}">
-                <!-- Wallet status indicator -->
-                <div class="default-label-box">
-                    <span>STANDARD WALLET</span>
-                    <p th:if="${wallet.status.name() == 'ACTIVE'}" class="active-wallet-status">ACTIVE</p>
-                    <p th:if="${wallet.status.name() == 'INACTIVE'}" class="inactive-wallet-status">INACTIVE</p>
-                </div>
-                <div class="wallet-balance">
-                    <p class="balance" th:text="${wallet.balance + ' EUR'}">20.00 EUR</p>
-                    <p class="available-balance-text">Available Balance</p>
-                </div>
-                <div class="single-section-box home-standard-wallet bigger-wallet-card">
-                    <div class="default-label-box">
-                        <form th:action="@{/wallets/create-investment}" th:method="post" th:if="${user.wallets.size() < 2}">
-                            <button class="create-investment-btn" type="submit">Create Investment Wallet</button>
-                        </form>
+            <h3>My Wallets</h3>
+            <div class="wallets-list">
+                <!-- Портфейл 1 -->
+                <div class="single-wallet" th:each="wallet : ${sortedWallets}">
+                    <div class="wallet-card">
+                        <div class="wallet-header">
+                            <p class="wallet-type">STANDARD WALLET</p>
+                            <p th:if="${wallet.status.name() == 'ACTIVE'}" class="wallet-status active">ACTIVE</p>
+                            <p th:if="${wallet.status.name() == 'INACTIVE'}" class="wallet-status inactive">INACTIVE</p>
+                        </div>
+                        <div class="wallet-balance">
+                            <p class="balance-amount" th:text="${wallet.balance + ' EUR'}">20.00 EUR</p>
+                            <p class="balance-label">Available Balance</p>
+                        </div>
+                        <div class="wallet-buttons">
+                            <form th:action="@{'/wallets/' + ${wallet.id} + '/balance/top-up'}" th:method="PUT">
+                                <button type="submit" class="top-up-btn">
+                                    <p>20.00</p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"></path>
+                                    </svg>
+                                </button>
+                            </form>
+                            <form th:action="@{'/wallets/' + ${wallet.id} + '/status'}" th:method="PUT">
+                                <input type="hidden" name="walletId" th:value="${wallet.id}">
+                                <button class="switch-status-btn" type="submit">Switch Status</button>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
+
+            </div>
+
+
+            <!-- Бутон за инвестиционен портфейл -->
+            <div class="create-wallet-box">
+                <form th:action="@{/wallets/create-investment}" th:method="post" th:if="${user.wallets.size() < 2}">
+                    <button class="create-investment-btn" type="submit">Create Investment Wallet</button>
+                </form>
             </div>
         </div>
     </div>

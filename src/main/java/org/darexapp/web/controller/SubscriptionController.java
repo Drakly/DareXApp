@@ -31,7 +31,7 @@ public class SubscriptionController {
 
 
     @GetMapping("/subscriptions")
-    public ModelAndView showSubscirptionPage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public ModelAndView showSubscriptionPage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findById(customUserDetails.getUserId());
 
         ModelAndView modelAndView = new ModelAndView();

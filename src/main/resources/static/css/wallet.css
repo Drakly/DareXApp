@@ -6,43 +6,113 @@
     width: 100%;
 }
 
-.wallets-section {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 8px;
-}
-
-.wallets-section h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    padding-bottom: 5px;
-}
-/* Лява колона – wallets */
-.wallet-container {
-    display: flex;
-    gap: 10px;/* Можеш да регулираш процента според нуждите */
-}
-
-/* Дясна колона – transactions */
 .sidebar {
     width: 40%;
 }
 
-/* Стилове за картите във wallets */
-.single-section-box.home-standard-wallet.bigger-wallet-card {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
-    padding: 15px; /* Намалено от 20px */
-    margin-bottom: 15px;
-    /* Намалено от 20px */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.wallets-section h3{
+    font-size: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    font-weight: bold; /* Удебелен текст */
+    text-align: center;
+    color: #5A2EC8; /* Лилав цвят (можеш да промениш) */
+
+
 }
 
-.single-section-box.home-standard-wallet.bigger-wallet-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+/* Главен контейнер за подравняване на портфейлите */
+.wallets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Разстояние между портфейлите */
+    align-items: center; /* Центриране */
+}
+
+/* Стилизиране на всеки портфейл (по-дълъг и правоъгълен) */
+.wallet-card {
+    font-family: 'Poppins', sans-serif; /* По-модерен шрифт */
+    background: linear-gradient(135deg, #5A2EC8, #7C4DFF);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 800px;
+    min-height: 250px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Горна част на портфейла (заглавие + статус) */
+.wallet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+
+.wallet-type {
+    font-weight: bold;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.wallet-status {
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.wallet-status.active {
+    background: #00C853; /* Зелен статус */
+    color: white;
+}
+
+.wallet-status.inactive {
+    background: #FF3D00; /* Червен статус */
+    color: white;
+}
+
+/* Баланс секция */
+.wallet-balance {
+    flex-grow: 1; /* Заема цялото налично място */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.balance-amount {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.balance-label {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* Бутон за създаване на инвестиционен портфейл */
+.create-wallet-box {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.create-investment-btn {
+    background: #673AB7; /* Тъмно лилаво */
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.create-investment-btn:hover {
+    background: #512DA8; /* Още по-тъмно лилаво */
 }
 
 
@@ -95,4 +165,42 @@
 
 .negative-amount {
     color: #ff4d4d;
+}
+
+.wallet-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+/* "Top Up" бутон */
+.top-up-btn {
+    background: #00C853;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.top-up-btn:hover {
+    background: #009624;
+}
+
+/* "Switch Status" бутон */
+.switch-status-btn {
+    background: #FF3D00;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.switch-status-btn:hover {
+    background: #D32F2F;
 }

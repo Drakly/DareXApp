@@ -230,43 +230,6 @@ public class WalletService {
 
         walletRepository.save(investmentWallet);
     }
-    @Transactional
-    public void transferToInvestment(User user, UUID standardWalletId, UUID investmentWalletId, BigDecimal amount) {
-        Wallet standardWallet = fetchWalletById(standardWalletId);
-        Wallet investmentWallet = fetchWalletById(investmentWalletId);
-
-        if (!standardWallet.getOwner().getId().equals(user.getId()) ||
-                !investmentWallet.getOwner().getId().equals(user.getId())) {
-            throw new DomainException("Wallets do not belong to the user");
-        }
-
-        if (standardWallet.getType() != WalletType.STANDARD) {
-            throw new DomainException("Source wallet must be a standard wallet");
-        }
-        if (investmentWallet.getType() != WalletType.INVESTMENT) {
-            throw new DomainException("Target wallet must be an investment wallet");
-        }
-
-        if (standardWallet.getBalance().compareTo(amount) < 0) {
-            throw new DomainException("Insufficient funds in the standard wallet");
-        }
-
-        standardWallet.setBalance(standardWallet.getBalance().subtract(amount));
-        standardWallet.setUpdatedAt(LocalDateTime.now());
-        walletRepository.save(standardWallet);
-
-        investmentWallet.setBalance(investmentWallet.getBalance().add(amount));
-        investmentWallet.setUpdatedAt(LocalDateTime.now());
-        walletRepository.save(investmentWallet);
-
-        Transaction transferTX = Transaction.builder()
-                .owner(user)
-                .amount(amount)
-                .description("Transfer from Standard to Investment Wallet")
-                .createdAt(LocalDateTime.now())
-                .build();
-
-    }
 
     public Wallet fetchWalletById(UUID walletId) {
         return walletRepository.findById(walletId)
@@ -275,6 +238,22 @@ public class WalletService {
 
     public List<Wallet> getSortedWalletsByOwnerId(UUID ownerId) {
         return walletRepository.findAllByOwnerIdOrderByBalanceDesc(ownerId);
+    }
+
+    public void switchStatus(UUID walletId, UUID ownerId) {
+
+        Optional<Wallet> optionalWallet = walletRepository.findByIdAndOwnerId(walletId, ownerId);
+        if (optionalWallet.isEmpty()){
+            throw new DomainException("There is no wallet with id ["+walletId+"]");
+        }
+
+        Wallet wallet = optionalWallet.get();
+        if (wallet.getStatus() == WalletStatus.ACTIVE){
+            wallet.setStatus(WalletStatus.INACTIVE);
+        } else {
+            wallet.setStatus(WalletStatus.ACTIVE);
+        }
+        walletRepository.save(wallet);
     }
 
     private Wallet buildInitialWallet(User user) {
