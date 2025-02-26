@@ -92,23 +92,6 @@ h1 {
 }
 
 
-.payment-header .icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: block;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* Осигуряване, че SVG се мащабира според контейнера */
-.payment-header .icon svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
 /* По-голям и четлив текст за заглавието */
 .payment-header h2 {
     font-size: 26px;
@@ -185,6 +168,11 @@ h1 {
 .payment-box.failure .payment-header .icon {
     background: rgba(255, 255, 255, 0.2);
 }
+
+.payment-box {
+    cursor: pointer;
+}
+
 
 /* Responsive настройки за малки екрани */
 @media (max-width: 480px) {

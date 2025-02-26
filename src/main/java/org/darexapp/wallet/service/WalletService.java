@@ -56,67 +56,6 @@ public class WalletService {
     }
 
     @Transactional
-    public Transaction processSubscriptionCharge(User user, UUID walletId, BigDecimal amount, String description) {
-        Wallet wallet = fetchWalletById(walletId);
-        String errorMsg = null;
-        boolean chargeFailed = false;
-
-        // Verify wallet status and funds
-        if (wallet.getStatus() == WalletStatus.INACTIVE) {
-            errorMsg = "Wallet is inactive";
-            chargeFailed = true;
-        }
-        if (wallet.getBalance().compareTo(amount) < 0) {
-            errorMsg = "Insufficient funds";
-            chargeFailed = true;
-        }
-
-        // If failure, record a failed transaction
-        if (chargeFailed) {
-            return transactionService.createTransaction(
-                    user,
-                    wallet.getId().toString(),
-                    WALLET_PROVIDER_NAME,
-                    amount,
-                    wallet.getBalance(),
-                    Currency.getInstance(wallet.getCurrency()),
-                    TransactionType.WITHDRAWAL,
-                    TransactionStatus.FAILED,
-                    description,
-                    errorMsg
-            );
-        }
-
-        // Deduct the amount and update the wallet
-        wallet.setBalance(wallet.getBalance().subtract(amount));
-        wallet.setUpdatedAt(LocalDateTime.now());
-        walletRepository.save(wallet);
-
-        // Build and optionally publish a payment notification event
-//        PaymentNotificationEvent event = PaymentNotificationEvent.builder()
-//                .userId(user.getId())
-//                .paymentTime(LocalDateTime.now())
-//                .email(user.getEmail())
-//                .amount(amount)
-//                .build();
-        // eventPublisher.publishEvent(event);
-
-        return transactionService.createTransaction(
-                user,
-                wallet.getId().toString(),
-                WALLET_PROVIDER_NAME,
-                amount,
-                wallet.getBalance(),
-                Currency.getInstance(wallet.getCurrency()),
-                TransactionType.WITHDRAWAL,
-                TransactionStatus.SUCCESSFUL,
-                description,
-                null
-        );
-    }
-
-
-    @Transactional
     public Transaction addFunds(UUID walletId, BigDecimal amount) {
         Wallet wallet = fetchWalletById(walletId);
         String description = String.format("Top-up of %.2f", amount.doubleValue());
@@ -296,7 +235,6 @@ public class WalletService {
         Wallet standardWallet = fetchWalletById(standardWalletId);
         Wallet investmentWallet = fetchWalletById(investmentWalletId);
 
-        // Validate that both wallets belong to the user
         if (!standardWallet.getOwner().getId().equals(user.getId()) ||
                 !investmentWallet.getOwner().getId().equals(user.getId())) {
             throw new DomainException("Wallets do not belong to the user");
@@ -309,22 +247,18 @@ public class WalletService {
             throw new DomainException("Target wallet must be an investment wallet");
         }
 
-        // Ensure sufficient funds in the standard wallet
         if (standardWallet.getBalance().compareTo(amount) < 0) {
             throw new DomainException("Insufficient funds in the standard wallet");
         }
 
-        // Deduct funds from the standard wallet
         standardWallet.setBalance(standardWallet.getBalance().subtract(amount));
         standardWallet.setUpdatedAt(LocalDateTime.now());
         walletRepository.save(standardWallet);
 
-        // Add funds to the investment wallet
         investmentWallet.setBalance(investmentWallet.getBalance().add(amount));
         investmentWallet.setUpdatedAt(LocalDateTime.now());
         walletRepository.save(investmentWallet);
 
-        // Record the transfer as a transaction
         Transaction transferTX = Transaction.builder()
                 .owner(user)
                 .amount(amount)

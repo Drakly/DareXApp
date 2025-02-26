@@ -32,11 +32,35 @@
 </nav>
 
 
-    <div class="wallet-page">
 
-    <!-- Left Main Section -->
+<div class="flex-container">
+    <div class="wallet-container">
+        <div class="wallets-section">
+            <h3>Wallets</h3>
+            <div class="single-section-box home-standard-wallet bigger-wallet-card" th:each="wallet : ${sortedWallets}">
+                <!-- Wallet status indicator -->
+                <div class="default-label-box">
+                    <span>STANDARD WALLET</span>
+                    <p th:if="${wallet.status.name() == 'ACTIVE'}" class="active-wallet-status">ACTIVE</p>
+                    <p th:if="${wallet.status.name() == 'INACTIVE'}" class="inactive-wallet-status">INACTIVE</p>
+                </div>
+                <div class="wallet-balance">
+                    <p class="balance" th:text="${wallet.balance + ' EUR'}">20.00 EUR</p>
+                    <p class="available-balance-text">Available Balance</p>
+                </div>
+                <div class="single-section-box home-standard-wallet bigger-wallet-card">
+                    <div class="default-label-box">
+                        <form th:action="@{/wallets/create-investment}" th:method="post" th:if="${user.wallets.size() < 2}">
+                            <button class="create-investment-btn" type="submit">Create Investment Wallet</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <aside class="sidebar">
         <main class="main-content">
-            <!-- Recent Transactions Section -->
             <div class="transactions-section">
                 <h2>Recent Transactions</h2>
                 <ul>
@@ -52,34 +76,11 @@
                 </ul>
             </div>
         </main>
+    </aside>
+</div>
 
-    <!-- Right Sidebar -->
-        <aside class="sidebar">
-            <div class="wallets-section">
-                <h3>Wallets</h3>
-                    <div class="single-section-box home-standard-wallet bigger-wallet-card" th:each="wallet : ${sortedWallets}" >
-                    <!-- Wallet status indicator -->
-                        <div class="default-label-box">
-                            <span>STANDARD WALLET</span>
-                            <p th:if="${wallet.status.name() == 'ACTIVE'}" class="active-wallet-status">ACTIVE</p>
-                            <p th:if="${wallet.status.name() == 'INACTIVE'}" class="inactive-wallet-status">INACTIVE</p>
-                        </div>
-                        <div class="wallet-balance">
-                            <p class="balance" th:text="${wallet.balance + ' EUR'}">20.00 EUR</p>
-                            <p class="available-balance-text">Available Balance</p>
-                        </div>
-                        <div class="single-section-box home-standard-wallet bigger-wallet-card">
-                            <!-- Wallet status indicator -->
-                            <div class="default-label-box">
-                                    <form th:action="@{/wallets/create-investment}" th:method="post" th:if="${user.wallets.size() < 2}">
-                                        <button  class="create-investment-btn" type="submit">Create Investment Wallet</button>
-                                    </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </aside>
-    </div>
+
+
 <footer class="dashboard-footer">
     <p>&copy; 2025 DareX Wallet. All Rights Reserved.</p>
 </footer>

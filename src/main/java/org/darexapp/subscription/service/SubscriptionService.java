@@ -85,7 +85,7 @@ public class SubscriptionService {
         BigDecimal newPrice = calculateCost(newType, period);
 
 
-        Transaction chargeTax = walletService.processSubscriptionCharge(user, request.getWalletId(), newPrice, chargeDesc);
+        Transaction chargeTax = walletService.deductFunds(user, request.getWalletId(), newPrice, chargeDesc);
         if (chargeTax.getStatus() == TransactionStatus.FAILED) {
             log.warn("Subscription charge failed for user [{}] with type [{}]", user.getId(), newType);
             return chargeTax;

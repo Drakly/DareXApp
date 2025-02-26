@@ -1,332 +1,98 @@
-/* -----------------------------
- * ГЛОБАЛНИ НАСТРОЙКИ
- * ----------------------------- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f3f4f9; /* по-светъл фон за целия сайт */
-    color: #444;
-    line-height: 1.4;
-}
-
-.wallet-page {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-}
-
-/* -----------------------------
- * СЕКЦИЯ "WALLETS" (горе) – Sidebar
- * ----------------------------- */
-.sidebar {
-    order: 1; /* Sidebar да е най-отгоре */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Контейнерът за портфейлите – сливане на стила от .home-section и оригиналната wallets-section */
-.wallets-section {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 20px;
-    display: flex;
-    justify-content: center;   /* от "Джуждия CSS" */
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: flex-start;
-}
-
-/* Заглавие за Wallets */
-.wallets-section h3 {
-    width: 100%;
-    text-align: center;
-    font-size: 1.4rem;
-    color: #3C1564;
-    margin-bottom: 20px;
-}
-
-/* -----------------------------
- * Стилизация за Wallet Блоковете
- * (Приложена върху .single-section-box.home-standard-wallet.bigger-wallet-card,
- *  което е еквивалентно на .wallet-block от "Джуждия CSS")
- * ----------------------------- */
-.single-section-box.home-standard-wallet.bigger-wallet-card {
-    padding: 12px 24px;
-    height: auto;
-    width: 26%;
-    min-width: 320px;
-    background: #ffffff !important;
-    border-radius: 12px;
-}
-
-/* -----------------------------
- * Оригинални стилове за wallet съдържание
- * ----------------------------- */
-.default-label-box {
+/* Контейнерът, който подрежда двата блока хоризонтално */
+.flex-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.default-label-box span {
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.active-wallet-status {
-    background-color: #4caf50;
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-}
-
-.inactive-wallet-status {
-    background-color: #f44336;
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-}
-
-.wallet-balance {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.wallet-balance .balance {
-    font-size: 2rem;
-    font-weight: bold;
-}
-
-.wallet-balance .available-balance-text {
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
-
-/* Бутон за създаване на Investment Wallet */
-.create-investment-btn {
-    background-color: #FFC107;
-    color: #4A148C;
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 10px;
-    width: 100%;
-    max-width: 200px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    text-align: center;
-}
-
-.create-investment-btn:hover {
-    background-color: #FFD54F;
-    transform: translateY(-2px);
-}
-
-.create-investment-btn:active {
-    transform: translateY(0);
-}
-
-/* -----------------------------
- * СЕКЦИЯ "MAIN CONTENT" (долу)
- * ----------------------------- */
-.main-content {
-    order: 2; /* Main content да е под Sidebar */
-    display: flex;
-    flex-direction: column;
     gap: 20px;
+    width: 100%;
 }
 
-/* -----------------------------
- * СЕКЦИЯ "RECENT TRANSACTIONS"
- * ----------------------------- */
+.wallets-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.wallets-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 5px;
+}
+/* Лява колона – wallets */
+.wallet-container {
+    display: flex;
+    gap: 10px;/* Можеш да регулираш процента според нуждите */
+}
+
+/* Дясна колона – transactions */
+.sidebar {
+    width: 40%;
+}
+
+/* Стилове за картите във wallets */
+.single-section-box.home-standard-wallet.bigger-wallet-card {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    padding: 15px; /* Намалено от 20px */
+    margin-bottom: 15px;
+    /* Намалено от 20px */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.single-section-box.home-standard-wallet.bigger-wallet-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Примерни стилове за transactions-section */
 .transactions-section {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.1);
     padding: 20px;
+    border-radius: 8px;
 }
 
 .transactions-section h2 {
-    font-size: 1.4rem;
-    color: #3C1564;
+    font-size: 2rem;
     margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 10px;
 }
 
 .transactions-section ul {
     list-style: none;
-    margin: 0;
-    padding: 0;
 }
 
 .transaction-item {
-    background-color: #fafafa;
-    border-radius: 8px;
-    padding: 15px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 5px;
     margin-bottom: 10px;
-    transition: background-color 0.2s ease;
+    transition: background 0.3s ease;
 }
 
 .transaction-item:hover {
-    background-color: #f0f0f0;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .transaction-details h3 {
-    font-size: 1rem;
-    color: #444;
-    margin-bottom: 4px;
+    font-size: 1.2rem;
 }
 
 .transaction-details p {
-    font-size: 0.8rem;
-    color: #999;
-}
-
-.transaction-amount {
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-left: 15px;
-}
-
-.negative-amount {
-    color: #d32f2f;
-}
-
-/* -----------------------------
- * FOOTER
- * ----------------------------- */
-.dashboard-footer {
-    text-align: center;
-    font-size: 0.85rem;
-    color: #999;
-    padding: 20px;
-    margin-top: 20px;
+    font-size: 0.9rem;
     opacity: 0.8;
 }
 
-.dashboard-footer p {
-    margin: 0;
-}
-
-/* -----------------------------
- * Допълнителна стилизация за Wallet Actions и Activity
- * (Имплементирана от "Джуждия CSS")
- * ----------------------------- */
-.wallet-actions {
-    margin-top: 10px;
-    display: flex;
-    gap: 6px;
-    align-self: center;
-    justify-content: center;
-}
-
-.wallet-activity {
-    margin-top: 26px;
-    display: flex;
-    flex-direction: column;
-    padding: 4px 14px;
-    border-radius: 12px;
-    background: #ffffff;
-}
-
-.activity-entry {
-    display: flex;
-    width: 100%;
-    gap: 20px;
-    align-items: center;
-    margin-top: 8px;
-}
-
-.activity-entry-description-and-date {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: flex-start;
-}
-
-.activity-entry-description-and-date p {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-}
-
-.activity-entry-description {
-    font-size: 14px;
-    color: #494949;
-    font-weight: 300;
-}
-
-.activity-entry-date {
-    color: #a4a4a4;
-    font-size: 10px;
-}
-
-.activity-entry-amount {
-    margin-left: auto;
-    font-weight: 200;
-    font-size: 14px;
-}
-
-.amount-in {
-    color: rgba(57, 183, 63, 0.8);
-}
-
-.amount-out {
-    color: #ff6767;
-}
-
-/* -----------------------------
- * Стилизация за нов wallet блок (ако се използва)
- * ----------------------------- */
-.wallet-block.new-wallet {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.2);
-    font-size: 24px;
-    color: #888;
-    cursor: pointer;
-    transition: background-color 0.4s, transform 0.4s;
-    padding: 0;
-}
-
-.wallet-block.new-wallet button {
-    height: 100%;
-    width: 100%;
-    background: transparent;
-    border: none;
-    color: currentColor;
-    cursor: pointer;
-}
-
-.wallet-block.new-wallet:hover {
-    background-color: rgba(255, 255, 255, 0.4);
-    color: #ffffff;
-    transform: scale(1.02);
-}
-
-.wallet-block.new-wallet button:after {
-    content: "+";
-    font-size: 36px;
+.transaction-amount {
+    font-size: 1.1rem;
     font-weight: bold;
-    color: currentColor;
+}
+
+.negative-amount {
+    color: #ff4d4d;
 }
