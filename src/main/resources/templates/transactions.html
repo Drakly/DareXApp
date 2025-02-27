@@ -22,7 +22,7 @@
     <li><a href="/home">Home</a></li>
     <li><a href="/transactions" class="active">Transactions</a></li>
     <li><a href="/wallets">Wallets</a></li>
-    <li><a href="/subscriptions">Subscriptions</a></li>
+    <li><a th:href="@{/subscriptions}">Subscriptions</a></li>
     <li><a href="/cards">Cards</a></li>
     <li><a href="/settings">Settings</a></li>
 
@@ -32,7 +32,7 @@
 
 <!-- Основно съдържание -->
 <main class="content">
-  <h1>Transactions</h1>
+  <h1>All Transactions</h1>
   <!-- Таблица с транзакции -->
   <div class="transaction-table-container">
     <table class="transaction-table">

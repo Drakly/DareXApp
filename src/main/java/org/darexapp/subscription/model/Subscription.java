@@ -38,11 +38,6 @@ public class Subscription {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false)
-    private LocalDateTime startDate;
-
-    @Column(nullable = false)
-    private LocalDateTime endDate;
 
     private boolean active;
 

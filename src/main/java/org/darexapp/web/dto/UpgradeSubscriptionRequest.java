@@ -2,7 +2,8 @@ package org.darexapp.web.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import org.darexapp.subscription.model.Subscription;
+import org.darexapp.subscription.model.SubscriptionPeriod;
+
 
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class UpgradeSubscriptionRequest {
 
-    private Subscription subscription;
+    private SubscriptionPeriod subscriptionPeriod;
 
     private UUID walletId;
 }

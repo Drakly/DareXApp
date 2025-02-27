@@ -1,21 +1,15 @@
 package org.darexapp.web.controller;
 
 import org.darexapp.security.CustomUserDetails;
-import org.darexapp.subscription.model.Subscription;
-import org.darexapp.subscription.model.SubscriptionStatus;
 import org.darexapp.subscription.model.SubscriptionType;
-import org.darexapp.subscription.repository.SubscriptionRepository;
 import org.darexapp.subscription.service.SubscriptionService;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
-import org.darexapp.wallet.model.Wallet;
-import org.darexapp.wallet.service.WalletService;
 import org.darexapp.web.dto.UpgradeSubscriptionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +32,7 @@ public class SubscriptionController {
         this.subscriptionService = subscriptionService;
     }
 
-    @GetMapping("/upgrade")
+    @GetMapping
     public ModelAndView showUpgradeOptions(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User currentUser = userService.findById(customUserDetails.getUserId());
         ModelAndView mav = new ModelAndView("subscriptions");
@@ -47,12 +41,12 @@ public class SubscriptionController {
         return mav;
     }
 
-    @PostMapping("/upgrade")
-    public String processUpgrade(@RequestParam("subscription-type") SubscriptionType subType,
+    @PostMapping
+    public String processUpgrade(@RequestParam("subscription-type") SubscriptionType subscriptionType,
                                  UpgradeSubscriptionRequest upgradeRequest,
                                  @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User currentUser = userService.findById(customUserDetails.getUserId());
-        Transaction transactionResult = subscriptionService.upgradeSubscription(currentUser, subType, upgradeRequest);
+        Transaction transactionResult = subscriptionService.upgradeSubscription(currentUser, subscriptionType, upgradeRequest);
         return "redirect:/transactions/" + transactionResult.getId();
     }
 

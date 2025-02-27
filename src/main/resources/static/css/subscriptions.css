@@ -1,159 +1,148 @@
-/* Нулиране и основни стилове */
-* {
+/* Основни стилове */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9fafb;
     color: #333;
 }
 
-/* Заглавка */
-.plans-header {
-    text-align: center;
-    background-color: #ffffff;
-    padding: 20px 0;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
 
-.plans-header h1 {
-    margin-bottom: 8px;
-    font-size: 2em;
-    color: #2c3e50;
-}
-
-.plans-header p {
-    font-size: 1em;
-    color: #666;
-}
-
-/* Контейнер за плановете */
-.plans-container {
+/* Контейнер за ъпгрейд кутиите – подреждане една до друга */
+.upgrade-container {
+    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 25px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    gap: 20px;
 }
 
-/* Кутия за план */
-.plan-box {
+/* Единична ъпгрейд кутия */
+.single-upgrade-box {
     background-color: #fff;
-    width: 300px;
-    border-radius: 10px;
-    text-align: center;
-    padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
+    width: 400px;
+    padding: 20px;
 }
 
-.plan-box:hover {
-    transform: translateY(-5px);
-}
-
-/* Заглавие на всеки план */
-.plan-header {
-    border-radius: 8px 8px 0 0;
-    padding: 10px 0;
-    color: #fff;
+/* Хедър на опцията */
+.upgrade-option-header-box {
+    text-align: center;
     margin-bottom: 15px;
 }
 
-.plan-header h2 {
-    font-size: 1.4em;
-    margin: 0;
+.upgrade-option-header {
+    padding: 10px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 1.5em;
     text-transform: uppercase;
 }
 
-/* Уникални цветове за всеки план */
-.basic .plan-header {
+.upgrade-option-header.default {
     background: linear-gradient(135deg, #7f8c8d, #bdc3c7);
 }
 
-.premium .plan-header {
-    background: linear-gradient(135deg, #2980b9, #3498db);
-}
 
-.metal .plan-header {
+.upgrade-option-header.premium {
     background: linear-gradient(135deg, #8e44ad, #9b59b6);
 }
 
-/* Списък с характеристики */
-.plan-features {
-    list-style-type: none;
-    margin: 0 auto 20px;
-    padding: 0;
-    max-width: 220px;
-    text-align: left;
+.upgrade-option-header.gold {
+    background: linear-gradient(135deg, #D4AF37, #FFD700);
 }
 
-.plan-features li {
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-    font-size: 0.95em;
+.upgrade-option-header.metal {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
 }
 
-.plan-features li:last-child {
-    border-bottom: none;
-}
-
-/* Цена */
-.plan-price {
+/* Таблица с предимствата */
+.upgrade-option-benefits {
     margin-bottom: 15px;
-    font-size: 1em;
-    color: #333;
 }
 
-.price-amount {
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.styled-table th {
+    background-color: #f2f2f2;
     font-weight: bold;
-    font-size: 1.2em;
 }
 
-/* Бутон за Upgrade */
-.plan-action-btn {
-    background-color: #1abc9c;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+/* Секция за цените */
+.upgrade-option-price {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.upgrade-option-price p {
+    margin: 5px 0;
     font-size: 1em;
-    transition: background-color 0.3s ease;
+}
+
+/* Формуляр за ъпгрейд */
+.form {
     margin-top: 10px;
 }
 
-.plan-action-btn:hover {
-    background-color: #16a085;
-}
-
-/* Формуляр - етикети и селектори */
-label {
+.form label {
     display: block;
-    text-align: left;
-    margin: 5px 0 3px 0;
+    margin-bottom: 5px;
     font-size: 0.9em;
     color: #555;
 }
 
-select {
+.form select {
     width: 100%;
-    padding: 6px;
-    margin-bottom: 8px;
-    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Бутон за ъпгрейд */
+.subscription-action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1abc9c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    font-size: 1em;
+}
+
+.subscription-action-button p {
+    margin: 0;
+    margin-right: 8px;
+}
+
+.subscription-action-button:hover {
+    background-color: #16a085;
 }
 
 /* Етикет за текущ абонамент */
-.current-sub-label {
+.default-label-box {
+    text-align: center;
+    padding: 10px;
     background-color: #f39c12;
     color: #fff;
-    padding: 8px;
     border-radius: 4px;
-    margin-top: 10px;
+    font-weight: bold;
 }
+
+

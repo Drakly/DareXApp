@@ -6,6 +6,7 @@
     <title>Profile</title>
     <link rel="stylesheet" th:href="@{/css/profile.css}">
     <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link rel="stylesheet" th:href="@{/css/transactions.css}">
 </head>
 <body>
 <header class="dashboard-header">
@@ -19,10 +20,14 @@
 <nav class="dashboard-nav">
     <ul>
         <li><a th:href="@{'/users/' + ${user.id} + '/profile'}"  class="active">Profile</a></li>
-        <li><a href="/home">Home</a></li>
+        <li><a href="/home" >Home</a></li>
         <li><a href="/transactions">Transactions</a></li>
+        <li><a href="/wallets">Wallets</a></li>
+        <li><a th:href="@{/subscriptions}">Subscriptions</a></li>
         <li><a href="/cards">Cards</a></li>
         <li><a href="/settings">Settings</a></li>
+
+        <a th:href="@{/logout}" class="logout-btn">Logout</a>
     </ul>
 </nav>
 

@@ -53,8 +53,6 @@ public class SubscriptionService {
                 .owner(user)
                 .active(true)
                 .createdAt(LocalDateTime.now())
-                .startDate(LocalDateTime.now())
-                .endDate(LocalDateTime.now().plusMonths(1))
                 .status(SubscriptionStatus.ACTIVE)
                 .period(SubscriptionPeriod.MONTHLY)
                 .type(SubscriptionType.BASIC)
@@ -76,7 +74,7 @@ public class SubscriptionService {
         Subscription currentSub = activeSubscriptionOpt.get();
 
 
-        SubscriptionPeriod period = request.getSubscription().getPeriod();
+        SubscriptionPeriod period = request.getSubscriptionPeriod();
         String periodLabel = period.name().substring(0, 1).toUpperCase() + period.name().substring(1).toLowerCase();
         String typeLabel = newType.name().substring(0, 1).toUpperCase() + newType.name().substring(1).toLowerCase();
         String chargeDesc = "Upgrade to %s %s subscription".formatted(periodLabel, typeLabel);
@@ -125,7 +123,11 @@ public class SubscriptionService {
             return new BigDecimal("15.99");
         } else if (type == SubscriptionType.PREMIUM && period == SubscriptionPeriod.YEARLY) {
             return new BigDecimal("159.99");
-        } else if (type == SubscriptionType.METAL && period == SubscriptionPeriod.MONTHLY) {
+        }else if (type == SubscriptionType.GOLD && period == SubscriptionPeriod.MONTHLY) {
+            return new BigDecimal("19.99");
+        } else if (type == SubscriptionType.GOLD && period == SubscriptionPeriod.YEARLY) {
+            return new BigDecimal("199.99");
+        }else if (type == SubscriptionType.METAL && period == SubscriptionPeriod.MONTHLY) {
             return new BigDecimal("89.99");
         } else  {
             return new BigDecimal("300.99");
