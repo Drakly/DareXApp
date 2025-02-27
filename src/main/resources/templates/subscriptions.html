@@ -1,27 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
-  <div class="transactions-section subscription-section">
-    <h2>Active Subscription</h2>
-    <div th:if="${subscription != null}">
-      <p><strong>Type:</strong> <span th:text="${subscription.type}">Subscription Type</span></p>
-      <p><strong>Period:</strong> <span th:text="${subscription.period}">Subscription Period</span></p>
-      <p><strong>Price:</strong> <span th:text="${subscription.price}">0 EUR</span></p>
-      <p><strong>Valid Until:</strong>
-        <span th:text="${#temporals.format(subscription.completedAt, 'dd/MM/yyyy')}">Expiration Date</span>
-      </p>
-      <button class="upgrade-btn" th:href="@{/subscriptions}">Upgrade Subscription</button>
-    </div>
-    <div th:if="${subscription == null}">
-      <p>No active subscription found.</p>
-      <button class="create-subscription-btn">Subscribe Now</button>
-    </div>
-  </div>
+  <meta charset="UTF-8">
+  <title>Subscriptions</title>
+  <link rel="stylesheet" type="text/css" href="/css/subscriptions.css">
+  <link rel="stylesheet" href="/css/home.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/transactions.css"/>
 </head>
 <body>
+<!-- Header с лого и информация за потребителя -->
+<header class="dashboard-header">
+  <div class="header-container">
+    <div class="user-info">
+      <span>DareX Wallet</span>
+    </div>
+  </div>
+</header>
 
+<!-- Навигация -->
+<nav class="dashboard-nav">
+  <ul>
+    <li><a href="/home" >Home</a></li>
+    <li><a href="/transactions">Transactions</a></li>
+    <li><a href="/wallets">Wallets</a></li>
+    <li><a href="/subscriptions" class="active">Subscriptions</a></li>
+    <li><a href="/cards">Cards</a></li>
+    <li><a href="/settings">Settings</a></li>
+    <li><a th:href="@{/logout}" class="logout-btn">Logout</a></li>
+  </ul>
+</nav>
+
+<!-- Upgrade Options -->
+<section class="plans-container">
+  <!-- BASIC PLAN -->
+  <div class="plan-box basic">
+    <div class="plan-header">
+      <h2>BASIC</h2>
+    </div>
+    <ul class="plan-features">
+      <li>Unlock 1 Wallet</li>
+      <li>0% Transfer Fee</li>
+      <li>International Tax: 0.00</li>
+    </ul>
+    <div class="plan-price">
+      <p><strong>Monthly:</strong> <span class="price-amount">0.00</span> EUR</p>
+      <p><strong>Yearly:</strong> <span class="price-amount">0.00</span> EUR</p>
+    </div>
+    <form th:if="${currentUser.getSubscriptions().get(0).type.name() != 'BASIC'}"
+          th:action="@{'/subscriptions?subscription-type=BASIC'}"
+          th:object="${upgradeRequest}"
+          method="post">
+      <label for="basic-period">Choose period:</label>
+      <select id="basic-period" name="subscriptionPeriod">
+        <option th:each="period : ${T(org.darexapp.subscription.model.SubscriptionPeriod).values()}"
+                th:value="${period}"
+                th:text="${#strings.capitalize(#strings.toLowerCase(period.name()))}">
+        </option>
+      </select>
+
+      <label for="basic-wallet">Choose wallet:</label>
+      <select id="basic-wallet" name="walletId" th:field="*{walletId}">
+        <option th:each="wallet : ${currentUser.wallets}"
+                th:value="${wallet.id}"
+                th:text="${'Wallet - ' + wallet.balance + ' EUR'}">
+        </option>
+      </select>
+
+      <button type="submit" class="plan-action-btn" th:action="@{/subscriptions/upgrade}" th:method="POST">Upgrade</button>
+    </form>
+    <div class="current-sub-label" th:if="${currentUser.subscriptions.get(0).type.name() == 'BASIC'}">
+      <p>Current Subscription</p>
+    </div>
+  </div>
+
+  <!-- PREMIUM PLAN -->
+  <div class="plan-box premium">
+    <div class="plan-header">
+      <h2>PREMIUM</h2>
+    </div>
+    <ul class="plan-features">
+      <li>Unlock 2 Wallets</li>
+      <li>15.99 EUR/month or 159.99 EUR/year</li>
+      <li>Reduced Transfer Fees</li>
+    </ul>
+    <div class="plan-price">
+      <p><strong>Monthly:</strong> <span class="price-amount">15.99</span> EUR</p>
+      <p><strong>Yearly:</strong> <span class="price-amount">159.99</span> EUR</p>
+    </div>
+    <form th:if="${currentUser.subscriptions.get(0).type.name() != 'PREMIUM'}"
+          th:action="@{'/subscriptions?subscription-type=PREMIUM'}"
+          th:object="${upgradeRequest}"
+          method="post">
+      <label for="premium-period">Choose period:</label>
+      <select id="premium-period" name="subscriptionPeriod">
+        <option th:each="period : ${T(org.darexapp.subscription.model.SubscriptionPeriod).values()}"
+                th:value="${period}"
+                th:text="${#strings.capitalize(#strings.toLowerCase(period.name()))}">
+        </option>
+      </select>
+
+      <label for="premium-wallet">Choose wallet:</label>
+      <select id="premium-wallet" name="walletId" th:field="*{walletId}">
+        <option th:each="wallet : ${currentUser.wallets}"
+                th:value="${wallet.id}"
+                th:text="${'Wallet - ' + wallet.balance + ' EUR'}">
+        </option>
+      </select>
+
+      <button type="submit" class="plan-action-btn">Upgrade</button>
+    </form>
+    <div class="current-sub-label" th:if="${currentUser.subscriptions.get(0).type.name() == 'PREMIUM'}">
+      <p>Current Subscription</p>
+    </div>
+  </div>
+
+  <!-- METAL PLAN -->
+  <div class="plan-box metal">
+    <div class="plan-header">
+      <h2>METAL</h2>
+    </div>
+    <ul class="plan-features">
+      <li>Unlock 3 Wallets</li>
+      <li>89.99 EUR/month or 300.99 EUR/year</li>
+      <li>Priority Support</li>
+    </ul>
+    <div class="plan-price">
+      <p><strong>Monthly:</strong> <span class="price-amount">89.99</span> EUR</p>
+      <p><strong>Yearly:</strong> <span class="price-amount">300.99</span> EUR</p>
+    </div>
+    <form th:if="${currentUser.subscriptions.get(0).type.name() != 'METAL'}"
+          th:action="@{'/subscriptions?subscription-type=METAL'}"
+          th:object="${upgradeRequest}"
+          method="post">
+      <label for="metal-period">Choose period:</label>
+      <select id="metal-period" name="subscriptionPeriod" th:field="*{subscription.period}">
+        <option th:each="period : ${T(org.darexapp.subscription.model.SubscriptionPeriod).values()}"
+                th:value="${period}"
+                th:text="${#strings.capitalize(#strings.toLowerCase(period.name()))}">
+        </option>
+      </select>
+
+      <label for="metal-wallet">Choose wallet:</label>
+      <select id="metal-wallet" name="walletId" th:field="*{walletId}">
+        <option th:each="wallet : ${currentUser.wallets}"
+                th:value="${wallet.id}"
+                th:text="${'Wallet - ' + wallet.balance + ' EUR'}">
+        </option>
+      </select>
+
+      <button type="submit" class="plan-action-btn">Upgrade</button>
+    </form>
+    <div class="current-sub-label" th:if="${currentUser.subscriptions.get(0).type.name() == 'METAL'}">
+      <p>Current Subscription</p>
+    </div>
+  </div>
+</section>
 </body>
 </html>
