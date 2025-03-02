@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Bank Statement</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1, h2 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background: linear-gradient(135deg, #000000, #5a189a); }
+    </style>
+</head>
+<body>
+<h1>Bank Statement</h1>
+<h2 th:text="${user.username}"></h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Balance</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tx : ${transactions}">
+        <td th:text="${#temporals.format(tx.createdAt, 'dd/MM/yyyy')}">01/01/2025</td>
+        <td th:text="${tx.description}">Описание</td>
+        <td th:text="${tx.amount}">100.00</td>
+        <td th:text="${tx.balanceLeft}">1000.00</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

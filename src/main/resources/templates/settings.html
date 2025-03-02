@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DareX Wallet - Settings</title>
+    <link rel="stylesheet" href="/css/settings.css">
+</head>
+<body>
+<div class="settings-container">
+    <!-- Странична навигация -->
+    <aside class="settings-sidebar">
+        <div class="logo">
+            <h2>DareX Wallet</h2>
+        </div>
+
+        <nav>
+            <ul>
+                <li class="active"><a href="#security">Security</a></li>
+                <li><a href="#deactivation">Account</a></li>
+                <li><a href="#bank-statement">Bank Statement</a></li>
+            </ul>
+            <a th:href="@{/home}" class="home-btn">HOME</a>
+        </nav>
+    </aside>
+
+    <!-- Основно съдържание -->
+    <main class="settings-content">
+        <!-- Security Section -->
+        <section id="security">
+            <h2>Security Settings</h2>
+            <form>
+                <label for="currentPassword">Current Password:</label>
+                <input type="password" id="currentPassword" name="currentPassword" placeholder="Current Password">
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" placeholder="New Password">
+                <button type="submit">Change Password</button>
+            </form>
+        </section>
+
+<!--        &lt;!&ndash; Notifications Section &ndash;&gt;-->
+<!--        <section id="notifications">-->
+<!--            <h2>Notifications</h2>-->
+<!--            <form>-->
+<!--                <label>-->
+<!--                    <input type="checkbox" name="emailNotifications" checked>-->
+<!--                    Email Notifications-->
+<!--                </label>-->
+<!--                <label>-->
+<!--                    <input type="checkbox" name="smsNotifications">-->
+<!--                    SMS Notifications-->
+<!--                </label>-->
+<!--                <button type="submit">Save Notifications</button>-->
+<!--            </form>-->
+<!--        </section>-->
+
+        <!-- Account Deactivation Section -->
+        <section id="deactivation">
+            <h2>Account</h2>
+            <p>If you deactivate your account, you will no longer be able to access it.</p>
+            <button id="deactivateBtn">Deactivate Account</button>
+        </section>
+
+        <!-- Bank Statement Section -->
+        <section id="bank-statement">
+            <h2>Bank Statement</h2>
+            <p>Download your bank statement as a PDF.</p>
+            <a th:href="@{/statement/download}" class="download-btn">Download PDF</a>
+        </section>
+    </main>
+</div>
+
+<script>
+    // Активиране на линковете в страничната навигация
+    const sidebarLinks = document.querySelectorAll('.settings-sidebar nav ul li a');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Превъртане до секцията
+            document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            // Активиране на текущия линк
+            sidebarLinks.forEach(l => l.parentElement.classList.remove('active'));
+            this.parentElement.classList.add('active');
+        });
+    });
+
+    // Потвърждение за деактивиране на акаунта
+    document.getElementById('deactivateBtn').addEventListener('click', function(){
+        if (confirm('Are you sure you want to deactivate your account? This action cannot be undone.')) {
+            // Тук добави заявка към бекенда за деактивиране
+            alert('Account deactivated! (This is a simulation.)');
+        }
+    });
+</script>
+</body>
+</html>

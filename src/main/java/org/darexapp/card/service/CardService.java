@@ -5,9 +5,7 @@ import org.darexapp.card.model.Card;
 import org.darexapp.card.model.CardType;
 import org.darexapp.card.repository.CardRepository;
 import org.darexapp.user.model.User;
-import org.darexapp.user.service.UserService;
 import org.darexapp.wallet.model.Wallet;
-import org.darexapp.wallet.model.WalletStatus;
 import org.darexapp.wallet.repository.WalletRepository;
 import org.darexapp.wallet.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -33,7 +32,7 @@ public class CardService {
     }
 
 
-    public Card createCard(User user, UUID walletId, CardType cardType, String cardHolderName) {
+    public void createCard(User user, UUID walletId, CardType cardType, String cardHolderName) {
 
         Wallet wallet = walletService.fetchWalletById(walletId);
 
@@ -41,10 +40,10 @@ public class CardService {
                 .owner(user)
                 .wallet(wallet)
                 .cardType(cardType)
-                .cardNumber(generateUniqueCardNumber())
+                .cardNumber(generateMasterCardNumber())
                 .cardHolderName(cardHolderName)
                 .expiryDate(generateExpiryDate())
-                .cvv(cardType == CardType.VIRTUAL ? generateCVV() : null)
+                .cvv(generateCVV())
                 .createdOn(LocalDateTime.now())
                 .updatedOn(LocalDateTime.now())
                 .build();
@@ -52,7 +51,6 @@ public class CardService {
         Card savedCard = cardRepository.save(card);
         log.info("Successfully created card with ID [{}] and number [{}] for wallet [{}].", card.getId(), card.getCardNumber(), wallet.getId());
 
-        return savedCard;
     }
 
     public void createDefaultVirtualCard(User user, UUID walletId) {
@@ -60,18 +58,37 @@ public class CardService {
         createCard(user, walletById.getId(), CardType.VIRTUAL, user.getUsername());
     }
 
-    public Card createPhysicalCard(User user, UUID walletId) {
-        // Пример: намираме "default" wallet на потребителя
+    public void createPhysicalCard(User user, UUID walletId) {
         Wallet defaultWallet = walletService.fetchWalletById(walletId);
-        return createCard(user, defaultWallet.getId(), CardType.PHYSICAL, user.getUsername());
+        createCard(user, defaultWallet.getId(), CardType.PHYSICAL, user.getUsername());
     }
 
+    private String generateMasterCardNumber() {
+        String prefix = "5100"; // Префикс за MasterCard
+        int randomDigitsLength = 16 - prefix.length() - 1; // 16-цифрен номер: 4 (prefix) + 11 (random) + 1 (check)
+        int max = (int) Math.pow(10, randomDigitsLength);
+        // Генерираме произволната част с водещи нули, ако е необходимо
+        String randomPart = String.format("%0" + randomDigitsLength + "d", new Random().nextInt(max));
+        String partialNumber = prefix + randomPart;
 
+        int sum = 0;
+        boolean alternate = true;
+        for (int i = partialNumber.length() - 1; i >= 0; i--) {
+            int n = partialNumber.charAt(i) - '0';
+            if (alternate) {
+                n *= 2;
+                if (n > 9) {
+                    n -= 9;
+                }
+            }
+            sum += n;
+            alternate = !alternate;
+        }
+        int checkDigit = (10 - (sum % 10)) % 10;
 
-    private String generateUniqueCardNumber() {
-        // Генерира 16-цифрен уникален номер за карта
-        return UUID.randomUUID().toString().replace("-", "").substring(0, 16);
+        return partialNumber + checkDigit;
     }
+
 
     private String generateCVV() {
         // Генерира 3-цифрен CVV код
