@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -59,9 +60,12 @@ public class CardService {
         createCard(user, walletById.getId(), CardType.VIRTUAL, user.getUsername());
     }
 
-//    public Card createPhysicalCard(User user, String cardHolderName) {
-//        return createCard(user, null, CardType.PHYSICAL, cardHolderName);
-//    }
+    public Card createPhysicalCard(User user, UUID walletId) {
+        // Пример: намираме "default" wallet на потребителя
+        Wallet defaultWallet = walletService.fetchWalletById(walletId);
+        return createCard(user, defaultWallet.getId(), CardType.PHYSICAL, user.getUsername());
+    }
+
 
 
     private String generateUniqueCardNumber() {
@@ -78,4 +82,9 @@ public class CardService {
         // дата на изтичане 3 години напред от текущата дата
         return LocalDateTime.now().plusYears(3);
     }
+
+    public List<Card> getCardsByUser(User user) {
+        return cardRepository.findByOwner(user);
+    }
+
 }

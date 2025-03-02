@@ -42,7 +42,7 @@
                 <div class="single-wallet" th:each="wallet : ${sortedWallets}">
                     <div class="wallet-card">
                         <div class="wallet-header">
-                            <p class="wallet-type">STANDARD WALLET</p>
+                            <p class="wallet-type" th:text="${wallet.type}">STANDARD WALLET</p>
                             <p th:if="${wallet.status.name() == 'ACTIVE'}" class="wallet-status active">ACTIVE</p>
                             <p th:if="${wallet.status.name() == 'INACTIVE'}" class="wallet-status inactive">INACTIVE</p>
                         </div>

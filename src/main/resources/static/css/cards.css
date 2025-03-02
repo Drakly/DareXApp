@@ -1,0 +1,213 @@
+/* Reset / Общи стилове */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f4f5f9;
+    color: #333;
+}
+
+/* Header с My Cards и бутон Add Card */
+.cards-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+}
+
+.cards-header h1 {
+    font-size: 24px;
+}
+
+.cards-header button {
+    background-color: #5e72e4;
+    color: #fff;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cards-header button:hover {
+    background-color: #4452a6;
+}
+
+/* Нулиране на базовите отстояния */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f4f5f9;
+    color: #333;
+}
+
+/* Контейнер за всички карти */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;        /* за да пренася на нов ред при много карти */
+    gap: 20px;
+    margin: 20px;
+}
+
+
+/* Стилове за отделната карта */
+.card {
+    position: relative;
+    width: 350px;        /* Увеличена ширина */
+    height: 220px;       /* Увеличена височина */
+    border-radius: 16px;
+    padding: 20px;
+    color: #fff;
+    background: linear-gradient(135deg, #7F53AC, #647DEE);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Добавен плавен преход */
+}
+
+/* Hover ефект за визуална подсказка, че картата е кликаема */
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+
+
+/* Лого горе вдясно */
+.card-logo {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 50px;
+    z-index: 2;
+}
+
+.card-logo img {
+    width: 100%;
+    height: auto;
+}
+
+/* Текст "Current Balance" */
+.card-balance-label {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 4px;
+}
+
+/* Стойност на баланса */
+.card-balance {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Номер на картата */
+.card-number {
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+/* Срок на валидност */
+.card-expiry {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* Допълнителни ефекти (по желание) */
+.card::before {
+    /* Примерна "полукръг" форма, за фон */
+    content: "";
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    top: -40px;
+    left: -40px;
+    z-index: 1;  /* зад текстовете, но преди фона */
+}
+
+.card::after {
+    content: "";
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    bottom: -40px;
+    right: -40px;
+    z-index: 1;
+}
+
+
+.card-box {
+    background: linear-gradient(135deg, #6f86d6, #48c6ef);
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 220px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+
+.card-type {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Card Details */
+.card-details {
+    background-color: #fff;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+    max-width: 500px;
+}
+
+.card-details h2 {
+    margin-bottom: 20px;
+}
+
+.card-details p {
+    margin-bottom: 10px;
+}
+
+.card-details strong {
+    display: inline-block;
+    width: 120px;
+    color: #555;
+}
+
+.add-card-btn {
+    background:  linear-gradient(135deg, #000000, #5a189a);
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+    outline: none;
+}
+
+.add-card-btn:hover {
+    background: linear-gradient(135deg, #4452a6, #2a4a9c);
+    transform: scale(1.05);
+}
+
+.add-card-btn:active {
+    transform: scale(0.98);
+}

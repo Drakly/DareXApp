@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>DareX Wallet - My Cards</title>
+    <!-- Връзка към CSS файловете -->
+    <link rel="stylesheet" href="/css/cards.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/transactions.css" />
+</head>
+<body>
+<header class="dashboard-header">
+    <div class="header-container">
+        <div class="user-info">
+            <span>DareX Wallet</span>
+        </div>
+    </div>
+</header>
+<!-- Навигация -->
+<nav class="dashboard-nav">
+    <ul>
+        <li><a href="/home" >Home</a></li>
+        <li><a href="/transactions">Transactions</a></li>
+        <li><a href="/wallets" >Wallets</a></li>
+        <li><a th:href="@{/subscriptions}">Subscriptions</a></li>
+        <li><a href="/cards" class="active">Cards</a></li>
+        <li><a href="/settings">Settings</a></li>
+        <a th:href="@{/logout}" class="logout-btn">Logout</a>
+    </ul>
+</nav>
+
+<!-- Форма за създаване на нова физическа карта -->
+<form th:action="@{/cards/physical}" th:method="post">
+    <button type="submit" class="add-card-btn">Add Physical Card</button>
+</form>
+
+<!-- Секция с всички карти на потребителя -->
+<div class="cards-container">
+    <!-- Обхождаме всички карти, подадени от контролера -->
+    <div class="card" th:each="card : ${cards}"
+         th:attr="data-card-id=${card.id},
+                  data-card-number=${card.cardNumber},
+                  data-expiry=${#temporals.format(card.expiryDate, 'MM/yy')},
+                  data-card-holder=${card.cardHolderName},
+                  data-wallet-type=${card.wallet.type},
+                  data-wallet-balance=${#numbers.formatDecimal(card.wallet.balance, 0, 2)},
+                  data-cvv=${card.cvv}">
+        <!-- Лого горе вдясно -->
+        <div class="card-logo">
+            <img th:src="@{/css/images/MastercardLogo.png}" alt="Mastercard" />
+        </div>
+        <!-- Текст Current Balance -->
+        <p class="card-balance-label">Current Balance</p>
+        <p class="card-balance"
+           th:text="'$' + ${#numbers.formatDecimal(card.wallet.balance, 0, 2)}">
+            $0.00
+        </p>
+        <p class="card-number"
+           th:text="${card.cardType}">
+        </p>
+        <!-- Номер на картата (примерно показваме цялото число или може да го маскираш) -->
+        <p class="card-number"
+           th:text="${card.cardNumber}">
+            **** **** **** 1234
+        </p>
+        <!-- Срок на валидност -->
+        <p class="card-expiry"
+           th:text="${#temporals.format(card.expiryDate, 'MM/yy')}">
+            09/25
+        </p>
+    </div>
+</div>
+
+<!-- Секция за детайли на избраната карта -->
+<div id="card-details" class="card-details">
+    <!-- Тук ще се зареди динамично съдържанието чрез JavaScript -->
+</div>
+
+<!-- JavaScript за обработка на кликовете -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.cards-container .card');
+        const detailsContainer = document.getElementById('card-details');
+
+        // Функция за обновяване на детайлите на картата
+        function updateCardDetails(card) {
+            const cardNumber = card.getAttribute('data-card-number');
+            const expiry = card.getAttribute('data-expiry');
+            const cardHolder = card.getAttribute('data-card-holder');
+            const walletType = card.getAttribute('data-wallet-type');
+            const walletBalance = card.getAttribute('data-wallet-balance');
+            const cvv = card.getAttribute('data-cvv');
+
+            let html = '<h2>Card Details</h2>';
+            html += '<p><strong>Wallet Type:</strong> ' + walletType + '</p>';
+            html += '<p><strong>Current Balance:</strong> $' + walletBalance + '</p>';
+            html += '<p><strong>Valid Date:</strong> ' + expiry + '</p>';
+            html += '<p><strong>Card Holder:</strong> ' + cardHolder + '</p>';
+            html += '<p><strong>Card Number:</strong> ' + cardNumber + '</p>';
+            if(cvv && cvv.trim() !== '') {
+                html += '<p><strong>CVV:</strong> ' + cvv + '</p>';
+            }
+            detailsContainer.innerHTML = html;
+        }
+
+        // Прикачване на слушатели за кликове към всяка карта
+        cards.forEach(function(card) {
+            card.addEventListener('click', function() {
+                updateCardDetails(card);
+            });
+        });
+
+        // Инициализация – ако има поне една карта, показваме нейните детайли по подразбиране
+        if(cards.length > 0) {
+            updateCardDetails(cards[0]);
+        }
+    });
+</script>
+
+</body>
+</html>
