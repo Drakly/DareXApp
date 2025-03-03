@@ -6,10 +6,10 @@ import org.darexapp.card.model.CardType;
 import org.darexapp.card.repository.CardRepository;
 import org.darexapp.user.model.User;
 import org.darexapp.wallet.model.Wallet;
-import org.darexapp.wallet.repository.WalletRepository;
 import org.darexapp.wallet.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,59 +20,106 @@ import java.util.UUID;
 @Slf4j
 public class CardService {
 
+    private static final String MASTERCARD_PREFIX = "5100";
+    private static final int CARD_NUMBER_LENGTH = 16;
+    private static final int CVV_LENGTH = 3;
+    private static final int CARD_EXPIRY_YEARS = 3;
+
     private final CardRepository cardRepository;
     private final WalletService walletService;
-    private final WalletRepository walletRepository;
 
     @Autowired
-    public CardService(CardRepository cardRepository, WalletService walletService, WalletRepository walletRepository) {
+    public CardService(
+            CardRepository cardRepository,
+            WalletService walletService
+    ) {
         this.cardRepository = cardRepository;
         this.walletService = walletService;
-        this.walletRepository = walletRepository;
     }
 
-
+    /**
+     * Creates a new card for a user with specified parameters.
+     *
+     * @param user The card owner
+     * @param walletId The wallet to link the card to
+     * @param cardType The type of card to create
+     * @param cardHolderName The name to appear on the card
+     */
+    @Transactional
     public void createCard(User user, UUID walletId, CardType cardType, String cardHolderName) {
-
         Wallet wallet = walletService.fetchWalletById(walletId);
 
-        Card card = Card.builder()
+        Card card = buildNewCard(user, wallet, cardType, cardHolderName);
+        Card savedCard = cardRepository.save(card);
+
+        log.info("Successfully created card with ID [{}] and number [{}] for wallet [{}]",
+                savedCard.getId(), savedCard.getCardNumber(), wallet.getId());
+    }
+
+    /**
+     * Creates a default virtual card for a user's wallet.
+     *
+     * @param user The card owner
+     * @param walletId The wallet to link the card to
+     */
+    @Transactional
+    public void createDefaultVirtualCard(User user, UUID walletId) {
+        createCard(user, walletId, CardType.VIRTUAL, user.getUsername());
+    }
+
+    /**
+     * Creates a physical card for a user's wallet.
+     *
+     * @param user The card owner
+     * @param walletId The wallet to link the card to
+     */
+    @Transactional
+    public void createPhysicalCard(User user, UUID walletId) {
+        createCard(user, walletId, CardType.PHYSICAL, user.getUsername());
+    }
+
+    /**
+     * Retrieves all cards belonging to a user.
+     *
+     * @param user The user whose cards to retrieve
+     * @return List of cards belonging to the user
+     */
+    @Transactional(readOnly = true)
+    public List<Card> getCardsByUser(User user) {
+        return cardRepository.findByOwner(user);
+    }
+
+    // Private helper methods
+
+    private Card buildNewCard(User user, Wallet wallet, CardType cardType, String cardHolderName) {
+        LocalDateTime now = LocalDateTime.now();
+        return Card.builder()
                 .owner(user)
                 .wallet(wallet)
                 .cardType(cardType)
                 .cardNumber(generateMasterCardNumber())
                 .cardHolderName(cardHolderName)
-                .expiryDate(generateExpiryDate())
+                .expiryDate(now.plusYears(CARD_EXPIRY_YEARS))
                 .cvv(generateCVV())
-                .createdOn(LocalDateTime.now())
-                .updatedOn(LocalDateTime.now())
+                .createdOn(now)
+                .updatedOn(now)
                 .build();
-
-        Card savedCard = cardRepository.save(card);
-        log.info("Successfully created card with ID [{}] and number [{}] for wallet [{}].", card.getId(), card.getCardNumber(), wallet.getId());
-
-    }
-
-    public void createDefaultVirtualCard(User user, UUID walletId) {
-        Wallet walletById = walletService.fetchWalletById(walletId);
-        createCard(user, walletById.getId(), CardType.VIRTUAL, user.getUsername());
-    }
-
-    public void createPhysicalCard(User user, UUID walletId) {
-        Wallet defaultWallet = walletService.fetchWalletById(walletId);
-        createCard(user, defaultWallet.getId(), CardType.PHYSICAL, user.getUsername());
     }
 
     private String generateMasterCardNumber() {
-        String prefix = "5100"; // Префикс за MasterCard
-        int randomDigitsLength = 16 - prefix.length() - 1; // 16-цифрен номер: 4 (prefix) + 11 (random) + 1 (check)
+        int randomDigitsLength = CARD_NUMBER_LENGTH - MASTERCARD_PREFIX.length() - 1;
         int max = (int) Math.pow(10, randomDigitsLength);
-        // Генерираме произволната част с водещи нули, ако е необходимо
         String randomPart = String.format("%0" + randomDigitsLength + "d", new Random().nextInt(max));
-        String partialNumber = prefix + randomPart;
+        String partialNumber = MASTERCARD_PREFIX + randomPart;
 
+        int checkDigit = calculateLuhnCheckDigit(partialNumber);
+        return partialNumber + checkDigit;
+    }
+
+    private int calculateLuhnCheckDigit(String partialNumber) {
         int sum = 0;
         boolean alternate = true;
+        
         for (int i = partialNumber.length() - 1; i >= 0; i--) {
             int n = partialNumber.charAt(i) - '0';
             if (alternate) {
@@ -84,24 +131,11 @@ public class CardService {
             sum += n;
             alternate = !alternate;
         }
-        int checkDigit = (10 - (sum % 10)) % 10;
-
-        return partialNumber + checkDigit;
+        
+        return (10 - (sum % 10)) % 10;
     }
-
 
     private String generateCVV() {
-        // Генерира 3-цифрен CVV код
-        return String.format("%03d", (int) (Math.random() * 1000));
+        return String.format("%0" + CVV_LENGTH + "d", new Random().nextInt(1000));
     }
-
-    private LocalDateTime generateExpiryDate() {
-        // дата на изтичане 3 години напред от текущата дата
-        return LocalDateTime.now().plusYears(3);
-    }
-
-    public List<Card> getCardsByUser(User user) {
-        return cardRepository.findByOwner(user);
-    }
-
 }
