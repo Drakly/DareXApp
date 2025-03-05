@@ -2,6 +2,7 @@ package org.darexapp.web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.darexapp.security.CustomUserDetails;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
 import org.darexapp.web.dto.EditUserRequest;
@@ -9,6 +10,8 @@ import org.darexapp.web.mapper.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +60,35 @@ public class UserController {
         userService.updateUser(id, userEditRequest);
 
         return new ModelAndView("redirect:/home");
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ModelAndView getAllUsers(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        List<User> users = userService.findAll();
+
+        ModelAndView modelAndView = new ModelAndView();
+        //TO DO -> add the admin page to the home!!!
+        modelAndView.addObject("users", users);
+
+
+        return modelAndView;
+    }
+
+    @PutMapping("/{id}/role")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String updateUserRole(@PathVariable UUID id) {
+        userService.updateUserRole(id);
+
+        return "redirect:/users";
+    }
+
+    @PutMapping("{id}/status")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String updateUserStatus(@PathVariable UUID id) {
+        userService.SwitchUserStatus(id);
+
+        return "redirect:/users/";
     }
 }

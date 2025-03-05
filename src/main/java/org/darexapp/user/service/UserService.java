@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -116,6 +117,41 @@ public class UserService implements UserDetailsService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public void SwitchUserStatus(UUID userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            throw new DomainException("User not found with id: " + userId);
+        }
+
+        User user = optionalUser.get();
+
+        if (user.isActive()) {
+            user.setActive(false);
+        }else {
+            user.setActive(true);
+        }
+        userRepository.save(user);
+    }
+
+    public void updateUserRole(UUID userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            throw new DomainException("User not found with id: " + userId);
+        }
+
+        User user = optionalUser.get();
+
+        if (user.getRole() == UserRole.USER) {
+            user.setRole(UserRole.ADMIN);
+        }else {
+            user.setRole(UserRole.USER);
+        }
+
+
+        userRepository.save(user);
     }
 
     @Override
