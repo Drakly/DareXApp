@@ -44,12 +44,7 @@ public class WalletService {
         this.transactionRepository = transactionRepository;
     }
 
-    /**
-     * Creates a new standard wallet for a user with initial balance.
-     *
-     * @param user The user to create the wallet for
-     * @return The newly created wallet
-     */
+
     @Transactional
     public Wallet createWalletForUser(User user) {
         Wallet newWallet = buildInitialWallet(user);
@@ -61,12 +56,7 @@ public class WalletService {
         return savedWallet;
     }
 
-    /**
-     * Creates an investment wallet for a user if they don't already have one.
-     *
-     * @param user The user to create the investment wallet for
-     * @throws DomainException if user already has an investment wallet
-     */
+
     @Transactional
     public void createInvestmentWallet(User user) {
         validateInvestmentWalletCreation(user);
@@ -77,13 +67,7 @@ public class WalletService {
         log.info("Created investment wallet for user [{}]", user.getUsername());
     }
 
-    /**
-     * Retrieves a wallet by its ID.
-     *
-     * @param walletId The ID of the wallet to retrieve
-     * @return The found wallet
-     * @throws DomainException if wallet not found
-     */
+
     @Transactional(readOnly = true)
     public Wallet fetchWalletById(UUID walletId) {
         return walletRepository.findById(walletId)
@@ -92,24 +76,13 @@ public class WalletService {
                 ));
     }
 
-    /**
-     * Retrieves all wallets for a user, sorted by balance in descending order.
-     *
-     * @param ownerId The ID of the wallet owner
-     * @return List of sorted wallets
-     */
+
     @Transactional(readOnly = true)
     public List<Wallet> getSortedWalletsByOwnerId(UUID ownerId) {
         return walletRepository.findAllByOwnerIdOrderByBalanceDesc(ownerId);
     }
 
-    /**
-     * Toggles the status of a wallet between ACTIVE and INACTIVE.
-     *
-     * @param walletId The ID of the wallet to toggle
-     * @param ownerId The ID of the wallet owner
-     * @throws DomainException if wallet not found or doesn't belong to owner
-     */
+
     @Transactional
     public void switchStatus(UUID walletId, UUID ownerId) {
         Wallet wallet = walletRepository.findByIdAndOwnerId(walletId, ownerId)
@@ -122,7 +95,6 @@ public class WalletService {
         log.info("Switched wallet [{}] status to [{}]", walletId, wallet.getStatus());
     }
 
-    // Private helper methods
 
     private void validateInvestmentWalletCreation(User user) {
         List<Wallet> allWallets = walletRepository.findAllByOwnerUsername(user.getUsername());
@@ -286,10 +258,7 @@ public class WalletService {
         );
     }
 
-    /**
-     * Тегли средства от даден портфейл.
-     * Ако портфейлът е неактивен или няма достатъчно средства, връща неуспешна транзакция.
-     */
+
     @Transactional
     public Transaction deductFunds(User user, UUID walletId, BigDecimal amount, String description) {
         Wallet wallet = fetchWalletById(walletId);
@@ -352,7 +321,6 @@ public class WalletService {
         );
     }
 
-    // Helper class for validation results
     private static class ValidationResult {
         private final boolean valid;
         private final String errorMessage;

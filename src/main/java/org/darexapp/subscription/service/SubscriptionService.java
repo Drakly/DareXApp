@@ -48,12 +48,7 @@ public class SubscriptionService {
         this.transactionService = transactionService;
     }
 
-    /**
-     * Creates a default subscription for a new user.
-     *
-     * @param user The user to create the subscription for
-     * @return The newly created subscription
-     */
+
     @Transactional
     public Subscription createDefaultSubscription(User user) {
         Subscription subscription = subscriptionRepository.save(initializeSubscription(user));
@@ -61,15 +56,7 @@ public class SubscriptionService {
         return subscription;
     }
 
-    /**
-     * Upgrades a user's subscription to a new type.
-     *
-     * @param user The user whose subscription to upgrade
-     * @param newType The new subscription type
-     * @param request The upgrade request details
-     * @return The transaction record for the upgrade charge
-     * @throws DomainException if no active subscription found or charge fails
-     */
+
     @Transactional
     public Transaction upgradeSubscription(User user, SubscriptionType newType, UpgradeSubscriptionRequest request) {
         Subscription currentSub = getCurrentActiveSubscription(user);
@@ -88,11 +75,7 @@ public class SubscriptionService {
         return chargeTax;
     }
 
-    /**
-     * Retrieves all subscriptions that are due for renewal.
-     *
-     * @return List of subscriptions due for renewal
-     */
+
     @Transactional(readOnly = true)
     public List<Subscription> fetchSubscriptionsDueForRenewal() {
         return subscriptionRepository.findAllByStatusAndCompletedAtLessThanEqual(
@@ -101,27 +84,19 @@ public class SubscriptionService {
         );
     }
 
-    /**
-     * Marks a subscription as completed.
-     *
-     * @param subscription The subscription to complete
-     */
+
     @Transactional
     public void completeSubscription(Subscription subscription) {
         updateSubscriptionStatus(subscription, SubscriptionStatus.COMPLETED);
     }
 
-    /**
-     * Marks a subscription as terminated.
-     *
-     * @param subscription The subscription to terminate
-     */
+
     @Transactional
     public void terminateSubscription(Subscription subscription) {
         updateSubscriptionStatus(subscription, SubscriptionStatus.TERMINATED);
     }
 
-    // Private helper methods
+
 
     private Subscription initializeSubscription(User user) {
         LocalDateTime now = LocalDateTime.now();

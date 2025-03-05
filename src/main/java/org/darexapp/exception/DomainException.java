@@ -1,8 +1,6 @@
 package org.darexapp.exception;
 
-/**
- * Base exception class for all domain-specific exceptions in the application.
- */
+
 public class DomainException extends RuntimeException {
 
     public DomainException(String message) {
@@ -14,9 +12,7 @@ public class DomainException extends RuntimeException {
     }
 }
 
-/**
- * Exception thrown when a requested resource is not found.
- */
+
 class ResourceNotFoundException extends DomainException {
     
     public ResourceNotFoundException(String message) {
@@ -28,9 +24,7 @@ class ResourceNotFoundException extends DomainException {
     }
 }
 
-/**
- * Exception thrown when a business rule is violated.
- */
+
 class BusinessRuleViolationException extends DomainException {
     
     public BusinessRuleViolationException(String message) {
@@ -38,9 +32,7 @@ class BusinessRuleViolationException extends DomainException {
     }
 }
 
-/**
- * Exception thrown when an operation is not allowed due to the current state.
- */
+
 class InvalidStateException extends DomainException {
     
     public InvalidStateException(String message) {
@@ -48,9 +40,7 @@ class InvalidStateException extends DomainException {
     }
 }
 
-/**
- * Exception thrown when validation fails.
- */
+
 class ValidationException extends DomainException {
     
     public ValidationException(String message) {
@@ -58,9 +48,7 @@ class ValidationException extends DomainException {
     }
 }
 
-/**
- * Exception thrown when there are insufficient funds for an operation.
- */
+
 class InsufficientFundsException extends DomainException {
     
     public InsufficientFundsException(String message) {
@@ -68,9 +56,7 @@ class InsufficientFundsException extends DomainException {
     }
 }
 
-/**
- * Exception thrown when there are security-related issues.
- */
+
 class SecurityViolationException extends DomainException {
     
     public SecurityViolationException(String message) {

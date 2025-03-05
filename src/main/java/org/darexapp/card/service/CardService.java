@@ -37,14 +37,7 @@ public class CardService {
         this.walletService = walletService;
     }
 
-    /**
-     * Creates a new card for a user with specified parameters.
-     *
-     * @param user The card owner
-     * @param walletId The wallet to link the card to
-     * @param cardType The type of card to create
-     * @param cardHolderName The name to appear on the card
-     */
+
     @Transactional
     public void createCard(User user, UUID walletId, CardType cardType, String cardHolderName) {
         Wallet wallet = walletService.fetchWalletById(walletId);
@@ -56,40 +49,24 @@ public class CardService {
                 savedCard.getId(), savedCard.getCardNumber(), wallet.getId());
     }
 
-    /**
-     * Creates a default virtual card for a user's wallet.
-     *
-     * @param user The card owner
-     * @param walletId The wallet to link the card to
-     */
+
     @Transactional
     public void createDefaultVirtualCard(User user, UUID walletId) {
         createCard(user, walletId, CardType.VIRTUAL, user.getUsername());
     }
 
-    /**
-     * Creates a physical card for a user's wallet.
-     *
-     * @param user The card owner
-     * @param walletId The wallet to link the card to
-     */
+
     @Transactional
     public void createPhysicalCard(User user, UUID walletId) {
         createCard(user, walletId, CardType.PHYSICAL, user.getUsername());
     }
 
-    /**
-     * Retrieves all cards belonging to a user.
-     *
-     * @param user The user whose cards to retrieve
-     * @return List of cards belonging to the user
-     */
+
     @Transactional(readOnly = true)
     public List<Card> getCardsByUser(User user) {
         return cardRepository.findByOwner(user);
     }
 
-    // Private helper methods
 
     private Card buildNewCard(User user, Wallet wallet, CardType cardType, String cardHolderName) {
         LocalDateTime now = LocalDateTime.now();
