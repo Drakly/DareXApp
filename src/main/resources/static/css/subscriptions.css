@@ -5,16 +5,17 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
+    min-height: 100%;
 }
-
 
 /* Контейнер за ъпгрейд кутиите – подреждане една до друга */
 .upgrade-container {
     margin-top: 10px;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;  /* НЕ позволяваме пренасяне на нов ред */
     justify-content: center;
     gap: 20px;
+    padding: 0 10px;  /* малък padding за по-добър изглед */
 }
 
 /* Единична ъпгрейд кутия */
@@ -22,14 +23,17 @@ body {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    width: 400px;
+    /* Премахваме фиксираната ширина и използваме flex за адаптивност */
+    flex: 1 1 auto;
+    max-width: 400px;
+    min-width: 250px;
     padding: 20px;
 }
 
 /* Хедър на опцията */
 .upgrade-option-header-box {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .upgrade-option-header {
@@ -43,7 +47,6 @@ body {
 .upgrade-option-header.default {
     background: linear-gradient(135deg, #7f8c8d, #bdc3c7);
 }
-
 
 .upgrade-option-header.premium {
     background: linear-gradient(135deg, #8e44ad, #9b59b6);
@@ -59,7 +62,7 @@ body {
 
 /* Таблица с предимствата */
 .upgrade-option-benefits {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .styled-table {
@@ -145,4 +148,16 @@ body {
     font-weight: bold;
 }
 
-
+/* Responsive настройки */
+@media only screen and (max-width: 768px) {
+    .upgrade-container {
+        /* На малък екран ако е необходимо може да се разреши пренасянето */
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .single-upgrade-box {
+        /* Позволяваме им да заемат по 100% от ширината, ако е много малък екран */
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}

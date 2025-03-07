@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>DareX Wallet - My Cards</title>
     <!-- Връзка към CSS файловете -->
     <link rel="stylesheet" href="/css/cards.css" />
@@ -72,81 +74,84 @@
     </div>
 </div>
 
-<div class="single-section-box home-subscription">
-    <div class="default-label-box">
-        <p th:text="${currentUser.subscriptions[0].type + ' SUBSCRIPTION'}"></p>
-    </div>
-    <table class="styled-table">
-        <thead>
-        <tr>
-            <th>Status</th>
-            <th>Period</th>
-            <th>Price</th>
-            <th>Renewal</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:if="${currentUser.subscriptions[0].status.name() == 'ACTIVE'}"><span class="status active">ACTIVE</span></td>
-            <td th:if="${currentUser.subscriptions[0].status.name() == 'COMPLETED'}"><span class="status completed">COMPLETED</span></td>
-            <td th:if="${currentUser.subscriptions[0].status.name() == 'TERMINATED'}"><span class="status terminated">TERMINATED</span></td>
-            <td th:text="${#strings.capitalize(#strings.toLowerCase(currentUser.subscriptions[0].period.name()))}"></td>
-            <td th:text="${currentUser.subscriptions[0].price + ' EUR'}"></td>
-            <td th:text="${currentUser.subscriptions[0].active == true ? 'Automatic' : 'No'}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <a class="profile-actions-button" th:href="@{/subscriptions}">
-        <p>Change</p>
-        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-            <path fill-rule="evenodd" d="M20.337 3.664c.213.212.354.486.404.782.294 1.711.657 5.195-.906 6.76-1.77 1.768-8.485 5.517-10.611 6.683a.987.987 0 0 1-1.176-.173l-.882-.88-.877-.884a.988.988 0 0 1-.173-1.177c1.165-2.126 4.913-8.841 6.682-10.611 1.562-1.563 5.046-1.198 6.757-.904.296.05.57.191.782.404ZM5.407 7.576l4-.341-2.69 4.48-2.857-.334a.996.996 0 0 1-.565-1.694l2.112-2.111Zm11.357 7.02-.34 4-2.111 2.113a.996.996 0 0 1-1.69-.565l-.422-2.807 4.563-2.74Zm.84-6.21a1.99 1.99 0 1 1-3.98 0 1.99 1.99 0 0 1 3.98 0Z" clip-rule="evenodd"></path>
-        </svg>
-    </a>
-    <div class="details-section">
-        <div class="details-section-container">
-            <strong>Subscribe until: </strong>
-            <p th:text="${#temporals.format(currentUser.subscriptions[0].completedAt, 'dd MMM YYYY HH:mm')}"></p>
-        </div>
-    </div>
-</div>
 
-<div class="stats-container">
-    <div class="header-section">
-        <div class="calories-info">
-            <img th:src="@{/css/images/spent-icon.png}" alt="Fire icon" class="fire-icon">
-            <span class="calories-count">Money Spend</span>
-        </div>
-        <button class="dropdown-btn">This month ▼</button>
-    </div>
+    <div class="right-sections">
+            <div class="single-section-box home-subscription">
+                <div class="default-label-box">
+                    <p th:text="${currentUser.subscriptions[0].type + ' SUBSCRIPTION'}"></p>
+                </div>
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Period</th>
+                        <th>Price</th>
+                        <th>Renewal</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:if="${currentUser.subscriptions[0].status.name() == 'ACTIVE'}"><span class="status active">ACTIVE</span></td>
+                        <td th:if="${currentUser.subscriptions[0].status.name() == 'COMPLETED'}"><span class="status completed">COMPLETED</span></td>
+                        <td th:if="${currentUser.subscriptions[0].status.name() == 'TERMINATED'}"><span class="status terminated">TERMINATED</span></td>
+                        <td th:text="${#strings.capitalize(#strings.toLowerCase(currentUser.subscriptions[0].period.name()))}"></td>
+                        <td th:text="${currentUser.subscriptions[0].price + ' EUR'}"></td>
+                        <td th:text="${currentUser.subscriptions[0].active == true ? 'Automatic' : 'No'}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a class="profile-actions-button" th:href="@{/subscriptions}">
+                    <p>Change</p>
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M20.337 3.664c.213.212.354.486.404.782.294 1.711.657 5.195-.906 6.76-1.77 1.768-8.485 5.517-10.611 6.683a.987.987 0 0 1-1.176-.173l-.882-.88-.877-.884a.988.988 0 0 1-.173-1.177c1.165-2.126 4.913-8.841 6.682-10.611 1.562-1.563 5.046-1.198 6.757-.904.296.05.57.191.782.404ZM5.407 7.576l4-.341-2.69 4.48-2.857-.334a.996.996 0 0 1-.565-1.694l2.112-2.111Zm11.357 7.02-.34 4-2.111 2.113a.996.996 0 0 1-1.69-.565l-.422-2.807 4.563-2.74Zm.84-6.21a1.99 1.99 0 1 1-3.98 0 1.99 1.99 0 0 1 3.98 0Z" clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+                <div class="details-section">
+                    <div class="details-section-container">
+                        <strong>Subscribe until: </strong>
+                        <p th:text="${#temporals.format(currentUser.subscriptions[0].completedAt, 'dd MMM YYYY HH:mm')}"></p>
+                    </div>
+                </div>
+            </div>
 
-    <div class="tabs">
-        <button class="active">Shopping</button>
-        <button>Transports</button>
-        <button>Transfers</button>
-    </div>
+            <div class="stats-container">
+                <div class="header-section">
+                    <div class="calories-info">
+                        <img th:src="@{/css/images/spent-icon.png}" alt="Fire icon" class="fire-icon">
+                        <span class="calories-count">Money Spend</span>
+                    </div>
+                    <button class="dropdown-btn">This month ▼</button>
+                </div>
 
-    <div class="chart">
-        <div class="bar" style="height: 60%;"></div>
-        <div class="bar" style="height: 80%;"></div>
-        <div class="bar" style="height: 70%;"></div>
-        <div class="bar" style="height: 50%;"></div>
-        <div class="bar" style="height: 90%;"></div>
-        <div class="bar" style="height: 30%;"></div>
-        <div class="bar" style="height: 75%;"></div>
-        <div class="bar" style="height: 85%;"></div>
-        <div class="bar" style="height: 40%;"></div>
-        <div class="bar" style="height: 65%;"></div>
-        <div class="bar" style="height: 90%;"></div>
-        <div class="bar" style="height: 35%;"></div>
-        <div class="bar" style="height: 80%;"></div>
-        <div class="bar" style="height: 50%;"></div>
-        <div class="bar" style="height: 85%;"></div>
-        <div class="bar" style="height: 60%;"></div>
-        <div class="bar" style="height: 70%;"></div>
-        <div class="bar" style="height: 50%;"></div>
-        <div class="bar" style="height: 65%;"></div>
+                <div class="tabs">
+                    <button class="active">Shopping</button>
+                    <button>Transports</button>
+                    <button>Transfers</button>
+                </div>
+
+                <div class="chart">
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 80%;"></div>
+                    <div class="bar" style="height: 70%;"></div>
+                    <div class="bar" style="height: 50%;"></div>
+                    <div class="bar" style="height: 90%;"></div>
+                    <div class="bar" style="height: 30%;"></div>
+                    <div class="bar" style="height: 75%;"></div>
+                    <div class="bar" style="height: 85%;"></div>
+                    <div class="bar" style="height: 40%;"></div>
+                    <div class="bar" style="height: 65%;"></div>
+                    <div class="bar" style="height: 90%;"></div>
+                    <div class="bar" style="height: 35%;"></div>
+                    <div class="bar" style="height: 80%;"></div>
+                    <div class="bar" style="height: 50%;"></div>
+                    <div class="bar" style="height: 85%;"></div>
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 70%;"></div>
+                    <div class="bar" style="height: 50%;"></div>
+                    <div class="bar" style="height: 65%;"></div>
+                </div>
+            </div>
     </div>
-</div>
 
 
 <div id="card-details" class="card-details">

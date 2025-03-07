@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, UUID> {
+
     Optional<Subscription> findByStatusAndOwnerId(SubscriptionStatus subscriptionStatus, UUID id);
 
     List<Subscription> findAllByStatusAndCompletedAtLessThanEqual(SubscriptionStatus subscriptionStatus, LocalDateTime now);
