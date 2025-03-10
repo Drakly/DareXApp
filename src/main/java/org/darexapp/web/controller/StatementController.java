@@ -45,14 +45,11 @@ public class StatementController {
     public ResponseEntity<byte[]> downloadStatementPdf(
             @AuthenticationPrincipal CustomUserDetails customUserDetails) throws Exception {
 
-        // Извличаме текущия потребител
         User currentUser = userService.findById(customUserDetails.getUserId());
 
-        // Задаваме дефолтни дати – например, последния месец
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusMonths(1);
 
-        // Извличаме транзакциите за този период
         List<Transaction> transactions = transactionService.getAllTransactionsByOwnerId(customUserDetails.getUserId());
 
         // Подготвяме контекста за Thymeleaf
@@ -62,10 +59,8 @@ public class StatementController {
         context.setVariable("endDate", endDate);
         context.setVariable("transactions", transactions);
 
-        // Генерираме HTML съдържанието от шаблона bank-statement.html
         String htmlContent = templateEngine.process("bank-statement", context);
 
-        // Конвертираме HTML към PDF чрез Flying Saucer
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocumentFromString(htmlContent);
@@ -75,7 +70,6 @@ public class StatementController {
 
         byte[] pdfBytes = outputStream.toByteArray();
 
-        // Подготвяме HTTP заглавия за сваляне
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.setContentDispositionFormData("attachment", "bank-statement.pdf");

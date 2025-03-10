@@ -21,6 +21,7 @@
 <!-- Навигация -->
 <nav class="dashboard-nav">
     <ul>
+        <li><a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/users}">Admin</a></li>
         <li><a href="/home" class="active">Home</a></li>
         <li><a href="/transactions">Transactions</a></li>
         <li><a href="/wallets">Wallets</a></li>

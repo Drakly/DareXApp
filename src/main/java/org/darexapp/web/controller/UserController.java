@@ -66,12 +66,11 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView getAllUsers(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        List<User> users = userService.findAll();
+        List<User> users = userService.getAllUsers();
 
         ModelAndView modelAndView = new ModelAndView();
-        //TO DO -> add the admin page to the home!!!
+        modelAndView.setViewName("admin");
         modelAndView.addObject("users", users);
-
 
         return modelAndView;
     }
@@ -85,10 +84,9 @@ public class UserController {
     }
 
     @PutMapping("{id}/status")
-    @PreAuthorize("hasRole('ADMIN')")
     public String updateUserStatus(@PathVariable UUID id) {
         userService.SwitchUserStatus(id);
 
-        return "redirect:/users/";
+        return "redirect:/users";
     }
 }

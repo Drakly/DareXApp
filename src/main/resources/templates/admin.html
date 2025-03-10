@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - DareX Wallet</title>
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/transactions.css">
+
+</head>
+<body>
+<header class="dashboard-header">
+  <div class="header-container">
+    <div class="user-info">
+      <span>DareX Wallet</span>
+    </div>
+  </div>
+</header>
+
+<!-- Навигация -->
+<nav class="dashboard-nav">
+  <ul>
+    <li><a class="active" th:href="@{/users}">Admin</a></li>
+    <li><a href="/home" >Home</a></li>
+    <li><a href="/transactions">Transactions</a></li>
+    <li><a href="/wallets">Wallets</a></li>
+    <li><a th:href="@{/subscriptions}">Subscriptions</a></li>
+    <li><a href="/cards">Cards</a></li>
+    <li><a th:href="@{/settings}">Settings</a></li>
+
+    <a th:href="@{/logout}" class="logout-btn">Logout</a>
+  </ul>
+</nav>
+<section class="admin-section">
+  <div class="container">
+    <header>
+      <h1>Admin Dashboard</h1>
+    </header>
+    <!-- Съобщения за успех или грешка -->
+<!--    <div class="notification">-->
+<!--      <div th:if="${message}" class="alert success" th:text="${message}"></div>-->
+<!--      <div th:if="${error}" class="alert error" th:text="${error}"></div>-->
+<!--    </div>-->
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Country</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Status</th>
+          <th>Update Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+          <td th:text="${user.id}"></td>
+          <td th:text="${user.username}"></td>
+          <td th:text="${user.email}"></td>
+          <td th:text="${#strings.capitalize(#strings.toLowerCase(user.role.name()))}"></td>
+          <td th:text="${#strings.capitalize(#strings.toLowerCase(user.country.name()))}"></td>
+          <td>
+            <span th:if="${user.active}" class="status active">Active</span>
+            <span th:unless="${user.active}" class="status inactive">Inactive</span>
+          </td>
+          <td th:text="${#temporals.format(user.createdOn, 'dd MMM yyyy HH:mm')}"></td>
+          <td>
+            <!-- Форма за смяна на статуса -->
+            <form th:action="@{'/users/' + ${user.id} + '/status'}" method="post">
+              <!-- Използваме hidden input за симулация на PUT заявка -->
+              <input type="hidden" name="_method" value="put"/>
+              <button type="submit" class="action-button status-button">
+                Toggle
+              </button>
+            </form>
+          </td>
+          <td>
+            <!-- Форма за смяна на ролята -->
+            <form th:action="@{'/users/' + ${user.id} + '/role'}" method="post">
+              <input type="hidden" name="_method" value="put"/>
+              <button type="submit" class="action-button role-button">
+                Change
+              </button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -52,12 +52,6 @@ public class UserService implements UserDetailsService {
         this.cardService = cardService;
     }
 
-    @Transactional
-    public User login(String username, String password) {
-        return userRepository.findByUsername(username)
-                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
-                .orElseThrow(() -> new DomainException("Invalid username or password."));
-    }
 
     @Transactional
     public User register(RegisterRequest registerRequest) {
@@ -115,7 +109,7 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public List<User> findAll() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -124,7 +118,6 @@ public class UserService implements UserDetailsService {
         if (optionalUser.isEmpty()) {
             throw new DomainException("User not found with id: " + userId);
         }
-
         User user = optionalUser.get();
 
         if (user.isActive()) {
