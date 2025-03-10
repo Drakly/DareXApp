@@ -69,17 +69,14 @@
           </td>
           <td th:text="${#temporals.format(user.createdOn, 'dd MMM yyyy HH:mm')}"></td>
           <td>
-            <!-- Форма за смяна на статуса -->
             <form th:action="@{'/users/' + ${user.id} + '/status'}" method="post">
-              <!-- Използваме hidden input за симулация на PUT заявка -->
               <input type="hidden" name="_method" value="put"/>
               <button type="submit" class="action-button status-button">
-                Toggle
+                SWITCH
               </button>
             </form>
           </td>
           <td>
-            <!-- Форма за смяна на ролята -->
             <form th:action="@{'/users/' + ${user.id} + '/role'}" method="post">
               <input type="hidden" name="_method" value="put"/>
               <button type="submit" class="action-button role-button">

@@ -38,7 +38,6 @@ public class Subscription {
     @Column(nullable = false)
     private BigDecimal price;
 
-
     private boolean active;
 
     @Column(nullable = false)

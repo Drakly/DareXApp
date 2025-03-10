@@ -35,17 +35,15 @@ public class SubscriptionService {
 
     private final SubscriptionRepository subscriptionRepository;
     private final WalletService walletService;
-    private final TransactionService transactionService;
+
 
     @Autowired
     public SubscriptionService(
             SubscriptionRepository subscriptionRepository,
-            WalletService walletService,
-            TransactionService transactionService
+            WalletService walletService
     ) {
         this.subscriptionRepository = subscriptionRepository;
         this.walletService = walletService;
-        this.transactionService = transactionService;
     }
 
 

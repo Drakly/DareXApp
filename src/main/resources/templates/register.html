@@ -18,7 +18,6 @@
             <h2>Sign Up</h2>
             <p>Welcome to DareX Wallet! Please create your account.</p>
 
-            <!-- Username Field -->
             <label for="username">Username</label>
             <input type="text" id="username" name="username" placeholder="Enter your username" th:field="*{username}" required>
             <p class="error-message" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
@@ -40,10 +39,8 @@
             </select>
             <p class="error-message" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></p>
 
-            <!-- Submit Button -->
             <button type="submit">Register</button>
 
-            <!-- Login Redirect -->
             <p class="form-footer">Already have an account? <a href="/login">Log in</a>!</p>
             <p class="form-footer"><a href="/">BACK</a>!</p>
         </form>

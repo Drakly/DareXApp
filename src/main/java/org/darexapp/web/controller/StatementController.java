@@ -12,9 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -23,7 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/statement")
 public class StatementController {
 
@@ -52,7 +52,6 @@ public class StatementController {
 
         List<Transaction> transactions = transactionService.getAllTransactionsByOwnerId(customUserDetails.getUserId());
 
-        // Подготвяме контекста за Thymeleaf
         Context context = new Context();
         context.setVariable("user", currentUser);
         context.setVariable("startDate", startDate);
