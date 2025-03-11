@@ -26,14 +26,32 @@ public class ReferralService {
                 .userId(userId)
                 .referralCode(referralCode)
                 .createdAt(createdAt)
-                .clickCount(clickCount = 0)
+                .clickCount(0)
                 .build();
 
         ResponseEntity<ReferralRequest> response = referralClient.createReferral(referral);
         if (response.getStatusCode().is2xxSuccessful()) {
             log.info("Successfully created referral with id {}", response.getBody().getId());
+        }else {
+            log.error("Failed to create referral with id {}", response.getBody().getId());
         }
+    }
 
+    public ReferralRequest getReferral(UUID userId) {
+        ResponseEntity<ReferralRequest> httpResponse = referralClient.getReferralByUser(userId);
+
+        if (!httpResponse.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Failed to get referral with id " + userId);
+        }
+        return httpResponse.getBody();
+    }
+
+    public void incrementClickCount(String referralCode) {
+        ResponseEntity<Void> httpResponse = referralClient.trackReferral(referralCode);
+
+        if (!httpResponse.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("Failed to track referral with id " + referralCode);
+        }
 
     }
 }

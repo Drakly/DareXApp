@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реферал Програма</title>
+    <link rel="stylesheet" href="/css/referral.css">
+</head>
+<body>
+<div class="container">
+    <h1>Реферал Програма</h1>
+    <form th:action="@{/referrals/create}" th:method="post">
+        <div class="form-group">
+            <label for="referralLink">Вашият реферал линк</label>
+            <input type="text" id="referralLink" name="referralLink" th:value="${referral.referralCode}" readonly>
+        </div>
+        <button type="submit">Генерирай линк</button>
+    </form>
+    <div class="click-count">
+        <p>Брой използвания: <span th:text="${referral.clickCount}">0</span></p>
+    </div>
+</div>
+</body>
+</html>
