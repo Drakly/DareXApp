@@ -26,14 +26,12 @@ public class CardController {
 
     private final CardService cardService;
     private final UserService userService;
-    private final WalletService walletService;
 
 
     @Autowired
-    public CardController(CardService cardService, UserService userService, WalletService walletService) {
+    public CardController(CardService cardService, UserService userService) {
         this.cardService = cardService;
         this.userService = userService;
-        this.walletService = walletService;
     }
 
     @GetMapping
@@ -56,7 +54,6 @@ public class CardController {
 
         Wallet defaultWallet = currentUser.getWallets().iterator().next();
 
-        // Създаваме физическата карта, като подаваме UUID-то на портфейла
         cardService.createPhysicalCard(currentUser, defaultWallet.getId());
 
         return "redirect:/cards";

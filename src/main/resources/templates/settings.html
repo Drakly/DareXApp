@@ -18,6 +18,7 @@
                 <li class="active"><a href="#security">Security</a></li>
                 <li><a href="#deactivation">Account</a></li>
                 <li><a href="#bank-statement">Bank Statement</a></li>
+                <li><a href="#referral-section">Referral</a></li>
             </ul>
             <a th:href="@{/home}" class="home-btn">HOME</a>
             <a href="/contact" class="home-btn">ABOUT US</a>
@@ -52,6 +53,12 @@
             <h2>Bank Statement</h2>
             <p>Download your bank statement as a PDF.</p>
             <a th:href="@{/statement/download}" class="download-btn">Download PDF</a>
+        </section>
+
+        <section id="referral-section">
+            <h2>Referral Links</h2>
+            <p>Invite your friends now!</p>
+            <a th:href="@{/referrals}" class="download-btn">Generate your referral link now!</a>
         </section>
     </main>
 </div>

@@ -28,30 +28,27 @@ public class ReferralController {
         this.userService = userService;
     }
 
-    @GetMapping()
-    public ModelAndView showCreateForm(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        User currentUser = userService.findById(customUserDetails.getUserId());
-        ReferralRequest referralRequest = new ReferralRequest();
-        referralRequest.setUserId(currentUser.getId());
-        ModelAndView mav = new ModelAndView("referral");
-        mav.addObject("referral", referralRequest);
+    @GetMapping
+    public ModelAndView showReferralPage(@AuthenticationPrincipal CustomUserDetails userDetails, ReferralRequest referralRequest) {
+        User userId = userService.findById(userDetails.getUserId());
+        ReferralRequest re = referralService.getReferral(userId.getId());
+
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("referral");
+        mav.addObject("user", userDetails);
+        mav.addObject("referralRequest", new ReferralRequest());
         return mav;
     }
 
     @PostMapping("/create")
-    public ModelAndView createReferral(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                       @ModelAttribute("referral") ReferralRequest referralRequest) {
-        referralRequest.setUserId(customUserDetails.getUserId());
+    public ModelAndView createReferral(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        User userId = userService.findById(userDetails.getUserId());
+        ReferralRequest referralRequest = referralService.createReferral(userId.getId());
 
-        referralService.createReferral(
-                referralRequest.getUserId(),
-                referralRequest.getReferralCode(),
-                referralRequest.getCreatedAt(),
-                referralRequest.getClickCount()
-        );
-
-        ModelAndView mav = new ModelAndView("referral");
-        mav.addObject("message", "Referral created successfully");
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("redirect:/referrals/" + referralRequest.getId());
+        mav.addObject("referral", referralRequest);
+        mav.addObject("user", userId);
         return mav;
     }
 

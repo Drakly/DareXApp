@@ -21,21 +21,28 @@ public class ReferralService {
         this.referralClient = referralClient;
     }
 
-    public void createReferral(UUID userId, String referralCode, LocalDateTime createdAt, int clickCount) {
-        ReferralRequest referral = ReferralRequest.builder()
+    public ReferralRequest createReferral(UUID userId) {
+//        ReferralRequest existingReferral = getReferral(userId);
+
+        ReferralRequest newReferral = ReferralRequest.builder()
                 .userId(userId)
-                .referralCode(referralCode)
-                .createdAt(createdAt)
+                .referralCode(null)
+                .createdAt(LocalDateTime.now())
                 .clickCount(0)
                 .build();
 
-        ResponseEntity<ReferralRequest> response = referralClient.createReferral(referral);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            log.info("Successfully created referral with id {}", response.getBody().getId());
-        }else {
-            log.error("Failed to create referral with id {}", response.getBody().getId());
+        ResponseEntity<ReferralRequest> response = referralClient.createReferral(newReferral);
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            ReferralRequest created = response.getBody();
+            log.info("Successfully created referral with id {} and code {}",
+                    created.getId(), created.getReferralCode());
+            return created;
+        } else {
+            log.error("Failed to create referral for user {}", userId);
+            throw new RuntimeException("Failed to create referral for user " + userId);
         }
     }
+
 
     public ReferralRequest getReferral(UUID userId) {
         ResponseEntity<ReferralRequest> httpResponse = referralClient.getReferralByUser(userId);
