@@ -2,6 +2,8 @@ package org.darexapp.web.mapper;
 
 import lombok.experimental.UtilityClass;
 import org.darexapp.card.model.Card;
+import org.darexapp.referral.client.dto.Referral;
+import org.darexapp.referral.client.dto.ReferralRequest;
 import org.darexapp.subscription.model.Subscription;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.user.model.User;
@@ -14,9 +16,7 @@ import java.util.stream.Collectors;
 @UtilityClass
 public class DtoMapper {
 
-    /**
-     * Maps User entity to EditUserRequest DTO
-     */
+
     public EditUserRequest toEditUserRequest(User user) {
         return EditUserRequest.builder()
                 .firstName(user.getFirstName())
@@ -26,9 +26,16 @@ public class DtoMapper {
                 .build();
     }
 
-    /**
-     * Maps User entity to UserResponse DTO
-     */
+    public ReferralRequest toReferralRequest(Referral referral) {
+        return ReferralRequest.builder()
+                .referralCode(referral.getReferralCode())
+                .userId(referral.getUserId())
+                .clickCount(referral.getClickCount())
+                .createdAt(referral.getCreatedAt())
+                .build();
+    }
+
+
     public UserResponse toUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
@@ -45,9 +52,7 @@ public class DtoMapper {
                 .build();
     }
 
-    /**
-     * Maps Wallet entity to WalletResponse DTO
-     */
+
     public WalletResponse toWalletResponse(Wallet wallet) {
         return WalletResponse.builder()
                 .id(wallet.getId())
@@ -60,9 +65,7 @@ public class DtoMapper {
                 .build();
     }
 
-    /**
-     * Maps Card entity to CardResponse DTO
-     */
+
     public CardResponse toCardResponse(Card card) {
         return CardResponse.builder()
                 .id(card.getId())
@@ -75,9 +78,7 @@ public class DtoMapper {
                 .build();
     }
 
-    /**
-     * Maps Transaction entity to TransactionResponse DTO
-     */
+
     public TransactionResponse toTransactionResponse(Transaction transaction) {
         return TransactionResponse.builder()
                 .id(transaction.getId())
@@ -94,9 +95,7 @@ public class DtoMapper {
                 .build();
     }
 
-    /**
-     * Maps Subscription entity to SubscriptionResponse DTO
-     */
+
     public SubscriptionResponse toSubscriptionResponse(Subscription subscription) {
         return SubscriptionResponse.builder()
                 .id(subscription.getId())
@@ -110,9 +109,7 @@ public class DtoMapper {
                 .build();
     }
 
-    /**
-     * Maps a list of entities to a list of DTOs
-     */
+
     public List<WalletResponse> toWalletResponseList(List<Wallet> wallets) {
         return wallets.stream()
                 .map(DtoMapper::toWalletResponse)

@@ -1,31 +1,21 @@
 package org.darexapp.web.controller;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.darexapp.security.CustomUserDetails;
-import org.darexapp.transaction.model.Transaction;
-import org.darexapp.transaction.service.TransactionService;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
-import org.darexapp.wallet.model.Wallet;
-import org.darexapp.wallet.repository.WalletRepository;
-import org.darexapp.wallet.service.WalletService;
 import org.darexapp.web.dto.LoginRequest;
 import org.darexapp.web.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class IndexController {
@@ -33,7 +23,7 @@ public class IndexController {
     private final UserService userService;
 
     @Autowired
-    public IndexController(UserService userService, WalletService walletService) {
+    public IndexController(UserService userService) {
         this.userService = userService;
     }
 
@@ -81,7 +71,6 @@ public class IndexController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("home");
         mav.addObject("user", user);
-
 
         return mav;
     }

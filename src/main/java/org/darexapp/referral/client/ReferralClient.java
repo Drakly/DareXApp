@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface ReferralClient {
 
     @GetMapping("/{userId}")
-    ResponseEntity<ReferralRequest> getReferralByUser(@PathVariable UUID userId);
+    ResponseEntity<ReferralRequest> getReferralByUser(@RequestParam(name = "userId") UUID userId);
 
     @PostMapping
     ResponseEntity<ReferralRequest> createReferral(@RequestBody ReferralRequest referral);

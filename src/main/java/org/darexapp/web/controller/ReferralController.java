@@ -1,11 +1,14 @@
 package org.darexapp.web.controller;
 
+import jakarta.validation.Valid;
 import org.darexapp.referral.client.dto.ReferralRequest;
 import org.darexapp.referral.service.ReferralService;
 import org.darexapp.security.CustomUserDetails;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
+import org.darexapp.web.mapper.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,43 +31,34 @@ public class ReferralController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ModelAndView showReferralPage(@AuthenticationPrincipal CustomUserDetails userDetails, ReferralRequest referralRequest) {
-        User userId = userService.findById(userDetails.getUserId());
-        ReferralRequest re = referralService.getReferral(userId.getId());
 
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("referral");
-        mav.addObject("user", userDetails);
-        mav.addObject("referralRequest", new ReferralRequest());
-        return mav;
+    @GetMapping
+    public ModelAndView showReferralPage(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        // Вземаме текущия потребител
+        User currentUser = userService.findById(userDetails.getUserId());
+        // Вземаме referral за потребителя - ако няма, getReferral трябва да върне празен обект (напр. с празен код и clickCount=0)
+        ReferralRequest referral = referralService.getReferral(currentUser.getId());
+        ModelAndView modelAndView = new ModelAndView("referral");
+        modelAndView.addObject("currentUser", currentUser);
+        modelAndView.addObject("referral", referral);
+        return modelAndView;
     }
 
     @PostMapping("/create")
-    public ModelAndView createReferral(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        User userId = userService.findById(userDetails.getUserId());
-        ReferralRequest referralRequest = referralService.createReferral(userId.getId());
-
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("redirect:/referrals/" + referralRequest.getId());
-        mav.addObject("referral", referralRequest);
-        mav.addObject("user", userId);
-        return mav;
-    }
-
-    @GetMapping("/{userId}")
-    public ModelAndView getReferral(@PathVariable UUID userId) {
-        ReferralRequest referral = referralService.getReferral(userId);
-        ModelAndView mav = new ModelAndView("referral");
-        mav.addObject("referral", referral);
-        return mav;
+    public ModelAndView createReferral(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                       @Valid ReferralRequest referralRequest) {
+        // Задаваме ID-то на текущия потребител в заявката, ако не е подадено
+        User currentUser = userService.findById(userDetails.getUserId());
+        referralRequest.setUserId(currentUser.getId());
+        referralService.createReferral(referralRequest);
+        // Пренасочваме към GET /referrals, за да презаредим страницата с обновени данни
+        return new ModelAndView("redirect:/referrals");
     }
 
     @PostMapping("/track/{referralCode}")
     public ModelAndView trackReferral(@PathVariable String referralCode) {
         referralService.incrementClickCount(referralCode);
-        ModelAndView mav = new ModelAndView("referral");
-        mav.addObject("message", "Referral click tracked successfully");
-        return mav;
+        // Пренасочваме към страницата след проследяване на клика
+        return new ModelAndView("redirect:/referrals");
     }
 }

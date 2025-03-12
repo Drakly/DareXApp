@@ -1,63 +1,65 @@
-/* Основни стилове за referral страницата */
+/* Общ стил за цялата страница */
 body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
 }
 
+/* Контейнерът за съдържанието */
 .container {
-    max-width: 500px;
+    max-width: 800px;
     margin: 50px auto;
-    background-color: #ffffff;
     padding: 30px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
     border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Заглавия */
+h1, h2 {
+    text-align: center;
+    color: #333333;
+}
+
+/* Секция за потребителска информация и referral */
+.user-info, .referral-section {
+    margin-bottom: 30px;
+}
+
+.user-info p {
+    font-size: 18px;
     text-align: center;
 }
 
-h1 {
-    margin-bottom: 20px;
-    color: #333333;
-}
-
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #555555;
-}
-
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
+/* Стил за бутоните */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
     font-size: 16px;
-    border: 1px solid #dddddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007BFF;
-    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
+.btn:hover {
     background-color: #0056b3;
 }
 
-.click-count {
-    margin-top: 30px;
-    font-size: 18px;
-    color: #333333;
+/* Стил за съобщения */
+.message {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+}
+
+/* Подредба на форм групите */
+.form-group {
+    text-align: center;
+    margin-top: 20px;
 }

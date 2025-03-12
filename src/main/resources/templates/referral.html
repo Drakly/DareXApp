@@ -1,24 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Referral Dashboard</title>
+    <title>Referral Page</title>
+    <!-- Препращаме към външен CSS файл -->
     <link rel="stylesheet" href="/css/referral.css">
 </head>
 <body>
 <div class="container">
-    <h1>Referral Link</h1>
-    <form th:action="@{/referrals/create}" th:method="post">
-        <div class="form-group">
-            <label for="referralLink">Your referral link</label>
-            <input type="text" id="referralLink" name="referralLink" th:value="${referral.referralCode}" readonly>
+    <h1>Referral Page</h1>
 
+    <!-- Приветствие към текущия потребител -->
+    <div class="user-info">
+        <p>Welcome, <strong th:text="${currentUser.username}">User</strong>!</p>
+    </div>
+
+    <!-- Секция за показване на referral кода -->
+    <div class="referral-section">
+        <h2>Your Referral Code</h2>
+        <div class="form-group">
+            <p th:if="${referral.referralCode != ''}">
+                Your referral code is: <strong th:text="${referral.referralCode}"></strong>
+            </p>
+            <p class="message" th:if="${referral.referralCode == ''}">
+                You haven't generated a referral code yet.
+            </p>
         </div>
-        <button type="submit">Generate New Referral</button>
-    </form>
-    <div class="click-count">
-        <p>People invited with your link: <span th:text="${referralRequest.clickCount}">0</span></p>
+
+        <!-- Бутон за генериране на referral код, ако все още няма -->
+        <div class="form-group" th:if="${referral.referralCode == ''}">
+            <form th:action="@{/referrals/create}" method="post">
+                <button type="submit" class="btn">Generate New Referral Code</button>
+            </form>
+        </div>
+
+        <!-- Бутон за проследяване на клик, ако има referral код -->
+        <div class="form-group" th:if="${referral.referralCode != ''}">
+            <form th:action="@{/referrals/track/{referralCode}(referralCode=${referral.referralCode})}" method="post">
+                <button type="submit" class="btn">Simulate Referral Click</button>
+            </form>
+        </div>
     </div>
 </div>
 </body>

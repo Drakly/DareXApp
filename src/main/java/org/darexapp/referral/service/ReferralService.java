@@ -21,12 +21,10 @@ public class ReferralService {
         this.referralClient = referralClient;
     }
 
-    public ReferralRequest createReferral(UUID userId) {
-//        ReferralRequest existingReferral = getReferral(userId);
-
+    public void createReferral(ReferralRequest referralRequest) {
         ReferralRequest newReferral = ReferralRequest.builder()
-                .userId(userId)
-                .referralCode(null)
+                .userId(referralRequest.getUserId())
+                .referralCode(referralRequest.getReferralCode())
                 .createdAt(LocalDateTime.now())
                 .clickCount(0)
                 .build();
@@ -36,21 +34,33 @@ public class ReferralService {
             ReferralRequest created = response.getBody();
             log.info("Successfully created referral with id {} and code {}",
                     created.getId(), created.getReferralCode());
-            return created;
         } else {
-            log.error("Failed to create referral for user {}", userId);
-            throw new RuntimeException("Failed to create referral for user " + userId);
+            log.error("Failed to create referral for user {}", referralRequest.getUserId());
+            throw new RuntimeException("Failed to create referral for user " + referralRequest.getUserId());
         }
     }
 
 
     public ReferralRequest getReferral(UUID userId) {
         ResponseEntity<ReferralRequest> httpResponse = referralClient.getReferralByUser(userId);
-
-        if (!httpResponse.getStatusCode().is2xxSuccessful()) {
-            throw new RuntimeException("Failed to get referral with id " + userId);
+        if (httpResponse.getStatusCode().is2xxSuccessful()) {
+            ReferralRequest referral = httpResponse.getBody();
+            if (referral == null) {
+                return ReferralRequest.builder()
+                        .userId(userId)
+                        .referralCode("")
+                        .clickCount(0)
+                        .build();
+            }
+            return referral;
+        } else {
+            log.warn("Referral not found for user {}", userId);
+            return ReferralRequest.builder()
+                    .userId(userId)
+                    .referralCode("")
+                    .clickCount(0)
+                    .build();
         }
-        return httpResponse.getBody();
     }
 
     public void incrementClickCount(String referralCode) {
