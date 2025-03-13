@@ -1,8 +1,6 @@
-/* main.css - Уникален стил за My Wallet App */
 
-/* Дефиниране на CSS променливи за лесна промяна на темата */
 :root {
-    --primary-color: #2c3e50;    /* Тъмносин/антрацит */
+    --primary-color: #2c3e50;
     --secondary-color: #ecf0f1;  /* Светлосив */
     --accent-color: #3498db;     /* Яркосин */
     --background-color: #f9f9f9; /* Много светъл фон */

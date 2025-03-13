@@ -1,0 +1,44 @@
+/* error.css */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(100deg, #000000, #5a189a);;
+    color: #333;
+    min-height: 100vh;
+    text-align: center;
+    padding: 50px;
+}
+
+.error-container {
+    margin: auto;
+    width: 50%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #5a189a;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
