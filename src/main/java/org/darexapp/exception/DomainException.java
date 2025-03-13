@@ -13,18 +13,6 @@ public class DomainException extends RuntimeException {
 }
 
 
-class ResourceNotFoundException extends DomainException {
-    
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
-
-    public ResourceNotFoundException(String resourceType, String identifier) {
-        super(String.format("%s with identifier [%s] not found", resourceType, identifier));
-    }
-}
-
-
 class BusinessRuleViolationException extends DomainException {
     
     public BusinessRuleViolationException(String message) {
@@ -44,14 +32,6 @@ class InvalidStateException extends DomainException {
 class ValidationException extends DomainException {
     
     public ValidationException(String message) {
-        super(message);
-    }
-}
-
-
-class InsufficientFundsException extends DomainException {
-    
-    public InsufficientFundsException(String message) {
         super(message);
     }
 }

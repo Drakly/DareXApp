@@ -76,7 +76,7 @@
           </select>
           <label>Choose wallet to pay with</label>
           <select name="walletId" th:field="*{walletId}">
-            <option th:each="wallet : ${currentUser.wallets}" th:value="${wallet.id}" th:text="${'Standard Wallet - ' + wallet.balance + ' EUR'}"></option>
+            <option th:each="wallet : ${currentUser.wallets}" th:value="${wallet.id}" th:text="${wallet.type  + ' - ' + wallet.balance + ' EUR'}"></option>
           </select>
           <button th:if="${!(currentUser.subscriptions.get(0).type.name() == 'BASIC')}" class="subscription-action-button" type="submit" name="subscriptionType" id="BASIC" value="BASIC">
             <p>Receive</p>
@@ -129,7 +129,7 @@
           </select>
           <label>Choose wallet to pay with</label>
           <select name="walletId" th:field="*{walletId}">
-            <option th:each="wallet : ${currentUser.wallets}" th:value="${wallet.id}" th:text="${'Standard Wallet - ' + wallet.balance + ' EUR'}"></option>
+            <option th:each="wallet : ${currentUser.wallets}" th:value="${wallet.id}" th:text="${wallet.type + ' - ' + wallet.balance + ' EUR'}"></option>
           </select>
           <button th:if="${!(currentUser.subscriptions.get(0).type.name() == 'PREMIUM')}" class="subscription-action-button" type="submit" name="subscriptionType" id="PREMIUM" value="PREMIUM">
             <p>Receive</p>
@@ -182,7 +182,7 @@
           </select>
           <label>Choose wallet to pay with</label>
           <select name="walletId" th:field="*{walletId}">
-            <option th:each="wallet : ${currentUser.wallets}" th:value="${wallet.id}" th:text="${'Standard Wallet - ' + wallet.balance + ' EUR'}"></option>
+            <option th:each="wallet : ${currentUser.wallets}" th:value="${wallet.id}" th:text="${wallet.type + ' - ' + wallet.balance + ' EUR'}"></option>
           </select>
           <button th:if="${!(currentUser.subscriptions.get(0).type.name() == 'GOLD')}" class="subscription-action-button" type="submit" name="subscriptionType" id="GOLD" value="GOLD">
             <p>Receive</p>
@@ -236,7 +236,7 @@
             </select>
             <label>Choose wallet to pay with</label>
             <select name="walletId" th:field="*{walletId}">
-              <option th:each="wallet : ${currentUser.wallets}" th:value="${wallet.id}" th:text="${'Standard Wallet - ' + wallet.balance + ' EUR'}"></option>
+              <option th:each="wallet : ${currentUser.wallets}" th:value="${wallet.id}" th:text="${wallet.type + ' - ' + wallet.balance + ' EUR'}"></option>
             </select>
             <button th:if="${!(currentUser.subscriptions.get(0).type.name() == 'METAL')}" class="subscription-action-button" type="submit" name="subscriptionType" id="METAL" value="METAL">
               <p>Receive</p>

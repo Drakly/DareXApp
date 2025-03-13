@@ -1,23 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Referral Page</title>
-    <!-- Препращаме към външен CSS файл -->
     <link rel="stylesheet" href="/css/referral.css">
 </head>
 <body>
 <div class="container">
-    <h1>Referral Page</h1>
+    <h1>Referral Program</h1>
 
-    <!-- Приветствие към текущия потребител -->
     <div class="user-info">
         <p>Welcome, <strong th:text="${currentUser.username}">User</strong>!</p>
     </div>
 
-    <!-- Секция за показване на referral кода -->
     <div class="referral-section">
-        <h2>Your Referral Code</h2>
+        <h2> <strong> Your Referral Code </strong> </h2>
         <div class="form-group">
             <p th:if="${referral.referralCode != ''}">
                 Your referral code is: <strong th:text="${referral.referralCode}"></strong>
@@ -27,18 +24,19 @@
             </p>
         </div>
 
-        <!-- Бутон за генериране на referral код, ако все още няма -->
         <div class="form-group" th:if="${referral.referralCode == ''}">
             <form th:action="@{/referrals/create}" method="post">
                 <button type="submit" class="btn">Generate New Referral Code</button>
             </form>
         </div>
 
-        <!-- Бутон за проследяване на клик, ако има referral код -->
-        <div class="form-group" th:if="${referral.referralCode != ''}">
-            <form th:action="@{/referrals/track/{referralCode}(referralCode=${referral.referralCode})}" method="post">
-                <button type="submit" class="btn">Simulate Referral Click</button>
-            </form>
+        <div class="form-group">
+            <p>People used your code: <strong th:text="${referral.getClickCount()}">User</strong>!</p>
+
+        </div>
+
+        <div class="form-group">
+            <a class="btn" th:href="@{/settings}">Back To Settings</a>
         </div>
     </div>
 </div>
