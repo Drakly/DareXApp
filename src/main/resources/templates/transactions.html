@@ -7,7 +7,6 @@
   <link rel="stylesheet" type="text/css" href="/css/transactions.css"/>
 </head>
 <body>
-<!-- Хедър -->
 <header class="dashboard-header">
   <div class="header-container">
         <div class="user-info">
@@ -16,7 +15,6 @@
   </div>
 </header>
 
-<!-- Навигация -->
 <nav class="dashboard-nav">
   <ul>
     <li><a href="/home">Home</a></li>
@@ -30,10 +28,8 @@
   </ul>
 </nav>
 
-<!-- Основно съдържание -->
 <main class="content">
   <h1>All Transactions</h1>
-  <!-- Таблица с транзакции -->
   <div class="transaction-table-container">
     <table class="transaction-table">
       <thead>
@@ -49,31 +45,25 @@
 
       <tbody>
       <tr th:each="transaction : ${transactions}">
-        <!-- Transaction ID -->
         <td th:text="${transaction.id}">1</td>
 
-        <!-- Status: показва FAILED или SUCCEEDED -->
         <td>
           <span th:text="${transaction.status}">Status</span>
         </td>
 
-        <!-- Amount: показва сумата с + или - знак. Ако трансакцията е FAILED се добавя клас за презакриване -->
         <td th:text="${transaction.type.name() == 'DEPOSIT' ? '+' + transaction.amount + ' EUR' : '-' + transaction.amount + ' EUR'}"
             th:classappend="${transaction.status.name() == 'FAILED'} ? ' crosslined' : ''">
           +0 EUR
         </td>
 
 
-        <!-- Balance -->
         <td th:text="${transaction.balanceLeft + ' EUR'}">0 EUR</td>
 
-        <!-- Note: ако трансакцията е FAILED, се показва failureReason, иначе description -->
         <td style="text-align: left"
             th:text="${transaction.status.name() == 'FAILED' ? transaction.failureReason : transaction.description}">
           Note
         </td>
 
-        <!-- Date: форматирано с Thymeleaf Temporal -->
         <td th:text="${#temporals.format(transaction.createdAt, 'dd MMM yyyy HH:mm')}">
           01 Jan 2025 10:00
         </td>
@@ -82,5 +72,8 @@
     </table>
   </div>
 </main>
+<footer class="dashboard-footer">
+  <p>&copy; 2025 DareX Wallet. All Rights Reserved.</p>
+</footer>
 </body>
 </html>

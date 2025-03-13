@@ -31,14 +31,11 @@
     </ul>
 </nav>
 
-<!-- Форма за създаване на нова физическа карта -->
 <form th:action="@{/cards/physical}" th:method="post" th:if="${cards.size() < 2}">
     <button type="submit" class="add-card-btn">Add Physical Card</button>
 </form>
 
-<!-- Секция с всички карти на потребителя -->
 <div class="cards-container">
-    <!-- Обхождаме всички карти, подадени от контролера -->
     <div class="card" th:each="card : ${cards}"
          th:attr="data-card-id=${card.id},
                   data-card-number=${card.cardNumber},
@@ -48,11 +45,9 @@
                   data-card-type=${card.cardType},
                   data-wallet-balance=${#numbers.formatDecimal(card.wallet.balance, 0, 2)},
                   data-cvv=${card.cvv}">
-        <!-- Лого горе вдясно -->
         <div class="card-logo">
             <img th:src="@{/css/images/MastercardLogo.png}" alt="Mastercard" />
         </div>
-        <!-- Текст Current Balance -->
         <p class="card-balance-label">Current Balance</p>
         <p class="card-balance"
            th:text="'$' + ${#numbers.formatDecimal(card.wallet.balance, 0, 2)}">
@@ -157,13 +152,11 @@
 <div id="card-details" class="card-details">
 </div>
 
-<!-- JavaScript за обработка на кликовете -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const cards = document.querySelectorAll('.cards-container .card');
         const detailsContainer = document.getElementById('card-details');
 
-        // Функция за обновяване на детайлите на картата
         function updateCardDetails(card) {
             const cardNumber = card.getAttribute('data-card-number');
             const expiry = card.getAttribute('data-expiry');
@@ -186,14 +179,12 @@
             detailsContainer.innerHTML = html;
         }
 
-        // Прикачване на слушатели за кликове към всяка карта
         cards.forEach(function(card) {
             card.addEventListener('click', function() {
                 updateCardDetails(card);
             });
         });
 
-        // Инициализация – ако има поне една карта, показваме нейните детайли по подразбиране
         if(cards.length > 0) {
             updateCardDetails(cards[0]);
         }

@@ -170,6 +170,9 @@ body {
 }
 
 .add-card-btn {
+    position: absolute;  /* Абсолютно позициониране спрямо .map-container */
+    top: 300px;           /* Разстояние от горния край - можеш да го настроиш */
+    left: 450px;         /* Разстояние от десния край - можеш да го настроиш */
     background: linear-gradient(135deg, #5A2EC8, #7C4DFF);
     color: #fff;
     padding: 8px 16px;
@@ -193,12 +196,9 @@ body {
     transform: scale(0.98);
 }
 
-/* ================================================================== */
-/* Контейнер за секциите (Абонамент и Диаграма) – ПОДРАВНЕНИ ВДЯСНО */
-/* ================================================================== */
 .right-sections {
     position: absolute;
-    top: 180px;       /* Премахваме допълнително разстояние отгоре – можеш да коригираш това */
+    top: 190px;
     right: 40px;
     display: flex;
     flex-direction: column;
@@ -207,7 +207,6 @@ body {
     z-index: 1000;
 }
 
-/* Абонаментна секция */
 .single-section-box.home-subscription {
     background: linear-gradient(135deg, #5A2EC8, #7C4DFF);
     color: white;
@@ -221,7 +220,6 @@ body {
     width: 100%;
 }
 
-/* Примерен стил за заглавие в абонаментната секция */
 .default-label-box p {
     font-size: 20px;
     font-weight: bold;
@@ -230,11 +228,10 @@ body {
     margin-bottom: 10px;
 }
 
-/* Диаграма */
 .chart {
     display: flex;
     gap: 8px;
-    justify-content: flex-end; /* Баровете са подравнени към дясно */
+    justify-content: flex-end;
     align-items: flex-end;
     height: 150px;
     width: 100%;
@@ -251,9 +248,6 @@ body {
     background: #512DA8;
 }
 
-/* ================================================================== */
-/* Допълнителни елементи (например статистики, ако ги използваш) */
-/* ================================================================== */
 .stats-container {
     background: #F8F8FF;
     border-radius: 15px;
@@ -325,11 +319,8 @@ body {
     background: #B39DDB;
 }
 
-/* ================================================================== */
-/* Responsive настройки */
-/* ================================================================== */
+
 @media only screen and (max-width: 768px) {
-    /* При малък екран фиксираната позиция премахваме */
     .right-sections {
         position: static;
         margin: 20px auto;
@@ -346,7 +337,6 @@ body {
     .bar {
         width: 10px;
     }
-    /* Премахваме padding-а отдясно на body */
     body {
         padding-right: 20px;
     }
