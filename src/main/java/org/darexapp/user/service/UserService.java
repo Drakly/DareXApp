@@ -82,8 +82,8 @@ public class UserService implements UserDetailsService {
                 .role(UserRole.USER)
                 .active(true)
                 .country(registerRequest.getCountry())
-                .createdOn(LocalDateTime.now())
-                .updatedOn(LocalDateTime.now())
+                .registeredAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
                 .build();
     }
 

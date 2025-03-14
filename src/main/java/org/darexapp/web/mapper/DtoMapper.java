@@ -47,8 +47,8 @@ public class DtoMapper {
                 .role(user.getRole())
                 .country(user.getCountry())
                 .active(user.isActive())
-                .createdOn(user.getCreatedOn())
-                .updatedOn(user.getUpdatedOn())
+                .createdOn(user.getRegisteredAt())
+                .updatedOn(user.getModifiedAt())
                 .build();
     }
 
@@ -85,7 +85,7 @@ public class DtoMapper {
                 .sender(transaction.getSender())
                 .receiver(transaction.getReceiver())
                 .amount(transaction.getAmount())
-                .balanceLeft(transaction.getBalanceLeft())
+                .balanceLeft(transaction.getRemainingBalance())
                 .currency(transaction.getCurrency())
                 .type(transaction.getType())
                 .status(transaction.getStatus())

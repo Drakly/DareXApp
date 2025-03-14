@@ -34,7 +34,7 @@ public class TransactionService {
             String sender,
             String receiver,
             BigDecimal transactionAmount,
-            BigDecimal balanceLeft,
+            BigDecimal remainingBalance,
             Currency currency,
             TransactionType type,
             TransactionStatus status,
@@ -47,7 +47,7 @@ public class TransactionService {
                 .sender(sender)
                 .receiver(receiver)
                 .amount(transactionAmount)
-                .balanceLeft(balanceLeft)
+                .remainingBalance(remainingBalance)
                 .currency(currency)
                 .type(type)
                 .status(status)

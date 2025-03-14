@@ -59,6 +59,14 @@
             <p>Save</p>
         </button>
     </form>
+    <div class="details-section-container">
+        <strong>Joined: </strong>
+        <p th:text="${#temporals.format(user.registeredAt, 'dd MMM YYYY HH:mm')}"></p>
+    </div>
+    <div class="details-section-container">
+        <strong>Joined: </strong>
+        <p th:text="${#temporals.format(user.modifiedAt, 'dd MMM YYYY HH:mm')}"></p>
+    </div>
 
 </main>
 </body>

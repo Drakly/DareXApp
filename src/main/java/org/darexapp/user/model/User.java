@@ -33,7 +33,6 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -41,10 +40,10 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private LocalDateTime createdOn;
+    private LocalDateTime registeredAt;
 
     @Column(nullable = false)
-    private LocalDateTime updatedOn;
+    private LocalDateTime modifiedAt;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

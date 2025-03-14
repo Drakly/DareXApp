@@ -41,7 +41,7 @@ public class Transaction {
     private Currency currency;
 
     @Column(nullable = false)
-    private BigDecimal balanceLeft;
+    private BigDecimal remainingBalance;
 
     @Column(nullable = false)
     private String description;
@@ -56,6 +56,4 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionStatus status;
 
-    @ManyToOne
-    private Card card;
 }
