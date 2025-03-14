@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.darexapp.card.model.CardType;
 import org.darexapp.card.service.CardService;
 import org.darexapp.exception.DomainException;
+import org.darexapp.exception.EmailAddressAlreadyExist;
 import org.darexapp.security.CustomUserDetails;
 import org.darexapp.subscription.model.Subscription;
 import org.darexapp.subscription.service.SubscriptionService;
@@ -56,7 +57,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public User register(RegisterRequest registerRequest) {
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email [%s] is already registered.".formatted(registerRequest.getEmail()));
+            throw new EmailAddressAlreadyExist("Email [%s] is already registered.".formatted(registerRequest.getEmail()));
         }
 
         User user = initializeUser(registerRequest);
@@ -107,7 +108,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
     }
-
 
     public List<User> getAllUsers() {
         return userRepository.findAll();

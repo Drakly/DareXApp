@@ -1,5 +1,7 @@
 package org.darexapp.web.controller;
 
+import jakarta.servlet.http.HttpServlet;
+import org.darexapp.exception.EmailAddressAlreadyExist;
 import org.darexapp.exception.InsufficientFundsException;
 import org.darexapp.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -19,7 +22,15 @@ public class GlobalExceptionHandler {
         return modelAndView;
     }
 
-    // Обработка на not found изключения – показване на 404 страница
+    @ExceptionHandler(EmailAddressAlreadyExist.class)
+    public String handleEmailAddressAlreadyExist(EmailAddressAlreadyExist ex, RedirectAttributes redirectAttributes) {
+
+        String message = ex.getMessage();
+
+        redirectAttributes.addFlashAttribute("emailExistException", message);
+        return "redirect:/register";
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ModelAndView handleNotFoundException(ResourceNotFoundException ex) {

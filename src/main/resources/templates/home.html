@@ -50,10 +50,6 @@
             <p th:text="${#strings.isEmpty(user.firstName) ? 'Edit your profile and add your name' : user.firstName}"></p>
         </div>
         <div class="details-section-container">
-            <strong>Username: </strong>
-            <p th:text="${user.username}"></p>
-        </div>
-        <div class="details-section-container">
             <strong>Email: </strong>
             <p th:text="${user.email}"> </p>
         </div>

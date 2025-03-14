@@ -28,7 +28,7 @@ public class RenewalSubscriptionProcessor {
         this.subscriptionService = subscriptionService;
     }
 
-    @Scheduled(fixedDelay = 200000)
+    @Scheduled(fixedDelay = 2000000)
     public void processRenewals() {
         List<Subscription> subscriptions = subscriptionService.fetchSubscriptionsDueForRenewal();
 
