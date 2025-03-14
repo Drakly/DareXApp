@@ -1,9 +1,6 @@
 package org.darexapp.web.controller;
 
-import jakarta.servlet.http.HttpServlet;
 import org.darexapp.exception.EmailAddressAlreadyExist;
-import org.darexapp.exception.InsufficientFundsException;
-import org.darexapp.exception.ResourceNotFoundException;
 import org.darexapp.exception.UsernameExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,6 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
+
+import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView handleGeneralException(Exception ex) {
         ModelAndView modelAndView = new ModelAndView("internal-server-error");
-        modelAndView.addObject("message", ex.getMessage());
+        modelAndView.addObject("message", ex.getClass().getSimpleName());
         return modelAndView;
     }
 
@@ -41,19 +41,19 @@ public class GlobalExceptionHandler {
         return "redirect:/register";
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler(NoResourceFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ModelAndView handleNotFoundException(ResourceNotFoundException ex) {
+    public ModelAndView handleNotFoundException(Exception ex) {
         ModelAndView modelAndView = new ModelAndView("not-found");
-        modelAndView.addObject("message", ex.getMessage());
+        modelAndView.addObject("message", ex.getClass().getSimpleName());
         return modelAndView;
     }
 
-    @ExceptionHandler(InsufficientFundsException.class)
+    @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ModelAndView handleInsufficientFundsException(InsufficientFundsException ex) {
+    public ModelAndView handleInsufficientFundsException(Exception ex) {
         ModelAndView modelAndView = new ModelAndView("internal-server-error");
-        modelAndView.addObject("message", ex.getMessage());
+        modelAndView.addObject("message", ex.getClass().getSimpleName());
         return modelAndView;
     }
 }
