@@ -31,7 +31,6 @@ public class TransactionController {
         this.userService = userService;
     }
 
-    // Показва всички транзакции за даден owner
     @GetMapping
     public ModelAndView listTransactions(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findById(customUserDetails.getUserId());
@@ -43,7 +42,6 @@ public class TransactionController {
         return mav;
     }
 
-    // Показва детайлите на конкретна транзакция по ID
     @GetMapping("/{transactionId}")
     public ModelAndView viewTransaction(@PathVariable("transactionId") UUID id) {
         Transaction transaction = transactionService.getTransactionById(id);

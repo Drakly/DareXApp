@@ -29,7 +29,11 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public ModelAndView showIndexPage() {
+    public ModelAndView showIndexPage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        if (customUserDetails != null) {
+            return new ModelAndView("redirect:/home");
+        }
+
         return new ModelAndView("index");
     }
 

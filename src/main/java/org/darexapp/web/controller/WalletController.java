@@ -28,17 +28,15 @@ import java.util.stream.Collectors;
 @Controller
 public class WalletController {
 
-    private final UserService userService;// Предполага се, че имаш UserService
+    private final UserService userService;
     private final WalletService walletService;
     private final TransactionService transactionService;
-    private final WalletRepository walletRepository;
 
     @Autowired
-    public WalletController(UserService userService, WalletService walletService, TransactionService transactionService, WalletRepository walletRepository) {
+    public WalletController(UserService userService, WalletService walletService, TransactionService transactionService) {
         this.userService = userService;
         this.walletService = walletService;
         this.transactionService = transactionService;
-        this.walletRepository = walletRepository;
     }
 
     @GetMapping("/wallets")
@@ -50,8 +48,7 @@ public class WalletController {
         modelAndView.addObject("user", user);
 
         List<Transaction> transactions = transactionService.getAllTransactionsByOwnerId(user.getId());
-        List<Transaction> recentTransactions = transactions.stream().limit(5).collect(Collectors.toList());
-        modelAndView.addObject("recentTransactions", recentTransactions);
+        modelAndView.addObject("recentTransactions", transactions);
 
         List<Wallet> sortedWallets = walletService.getSortedWalletsByOwnerId(user.getId());
         modelAndView.addObject("sortedWallets", sortedWallets);

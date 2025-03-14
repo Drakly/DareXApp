@@ -38,7 +38,6 @@
         <div class="wallets-section">
             <h3>My Wallets</h3>
             <div class="wallets-list">
-                <!-- Портфейл 1 -->
                 <div class="single-wallet" th:each="wallet : ${sortedWallets}">
                     <div class="wallet-card">
                         <div class="wallet-header">
@@ -85,7 +84,7 @@
             <div class="transactions-section">
                 <h2>Recent Transactions</h2>
                 <ul>
-                    <li class="transaction-item" th:each="transaction : ${recentTransactions}">
+                    <li class="transaction-item" th:each="transaction, index : ${recentTransactions}" th:if="${index.index < 5}">
                         <div class="transaction-details">
                             <h3 th:text="${transaction.description}">Transaction description</h3>
                             <p th:text="${#temporals.format(transaction.createdAt, 'dd/MM/yyyy')}">Date</p>

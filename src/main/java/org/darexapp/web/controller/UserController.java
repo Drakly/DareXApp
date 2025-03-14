@@ -64,7 +64,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView getAllUsers(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public ModelAndView getAllUsers() {
 
         List<User> users = userService.getAllUsers();
 

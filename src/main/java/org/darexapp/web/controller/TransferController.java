@@ -40,7 +40,6 @@ public class TransferController {
 
         ModelAndView mav = new ModelAndView("create-transfer"); // transfer.html
         mav.addObject("user", user);
-        // Създаваме празен TransferRequest чрез builder-а
         mav.addObject("transferRequest", TransferRequest.builder().build());
         return mav;
     }
