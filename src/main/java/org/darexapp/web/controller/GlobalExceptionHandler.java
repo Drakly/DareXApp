@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServlet;
 import org.darexapp.exception.EmailAddressAlreadyExist;
 import org.darexapp.exception.InsufficientFundsException;
 import org.darexapp.exception.ResourceNotFoundException;
+import org.darexapp.exception.UsernameExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,6 +29,15 @@ public class GlobalExceptionHandler {
         String message = ex.getMessage();
 
         redirectAttributes.addFlashAttribute("emailExistException", message);
+        return "redirect:/register";
+    }
+
+    @ExceptionHandler(UsernameExistException.class)
+    public String handleUsernameAddressAlreadyExist(UsernameExistException ex, RedirectAttributes redirectAttributes) {
+
+        String message = ex.getMessage();
+
+        redirectAttributes.addFlashAttribute("usernameExistException", message);
         return "redirect:/register";
     }
 

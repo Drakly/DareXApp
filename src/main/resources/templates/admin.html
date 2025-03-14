@@ -67,7 +67,7 @@
             <span th:if="${user.active}" class="status active">Active</span>
             <span th:unless="${user.active}" class="status inactive">Inactive</span>
           </td>
-          <td th:text="${#temporals.format(user.createdOn, 'dd MMM yyyy HH:mm')}"></td>
+          <td th:text="${#temporals.format(user.registeredAt, 'dd MMM yyyy HH:mm')}"></td>
           <td>
             <form th:action="@{'/users/' + ${user.id} + '/status'}" method="post">
               <input type="hidden" name="_method" value="put"/>

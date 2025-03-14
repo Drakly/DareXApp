@@ -22,4 +22,5 @@ public class EditUserRequest {
     @URL(message = "Please place a correct url format.")
     private String profilePicture;
 
+
 }

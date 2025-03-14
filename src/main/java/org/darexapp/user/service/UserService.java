@@ -5,6 +5,7 @@ import org.darexapp.card.model.CardType;
 import org.darexapp.card.service.CardService;
 import org.darexapp.exception.DomainException;
 import org.darexapp.exception.EmailAddressAlreadyExist;
+import org.darexapp.exception.UsernameExistException;
 import org.darexapp.security.CustomUserDetails;
 import org.darexapp.subscription.model.Subscription;
 import org.darexapp.subscription.service.SubscriptionService;
@@ -58,6 +59,9 @@ public class UserService implements UserDetailsService {
     public User register(RegisterRequest registerRequest) {
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new EmailAddressAlreadyExist("Email [%s] is already registered.".formatted(registerRequest.getEmail()));
+        }
+        if (userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
+            throw new UsernameExistException("Username [%s] is already registered.".formatted(registerRequest.getUsername()));
         }
 
         User user = initializeUser(registerRequest);

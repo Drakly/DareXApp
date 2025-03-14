@@ -57,7 +57,7 @@
         </td>
 
 
-        <td th:text="${transaction.balanceLeft + ' EUR'}">0 EUR</td>
+        <td th:text="${transaction.remainingBalance + ' EUR'}">0 EUR</td>
 
         <td style="text-align: left"
             th:text="${transaction.status.name() == 'FAILED' ? transaction.failureReason : transaction.description}">
