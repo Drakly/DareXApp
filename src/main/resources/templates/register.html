@@ -39,10 +39,8 @@
             </select>
             <p class="error-message" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></p>
 <!--TO DO-->
-<!--            <label for="referral">Referral</label>-->
-<!--            <input type="text" id="referral" name="referral" placeholder="Enter your email" th:field="*{email}" required>-->
-<!--            <p class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>-->
-<!--            <p class="error-message"  th:text="${emailExistException}"></p>-->
+<!--            <label for="referral" th:action="@{'/referrals/track/' + ${referralCode}}" th:method="POST">Referral</label>-->
+<!--            <input type="text" id="referral" name="referral" placeholder="Enter a referral link" th:text="${referral}">-->
 
             <button type="submit">Register</button>
 

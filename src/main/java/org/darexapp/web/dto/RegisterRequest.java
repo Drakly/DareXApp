@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.darexapp.referral.client.dto.Referral;
 import org.darexapp.user.model.Country;
 
 @Data
@@ -24,4 +25,6 @@ public class RegisterRequest {
 
     @NotNull
     private Country country;
+
+    private String referral;
 }
