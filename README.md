@@ -75,6 +75,7 @@ Run all tests with:
     mvn test
 ```
 PROJECT STRUCTURE
+```
 ├── src/main/java
 │   ├── org/darexapp/user         # User management and profile handling
 │   ├── org/darexapp/wallet       # Wallet and transaction services
@@ -84,5 +85,5 @@ PROJECT STRUCTURE
 │   ├── org/referralsvc/referral  # Referral system and code management
 │   └── org/darexapp/statement    # Bank statement PDF generation
 └── src/test/java                # Unit and integration tests
-
+```
    
