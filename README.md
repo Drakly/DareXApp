@@ -89,3 +89,7 @@ PROJECT STRUCTURE
 
 License
 This project is licensed under the MIT License.
+
+
+By including this section in your README and a separate LICENSE file with the full MIT License text, you clearly indicate the licensing of your project on GitHub.
+
