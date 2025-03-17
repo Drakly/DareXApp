@@ -32,7 +32,6 @@ public class WalletService {
 
     private final WalletRepository walletRepository;
     private final TransactionService transactionService;
-    private final TransactionRepository transactionRepository;
 
     @Autowired
     public WalletService(WalletRepository walletRepository,
@@ -41,7 +40,7 @@ public class WalletService {
         this.walletRepository = walletRepository;
         this.transactionService = transactionService;
 //        this.eventPublisher = eventPublisher;
-        this.transactionRepository = transactionRepository;
+
     }
 
 

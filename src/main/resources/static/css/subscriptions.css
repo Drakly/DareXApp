@@ -1,163 +1,172 @@
-/* Основни стилове */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    min-height: 100%;
-}
-
-/* Контейнер за ъпгрейд кутиите – подреждане една до друга */
+/*****************************************
+ * 1) Основни стилове за контейнера
+ *****************************************/
 .upgrade-container {
-    margin-top: 10px;
     display: flex;
-    flex-wrap: nowrap;  /* НЕ позволяваме пренасяне на нов ред */
+    flex-wrap: nowrap;       /* За да се пренасят на нов ред при малък екран */
     justify-content: center;
     gap: 20px;
-    padding: 0 10px;  /* малък padding за по-добър изглед */
+    padding: 20px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
-/* Единична ъпгрейд кутия */
+/*****************************************
+ * 2) Кутия за всеки план (single-upgrade-box)
+ *****************************************/
 .single-upgrade-box {
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    /* Премахваме фиксираната ширина и използваме flex за адаптивност */
-    flex: 1 1 auto;
-    max-width: 400px;
-    min-width: 250px;
-    padding: 20px;
-}
-
-/* Хедър на опцията */
-.upgrade-option-header-box {
-    text-align: center;
-    margin-bottom: 5px;
-}
-
-.upgrade-option-header {
-    padding: 10px;
     border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 400px;          /* Ширина, близка до примера */
+    margin: 20px 10px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/*****************************************
+ * 3) Горна цветна лента + заглавие на плана
+ *****************************************/
+/* В примера снимката показва цветен бар най-отгоре и планово име в бяло */
+.upgrade-option-header {
     color: #fff;
-    font-size: 1.5em;
+    padding: 15px 0;
     text-transform: uppercase;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0;             /* Премахваме външните отстояния */
 }
 
+/* Различни цветове за всеки план */
 .upgrade-option-header.default {
-    background: linear-gradient(135deg, #7f8c8d, #bdc3c7);
+    background-color: #b4b2b1;
 }
-
 .upgrade-option-header.premium {
-    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+    background-color: #0f52e4;
 }
-
 .upgrade-option-header.gold {
-    background: linear-gradient(135deg, #D4AF37, #FFD700);
+    background-color: #F1C40F;
+    color: #333;
 }
-
 .upgrade-option-header.metal {
-    background: linear-gradient(135deg, #34495e, #2c3e50);
+    background-color: #6616d2;
 }
 
-/* Таблица с предимствата */
+
+.upgrade-option-header h2 {
+    margin: 0;
+    font-size: 1.4em;
+}
+
+
 .upgrade-option-benefits {
-    margin-bottom: 5px;
+    padding: 0 20px;
+    margin: 20px 0;  /* Отстояние над/под */
+    text-align: left;
 }
 
 .styled-table {
     width: 100%;
     border-collapse: collapse;
 }
-
-.styled-table th,
+.styled-table thead {
+    display: none;    /* Скриваме заглавната лента "Benefits" */
+}
 .styled-table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    border: none;
+    padding: 8px 0;
+    font-size: 0.95em;
+    color: #666;
 }
 
-.styled-table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-}
-
-/* Секция за цените */
+/*****************************************
+ * 5) Секцията за цена (upgrade-option-price)
+ *****************************************/
 .upgrade-option-price {
-    text-align: center;
-    margin-bottom: 15px;
+    margin: 0 20px 20px;
 }
 
-.upgrade-option-price p {
-    margin: 5px 0;
-    font-size: 1em;
+/* Първи ред (напр. 15.99) - голяма цифра */
+.upgrade-option-price p:nth-of-type(1),
+.upgrade-option-price p:nth-of-type(3) {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    color: #333;
+    line-height: 1.2;
 }
 
-/* Формуляр за ъпгрейд */
+/* Втори и четвърти ред (monthly price / yearly price) - по-малък шрифт */
+.upgrade-option-price p:nth-of-type(2),
+.upgrade-option-price p:nth-of-type(4) {
+    font-size: 0.85em;
+    color: #999;
+    margin: 0 0 10px;
+}
+
+/*****************************************
+ * 6) Формата (избор на период и портфейл)
+ *****************************************/
 .form {
-    margin-top: 10px;
+    padding: 0 20px;
+    margin-top: auto; /* За да "слезе" към дъното, ако искаш бутонът да е отдолу */
+    text-align: left; /* Полетата да са подравнени вляво */
 }
 
 .form label {
     display: block;
+    font-size: 0.85em;
     margin-bottom: 5px;
-    font-size: 0.9em;
-    color: #555;
+    color: #333;
 }
-
 .form select {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 0.9em;
 }
 
-/* Бутон за ъпгрейд */
+
 .subscription-action-button {
+    background-color: #22963f; /* Основен цвят – ще го променим за всеки план по-долу */
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    font-size: 1em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: #1abc9c;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    font-size: 1em;
-}
-
-.subscription-action-button p {
-    margin: 0;
-    margin-right: 8px;
+    gap: 8px; /* Отстояние между <p> и иконката */
+    margin-bottom: 10px;
 }
 
 .subscription-action-button:hover {
-    background-color: #16a085;
+    background-color: #9148ed;
 }
 
-/* Етикет за текущ абонамент */
 .default-label-box {
-    text-align: center;
-    padding: 10px;
-    background-color: #f39c12;
     color: #fff;
-    border-radius: 4px;
+    text-align: center;
     font-weight: bold;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 10px;
 }
 
-/* Responsive настройки */
-@media only screen and (max-width: 768px) {
-    .upgrade-container {
-        /* На малък екран ако е необходимо може да се разреши пренасянето */
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+@media (max-width: 768px) {
     .single-upgrade-box {
-        /* Позволяваме им да заемат по 100% от ширината, ако е много малък екран */
-        flex: 1 1 100%;
-        max-width: 100%;
+        width: 100%;
+        max-width: 400px;
     }
 }

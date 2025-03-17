@@ -6,6 +6,7 @@ import org.darexapp.card.service.CardService;
 import org.darexapp.exception.DomainException;
 import org.darexapp.exception.EmailAddressAlreadyExist;
 import org.darexapp.exception.UsernameExistException;
+import org.darexapp.referral.service.ReferralService;
 import org.darexapp.security.CustomUserDetails;
 import org.darexapp.subscription.model.Subscription;
 import org.darexapp.subscription.service.SubscriptionService;
@@ -43,15 +44,18 @@ public class UserService implements UserDetailsService {
 
     private final CardService cardService;
 
+    private final ReferralService referralService;
+
 
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, WalletService walletService, SubscriptionService subscriptionService, CardService cardService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, WalletService walletService, SubscriptionService subscriptionService, CardService cardService, ReferralService referralService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.walletService = walletService;
         this.subscriptionService = subscriptionService;
         this.cardService = cardService;
+        this.referralService = referralService;
     }
 
 
@@ -75,6 +79,10 @@ public class UserService implements UserDetailsService {
         Subscription defaultSubscription = subscriptionService.createDefaultSubscription(user);
         user.setSubscriptions(List.of(defaultSubscription));
 
+        if (registerRequest.getReferralCode() != null && !registerRequest.getReferralCode().isBlank()) {
+            referralService.incrementClickCount(registerRequest.getReferralCode());
+        }
+
         log.info("User registered: username [{}], email [{}], id [{}]", user.getUsername(), user.getEmail(), user.getId());
         return user;
     }
@@ -97,8 +105,10 @@ public class UserService implements UserDetailsService {
 
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
         user.setProfilePicture(userDto.getProfilePicture());
 
+        user.setModifiedAt(LocalDateTime.now());
         userRepository.save(user);
 
     }
@@ -106,9 +116,6 @@ public class UserService implements UserDetailsService {
 
 
     public User findById(UUID id) {
-        if (id == null) {
-            throw new IllegalArgumentException("User ID cannot be null");
-        }
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
     }
@@ -149,6 +156,10 @@ public class UserService implements UserDetailsService {
 
 
         userRepository.save(user);
+    }
+
+    public int getActiveUserCount() {
+        return userRepository.countUserByActiveTrue();
     }
 
     @Override

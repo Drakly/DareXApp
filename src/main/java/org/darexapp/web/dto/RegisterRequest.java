@@ -1,14 +1,12 @@
 package org.darexapp.web.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.darexapp.referral.client.dto.Referral;
 import org.darexapp.user.model.Country;
 
 @Data
+@Getter
 public class RegisterRequest {
     @NotBlank(message = "Username is required")
     @Size(min = 6)
@@ -26,5 +24,5 @@ public class RegisterRequest {
     @NotNull
     private Country country;
 
-    private String referral;
+    private String referralCode;
 }

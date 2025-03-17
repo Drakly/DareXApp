@@ -47,9 +47,4 @@ public class ReferralController {
         return new ModelAndView("redirect:/referrals");
     }
 
-    @PostMapping("/track/{referralCode}")
-    public ModelAndView trackReferral(@PathVariable String referralCode) {
-        referralService.incrementClickCount(referralCode);
-        return new ModelAndView("redirect:/referrals");
-    }
 }

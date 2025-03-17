@@ -50,11 +50,4 @@ public class SubscriptionController {
         return "redirect:/transactions/" + transactionResult.getId();
     }
 
-    @GetMapping("/history")
-    public ModelAndView viewSubscriptionHistory(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        User currentUser = userService.findById(customUserDetails.getUserId());
-        ModelAndView mav = new ModelAndView("subscription-history");
-        mav.addObject("currentUser", currentUser);
-        return mav;
-    }
 }
