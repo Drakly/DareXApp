@@ -5,7 +5,6 @@ import org.darexapp.exception.DomainException;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.transaction.model.TransactionStatus;
 import org.darexapp.transaction.model.TransactionType;
-import org.darexapp.transaction.repository.TransactionRepository;
 import org.darexapp.transaction.service.TransactionService;
 import org.darexapp.user.model.User;
 import org.darexapp.wallet.model.Wallet;
@@ -14,7 +13,6 @@ import org.darexapp.wallet.model.WalletType;
 import org.darexapp.wallet.repository.WalletRepository;
 import org.darexapp.web.dto.TransferRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,14 +31,12 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final TransactionService transactionService;
 
+
     @Autowired
     public WalletService(WalletRepository walletRepository,
-                         TransactionService transactionService,
-                         TransactionRepository transactionRepository) {
+                         TransactionService transactionService) {
         this.walletRepository = walletRepository;
         this.transactionService = transactionService;
-//        this.eventPublisher = eventPublisher;
-
     }
 
 
