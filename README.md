@@ -86,4 +86,6 @@ PROJECT STRUCTURE
 │   └── org/darexapp/statement    # Bank statement PDF generation
 └── src/test/java                # Unit and integration tests
 ```
-   
+
+License
+This project is licensed under the MIT License.
