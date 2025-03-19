@@ -1,17 +1,12 @@
 package org.darexapp.web.controller;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.darexapp.security.CustomUserDetails;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
 import org.darexapp.web.dto.EditUserRequest;
 import org.darexapp.web.mapper.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

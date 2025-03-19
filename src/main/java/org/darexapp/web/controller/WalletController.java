@@ -1,29 +1,21 @@
 package org.darexapp.web.controller;
 
-import jakarta.validation.Valid;
 import org.darexapp.security.CustomUserDetails;
 import org.darexapp.transaction.model.Transaction;
 import org.darexapp.transaction.service.TransactionService;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
 import org.darexapp.wallet.model.Wallet;
-import org.darexapp.wallet.model.WalletType;
-import org.darexapp.wallet.repository.WalletRepository;
 import org.darexapp.wallet.service.WalletService;
-import org.darexapp.web.dto.InvestmentWalletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 public class WalletController {

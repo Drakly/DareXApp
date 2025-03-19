@@ -1,6 +1,5 @@
 package org.darexapp.web.controller;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.darexapp.security.CustomUserDetails;
 import org.darexapp.transaction.model.Transaction;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/transfers")
@@ -37,7 +35,6 @@ public class TransferController {
     public ModelAndView showTransferPage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findById(customUserDetails.getUserId());
 
-
         ModelAndView mav = new ModelAndView("create-transfer"); // transfer.html
         mav.addObject("user", user);
         mav.addObject("transferRequest", TransferRequest.builder().build());
@@ -49,7 +46,6 @@ public class TransferController {
                                          BindingResult bindingResult, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findById(customUserDetails.getUserId());
 
-
         if (bindingResult.hasErrors()) {
             ModelAndView mav = new ModelAndView();
             mav.setViewName("create-transfer");
@@ -58,9 +54,7 @@ public class TransferController {
             return mav;
         }
 
-
         Transaction transaction = walletService.transferFunds(user, transferRequest);
-
 
         return new ModelAndView("redirect:/transactions/" + transaction.getId());
     }
