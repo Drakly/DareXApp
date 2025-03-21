@@ -35,7 +35,7 @@ public class TransferController {
     public ModelAndView showTransferPage(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         User user = userService.findById(customUserDetails.getUserId());
 
-        ModelAndView mav = new ModelAndView("create-transfer"); // transfer.html
+        ModelAndView mav = new ModelAndView("create-transfer");
         mav.addObject("user", user);
         mav.addObject("transferRequest", TransferRequest.builder().build());
         return mav;
