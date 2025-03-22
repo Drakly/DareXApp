@@ -7,6 +7,7 @@ import org.darexapp.user.model.Country;
 
 @Data
 @Getter
+@Setter
 public class RegisterRequest {
     @NotBlank(message = "Username is required")
     @Size(min = 6)

@@ -56,17 +56,14 @@ public class User {
     private Country country;
 
     
-    @Builder.Default
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
     @OrderBy("createdAt ASC")
     private List<Wallet> wallets = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
     @OrderBy("createdAt DESC")
     private List<Subscription> subscriptions = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "owner")
     private List<Card> cards = new ArrayList<>();
 }
