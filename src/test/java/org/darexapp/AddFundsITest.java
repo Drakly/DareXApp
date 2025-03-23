@@ -6,6 +6,7 @@ import org.darexapp.user.model.Country;
 import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
 import org.darexapp.wallet.model.Wallet;
+import org.darexapp.wallet.model.WalletStatus;
 import org.darexapp.wallet.service.WalletService;
 import org.darexapp.web.dto.RegisterRequest;
 import org.junit.jupiter.api.Test;
@@ -51,29 +52,28 @@ public class AddFundsITest {
         assertEquals(TransactionStatus.SUCCESSFUL, transaction.getStatus());
     }
 
-//    @Test
-//    public void testAddFunds_FailedDeposit_InactiveWallet() {
-//        RegisterRequest registerUser = new RegisterRequest();
-//        registerUser.setUsername("DarklyG");
-//        registerUser.setPassword("Kris123@");
-//        registerUser.setEmail("darexapp123@gmail.com");
-//        registerUser.setCountry(Country.BULGARIA);
-//
-//        User user = userService.register(registerUser);
-//
-//        Wallet wallet = walletService.createWalletForUser(user);
-//
-//        walletService.switchStatus(wallet.getId(), user.getId());
-//        Wallet inactiveWallet = walletService.fetchWalletById(wallet.getId());
-//        assertEquals(WalletStatus.INACTIVE, inactiveWallet.getStatus());
-//
-//        BigDecimal depositAmount = new BigDecimal("30.00");
-//
-//        Transaction transaction = walletService.addFunds(wallet.getId(), depositAmount);
-//
-//        Wallet updatedWallet = walletService.fetchWalletById(wallet.getId());
-//        assertEquals(inactiveWallet.getBalance(), updatedWallet.getBalance());
-//
-//        assertEquals(TransactionStatus.FAILED, transaction.getStatus());
-//    }
+    @Test
+    public void testAddFunds_FailedDeposit_InactiveWallet() {
+        RegisterRequest registerUser = new RegisterRequest();
+        registerUser.setUsername("DarklyG");
+        registerUser.setPassword("Kris123@");
+        registerUser.setEmail("darexapp123@gmail.com");
+        registerUser.setCountry(Country.BULGARIA);
+
+        User user = userService.register(registerUser);
+
+
+        walletService.switchStatus(user.getWallets().get(0).getId(), user.getId());
+        Wallet inactiveWallet = walletService.fetchWalletById(user.getWallets().get(0).getId());
+        assertEquals(WalletStatus.INACTIVE, inactiveWallet.getStatus());
+
+        BigDecimal depositAmount = new BigDecimal("30.00");
+
+        Transaction transaction = walletService.addFunds(user.getWallets().get(0).getId(), depositAmount);
+
+        Wallet updatedWallet = walletService.fetchWalletById(user.getWallets().get(0).getId());
+        assertEquals(inactiveWallet.getBalance(), updatedWallet.getBalance());
+
+        assertEquals(TransactionStatus.FAILED, transaction.getStatus());
+    }
 }
