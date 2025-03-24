@@ -7,73 +7,77 @@ import org.darexapp.user.model.User;
 import org.darexapp.user.service.UserService;
 import org.darexapp.wallet.model.Wallet;
 import org.darexapp.wallet.model.WalletStatus;
+import org.darexapp.wallet.repository.WalletRepository;
 import org.darexapp.wallet.service.WalletService;
 import org.darexapp.web.dto.RegisterRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Currency;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class AddFundsITest {
 
     @Autowired
     private WalletService walletService;
 
     @Autowired
-    private UserService userService;
+    private WalletRepository walletRepository;
 
     @Test
-    public void testAddFunds_SuccessfulDeposit() {
-        RegisterRequest registerUser = new RegisterRequest();
-        registerUser.setUsername("Kris123");
-        registerUser.setPassword("Kris123@");
-        registerUser.setEmail("kris1234@abv.bg");
-        registerUser.setCountry(Country.BULGARIA);
+    public void testAddFundsSuccessful() {
+        Wallet wallet = Wallet.builder()
+                .balance(new BigDecimal("100.00"))
+                .status(WalletStatus.ACTIVE)
+                .currency(Currency.getInstance("EUR").getCurrencyCode())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        wallet = walletRepository.save(wallet);
 
-        User user = userService.register(registerUser);
+        BigDecimal amountToAdd = new BigDecimal("50.00");
 
+        Transaction transaction = walletService.addFunds(wallet.getId(), amountToAdd);
 
-        BigDecimal initialBalance = user.getWallets().get(0).getBalance();
-        BigDecimal depositAmount = new BigDecimal("20.00");
+        assertNotNull(transaction, "Transaction must not be null");
+        assertEquals(TransactionStatus.SUCCESSFUL, transaction.getStatus(), "The status must be SUCCESSFUL");
 
-        Transaction transaction = walletService.addFunds(user.getWallets().get(0).getId(), depositAmount);
-
-        Wallet updatedWallet = walletService.fetchWalletById(user.getWallets().get(0).getId());
-
-        assertEquals(initialBalance.add(depositAmount), updatedWallet.getBalance());
-        assertEquals(TransactionStatus.SUCCESSFUL, transaction.getStatus());
+        Wallet updatedWallet = walletRepository.findById(wallet.getId()).orElse(null);
+        assertNotNull(updatedWallet, "The updated wallet must be found");
+        assertEquals(new BigDecimal("150.00"), updatedWallet.getBalance(), "The balance must be equal to 150.00");
     }
 
     @Test
-    public void testAddFunds_FailedDeposit_InactiveWallet() {
-        RegisterRequest registerUser = new RegisterRequest();
-        registerUser.setUsername("DarklyG");
-        registerUser.setPassword("Kris123@");
-        registerUser.setEmail("darexapp123@gmail.com");
-        registerUser.setCountry(Country.BULGARIA);
+    public void testAddFundsWalletInactive() {
+        Wallet wallet = Wallet.builder()
+                .balance(new BigDecimal("100.00"))
+                .status(WalletStatus.INACTIVE)
+                .currency(Currency.getInstance("EUR").getCurrencyCode())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+        wallet = walletRepository.save(wallet);
 
-        User user = userService.register(registerUser);
+        BigDecimal amountToAdd = new BigDecimal("50.00");
 
+        Transaction transaction = walletService.addFunds(wallet.getId(), amountToAdd);
 
-        walletService.switchStatus(user.getWallets().get(0).getId(), user.getId());
-        Wallet inactiveWallet = walletService.fetchWalletById(user.getWallets().get(0).getId());
-        assertEquals(WalletStatus.INACTIVE, inactiveWallet.getStatus());
+        assertNotNull(transaction, "Transaction must not be null");
+        assertEquals(TransactionStatus.FAILED, transaction.getStatus(), "Status must be FAILED");
+        assertEquals("Wallet is inactive", transaction.getFailureReason(), "Wallet is inactive");
 
-        BigDecimal depositAmount = new BigDecimal("30.00");
-
-        Transaction transaction = walletService.addFunds(user.getWallets().get(0).getId(), depositAmount);
-
-        Wallet updatedWallet = walletService.fetchWalletById(user.getWallets().get(0).getId());
-        assertEquals(inactiveWallet.getBalance(), updatedWallet.getBalance());
-
-        assertEquals(TransactionStatus.FAILED, transaction.getStatus());
+        Wallet updatedWallet = walletRepository.findById(wallet.getId()).orElse(null);
+        assertNotNull(updatedWallet, "Updated wallet must be found");
+        assertEquals(new BigDecimal("100.00"), updatedWallet.getBalance(), "Balance must be equal to 100.00");
     }
 }

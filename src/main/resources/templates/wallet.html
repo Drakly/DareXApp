@@ -17,9 +17,9 @@
     </div>
 </header>
 
-<!-- Навигация -->
 <nav class="dashboard-nav">
     <ul>
+        <li><a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/users}">Admin</a></li>
         <li><a href="/home" >Home</a></li>
         <li><a href="/transactions">Transactions</a></li>
         <li><a href="/wallets" class="active">Wallets</a></li>
@@ -70,7 +70,6 @@
             </div>
 
 
-            <!-- Бутон за инвестиционен портфейл -->
             <div class="create-wallet-box">
                 <form th:action="@{/wallets/create-investment}" th:method="post" th:if="${user.wallets.size() < 2}">
                     <button class="create-investment-btn" type="submit">Create Investment Wallet</button>

@@ -1,44 +1,63 @@
-/* error.css */
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(100deg, #000000, #5a189a);;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(100deg, #000000, #5a189a);
     color: #333;
-    min-height: 100vh;
-    text-align: center;
-    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 .error-container {
-    margin: auto;
-    width: 50%;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px;
 }
 
-h1 {
-    font-size: 50px;
+.error-container h1 {
+    font-size: 72px;
+    margin: 0;
 }
 
-h2 {
-    font-size: 30px;
+.error-container h2 {
+    font-size: 24px;
+    margin: 10px 0;
 }
 
-p {
-    font-size: 18px;
-    line-height: 1.5;
+.error-container p {
+    font-size: 16px;
+    margin: 10px 0;
 }
 
 .button-container {
     margin-top: 20px;
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background: #5a189a;
+.button-container button {
+    background: #007BFF;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.button-container button:hover {
+    background: #0056b3;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }

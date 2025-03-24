@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | DareX Wallet</title>
-    <!-- Включване на CSS файла за dashboard страницата -->
     <link rel="stylesheet" href="/css/home.css"/>
     <link rel="stylesheet" type="text/css" href="/css/transactions.css"/>
 </head>
 <body>
-<!-- Header с лого и информация за потребителя -->
 <header class="dashboard-header">
     <div class="header-container">
         <div class="user-info">
@@ -18,7 +16,6 @@
     </div>
 </header>
 
-<!-- Навигация -->
 <nav class="dashboard-nav">
     <ul>
         <li><a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/users}">Admin</a></li>
@@ -71,11 +68,8 @@
 </div>
 
 
-<!-- Main съдържание на Dashboard-а -->
 <main class="dashboard-main">
-    <!-- Секция за показване на баланс -->
     <div class="single-section-box home-standard-wallet bigger-wallet-card">
-        <!-- Горна лента с етикет за портфейла и статус -->
         <div class="default-label-box">
         <p th:if="${user.wallets[0].type}">STANDARD WALLET</p>
             <p th:text="${user.wallets[0].status}"
@@ -88,7 +82,6 @@
             <p class="available-balance-text">Available Balance</p>
         </div>
 
-        <!-- Бутон за отваряне на портфейлите -->
         <a class="profile-actions-button" th:href="@{/wallets}">
             <p>Open Wallets</p>
             <svg class="w-6 h-6 text-gray-800 dark:text-white"
@@ -104,7 +97,6 @@
         </a>
     </div>
 
-    <!-- Секция с бързи действия (например Send, Request, Top Up) -->
     <section class="quick-actions">
         <div class="action">
             <h3>SEND MONEY</h3>
@@ -119,7 +111,6 @@
     </section>
 </main>
 
-<!-- Footer -->
 <footer class="dashboard-footer">
     <p>&copy; 2025 DareX Wallet. All Rights Reserved.</p>
 </footer>
