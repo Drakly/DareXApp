@@ -12,7 +12,6 @@ import java.util.Currency;
 import java.util.UUID;
 
 @Entity
-@Table(name = "transactions")
 @Getter
 @Setter
 @AllArgsConstructor
