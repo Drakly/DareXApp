@@ -63,7 +63,7 @@ public class WalletService {
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Wallet fetchWalletById(UUID walletId) {
         return walletRepository.findById(walletId)
                 .orElseThrow(() -> new DomainException(
@@ -72,7 +72,7 @@ public class WalletService {
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<Wallet> getSortedWalletsByOwnerId(UUID ownerId) {
         return walletRepository.findAllByOwnerIdOrderByBalanceDesc(ownerId);
     }
